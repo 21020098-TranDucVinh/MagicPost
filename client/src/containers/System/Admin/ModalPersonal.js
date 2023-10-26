@@ -10,7 +10,9 @@ class ModalPersonal extends Component {
           super(props);
           this.state = {};
      }
-
+     componentWillMount() {
+          Modal.setAppElement('body');
+     }
      render() {
           let { isOpenModalPersonal, isCloseModalPersonal } = this.props;
           return (

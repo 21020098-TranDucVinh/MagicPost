@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './Navigator.scss';
@@ -163,7 +163,7 @@ class Navigator extends Component {
                     <ul className="navigator-menu list-unstyled">
                          {menus.map((group, groupIndex) => {
                               return (
-                                   <>
+                                   <Fragment key={groupIndex}>
                                         <MenuGroupWithRouter name={group.name}>
                                              {group.menus
                                                   ? group.menus.map((menu, menuIndex) => {
@@ -201,7 +201,7 @@ class Navigator extends Component {
                                                     })
                                                   : null}
                                         </MenuGroupWithRouter>
-                                   </>
+                                   </Fragment>
                               );
                          })}
                     </ul>
