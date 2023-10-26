@@ -1,0 +1,94 @@
+.login-background {
+     background: #dde5f4;
+     height: 100vh;
+     display: flex;
+     .login-container {
+          width: 500px;
+          height: 540px;
+          // width: 60vw;
+          // height: 70vh;
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+
+          margin: auto;
+          border-radius: 10px;
+          background-color: rgba(255, 255, 255, 0.8);
+          .login-content {
+               padding: 25px;
+               .text-login {
+                    text-align: center;
+                    font-weight: 600;
+                    font-size: 24px;
+                    padding-top: 10px;
+                    margin: 26px 0;
+               }
+               .login-input {
+                    margin: 10px 0;
+                    .text-label {
+                         // margin-left: 20px;
+                         color: rgba(0, 0, 0, 0.5);
+                    }
+                    .custom-input-password {
+                         position: relative;
+                         i {
+                              position: absolute;
+                              right: 5px;
+                              top: 10px;
+                              cursor: pointer;
+                         }
+                    }
+               }
+
+               .btn-login {
+                    outline: none;
+                    border: none;
+                    width: 100%;
+                    padding: 10px 0px;
+                    border-radius: 5px;
+                    margin-top: 20px;
+                    background-color: #5963ad;
+                    color: white;
+
+                    &:hover {
+                         background-color: #727692;
+                    }
+               }
+
+               .extra-login {
+                    display: block;
+                    margin-top: 35px;
+                    // border: 1px solid red;
+                    text-align: center;
+                    font-weight: 500;
+                    .forgot-password {
+                         font-size: 14px;
+                         cursor: pointer;
+                         color: #353131;
+                         text-decoration-line: underline;
+                         &:hover {
+                              color: #6e6b6b;
+                         }
+                    }
+                    .btn-create-new-account-container {
+                         margin-top: 35px;
+                         .btn-create-new-account {
+                              outline: none;
+                              border: none;
+                              width: 100%;
+
+                              padding: 10px 0px;
+                              border-radius: 5px;
+                              background-color: #5963ad;
+                              color: white;
+                              &:hover {
+                                   background-color: #727692;
+                              }
+                         }
+                    }
+               }
+          }
+     }
+}

@@ -1,0 +1,23 @@
+.board-of-director-container {
+     .title-board-of-director {
+          font-size: 17px;
+          font-weight: 600;
+          text-transform: uppercase;
+          text-align: center;
+          margin: 15px 0px;
+     }
+     .btn-director-add-new-user-container {
+          .btn-create-new-user {
+               padding: 7px 10px;
+               border: none;
+               color: white;
+               background-color: #0069d9;
+               min-width: 115px;
+               border-radius: 2px;
+               margin-left: 10px;
+               &:hover {
+                    background-color: #3e6185;
+               }
+          }
+     }
+}

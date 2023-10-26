@@ -1,0 +1,58 @@
+.background-register {
+     background: #dde5f4;
+     height: 100vh;
+     // border: 1px solid;
+     .register-container {
+          width: 500px;
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          height: 540px;
+          margin: auto;
+          border-radius: 10px;
+          background-color: rgba(255, 255, 255, 0.8);
+          .register-content {
+               margin-top: 25px;
+               .text-register {
+                    text-transform: uppercase;
+                    text-align: center;
+                    font-weight: 600;
+                    font-size: 20px;
+                    margin-bottom: 25px;
+               }
+               .input-info {
+                    padding: 5px 20px;
+                    .custom-input-password,
+                    .custom-input-confirm-password {
+                         position: relative;
+                         i {
+                              position: absolute;
+                              right: 10px;
+                              top: 10px;
+                         }
+                    }
+
+                    .btn-sign-up {
+                         outline: none;
+                         border: none;
+                         padding: 5px 10px;
+                         border-radius: 5px;
+                         background-color: #3d457f;
+                         color: white;
+                         width: 100%;
+                         margin-top: 10px;
+                         &:hover {
+                              background-color: #3a4174;
+                         }
+                    }
+                    .back-to-login {
+                         margin-top: 40px;
+                         text-decoration: underline;
+                         text-align: center;
+                    }
+               }
+          }
+     }
+}
