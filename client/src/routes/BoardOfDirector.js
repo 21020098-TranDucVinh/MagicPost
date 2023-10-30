@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import Header from '../containers/Header/Header';
 import CreateAccountGatheringAndTransactionManager from '../containers/System/Board-of-Directors/CreateAccountGatheringAndTransactionManager';
 import HomepageDirector from '../containers/System/Board-of-Directors/HomepageDirector';
+import { Scrollbars } from 'react-custom-scrollbars';
 import './BoardOfDirector.scss';
 class BoardOfDirector extends Component {
      render() {
@@ -11,6 +12,7 @@ class BoardOfDirector extends Component {
           return (
                <>
                     {/* {isLoggedIn && <Header />} */}
+
                     <div className="board-of-director-container">
                          <Header />
                          <div className="system-container">

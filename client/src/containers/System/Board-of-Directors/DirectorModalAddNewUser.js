@@ -11,13 +11,22 @@ class DirectorModalAddNewUser extends Component {
      constructor(props) {
           super(props);
           this.state = {
+               firstName: '',
+               lastName: '',
                genders: [
                     { label: 'Nam', value: 'Na' },
                     { label: 'Nữ', value: 'Nu' },
                ],
           };
      }
-
+     handleOnchangeInput = (event, id) => {
+          // this.state[id] = event.target.value;
+          let copyState = this.state;
+          copyState[id] = event.target.value;
+          this.setState({
+               ...copyState,
+          });
+     };
      render() {
           let { isOpen, isCloseModal } = this.props;
           return (
@@ -30,7 +39,6 @@ class DirectorModalAddNewUser extends Component {
                                         <i className="fa fa-times"></i>
                                    </span>
                               </div>
-
                               <div className="director-add-new-user-body">
                                    <div className="row">
                                         <div className="col-6 form-group">

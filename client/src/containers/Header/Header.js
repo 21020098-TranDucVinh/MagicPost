@@ -53,7 +53,8 @@ class Header extends Component {
                                    onClick={() => this.handleOpenModalPersonal()}
                                    title="Log out"
                               >
-                                   <i className="fas fa-sign-out-alt"></i>
+                                   {/* <i className="fas fa-sign-out-alt"></i> */}
+                                   <i className="	fas fa-bars"></i>
                               </div>
                          </div>
                     </div>

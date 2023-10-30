@@ -1,8 +1,9 @@
 .board-of-director-container {
      display: flex;
      flex-direction: column;
+     width: 100vw;
      .system-container {
           background-color: #f7f4f4;
-          height: 1000px;
+          // height: 1000px;
      }
 }

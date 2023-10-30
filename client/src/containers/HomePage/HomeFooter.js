@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-// Import css files
+import './HomeFooter.scss';
 
 class HomeFooter extends Component {
      state = {};
@@ -10,20 +10,28 @@ class HomeFooter extends Component {
 
      render() {
           return (
-               <>
+               <div className="section-home-footer-container">
                     <div className="section-home-footer">
-                         <p>
-                              &copy; 2023 Thach nhe. More information.{' '}
-                              <a
+                         <div className="icon-footer mb-2">
+                              <i class="fab fa-facebook-f"></i>
+                              <i class="fab fa-twitter"></i>
+                              <i class="fab fa-google"></i>
+                              <i class="fab fa-instagram"></i>
+                              <i class="fab fa-linkedin-in"></i>
+                              <i class="fab fa-github"></i>
+                         </div>
+                         <div className="copyright-content">
+                              &copy; 2023 ,Thạch + Vinh + Bảo
+                              {/* <a
                                    className="more-info"
                                    href="https://www.facebook.com/stories/1230080321041475/?source=profile_highlight"
                                    target="blank"
                               >
                                    &#8594; Click here &#8592;
-                              </a>
-                         </p>
+                              </a> */}
+                         </div>
                     </div>
-               </>
+               </div>
           );
      }
 }

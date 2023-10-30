@@ -1,0 +1,32 @@
+.section-home-footer {
+     background-color: #ddd;
+     display: flex;
+     flex-direction: column;
+     justify-content: center; /* Căn giữa theo chiều ngang */
+     align-items: center; /* Căn giữa theo chiều dọc */
+     height: 100px;
+     .icon-footer {
+          display: flex;
+          gap: 2rem;
+     }
+}
+// .section-home-footer-container {
+//      height: 100px;
+//      background-color: #ddd;
+//      .section-home-footer {
+//           height: 100%;
+//           .icon-footer {
+//                height: 50%;
+//                display: flex;
+//                justify-content: center; /* Căn giữa theo chiều ngang */
+//                align-items: center; /* Căn giữa theo chiều dọc */
+//                gap: 1rem;
+//           }
+//           .copyright-content {
+//                height: 50%;
+//                display: flex;
+//                justify-content: center; /* Căn giữa theo chiều ngang */
+//                align-items: center; /* Căn giữa theo chiều dọc */
+//           }
+//      }
+// }
