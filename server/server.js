@@ -1,30 +1,24 @@
 const express = require('express');
+const routesInit = require('./routes/indexRoute');
+
 const app = express();
-const port = 3000;
 
-var adminRoute = require('./routes/admin.route');
-var conn = require('./database')
+//database
+const db = require('./models');
+(async () => {
+  await db.sequelize.sync();
+  // await db.sequelize.sync({ alter: true });
+})();
 
-// app.set('view engine', 'pug');
-// app.set('views', './views');
+//Parse JSON bodies
+app.use(express.json())
+//Parse URL-encoded bodies
+app.use(express.urlencoded({ extended: true }))
 
-// const bodyParser = require('body-parser')
-// app.use(bodyParser.urlencoded({ extended: true }))
- 
- conn.connect(function (err){
-    if(err)
-    {
-        throw err.stack;
-    }
-    else
-    console.log("connect success");
- })
+// handle routes
+routesInit(app);
 
- app.use('', adminRoute);
-
-app.listen(port, function(error){
-    if (error) {
-        console.log("Something went wrong");
-    }
-    console.log("server is running port:  " + port);
-})
+const port = process.env.PORT || 5000;
+app.listen(5000, () => {
+  console.log(`Server is running on port ${port}`);
+});
