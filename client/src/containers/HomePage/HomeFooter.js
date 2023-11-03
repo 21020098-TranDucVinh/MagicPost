@@ -13,12 +13,12 @@ class HomeFooter extends Component {
                <div className="section-home-footer-container">
                     <div className="section-home-footer">
                          <div className="icon-footer mb-2">
-                              <i class="fab fa-facebook-f"></i>
-                              <i class="fab fa-twitter"></i>
-                              <i class="fab fa-google"></i>
-                              <i class="fab fa-instagram"></i>
-                              <i class="fab fa-linkedin-in"></i>
-                              <i class="fab fa-github"></i>
+                              <i className="fab fa-facebook-f"></i>
+                              <i className="fab fa-twitter"></i>
+                              <i className="fab fa-google"></i>
+                              <i className="fab fa-instagram"></i>
+                              <i className="fab fa-linkedin-in"></i>
+                              <i className="fab fa-github"></i>
                          </div>
                          <div className="copyright-content">
                               &copy; 2023 ,Thạch + Vinh + Bảo

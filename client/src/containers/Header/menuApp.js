@@ -5,7 +5,7 @@ export const adminMenu = [
           menus: [
                {
                     name: 'Tạo tài khoản',
-                    link: '/system/director/create/account-captain-point',
+                    link: '/system/director/create/account/admin-transition-or-collection',
                },
           ],
      },
@@ -26,18 +26,14 @@ export const adminMenu = [
           name: 'Thống kê',
           menus: [
                {
-                    name: 'Hàng gửi',
-                    link: '/system/user-crud',
+                    name: 'Thống kê',
+                    link: '/system/director/statistics/parcels',
                     // subMenus: [
                     //      {
                     //           name: 'Thach nhe',
                     //           link: '/system/user-crud',
                     //      },
                     // ],
-               },
-               {
-                    name: 'Hàng nhận',
-                    link: '/system/user-redux',
                },
           ],
      },

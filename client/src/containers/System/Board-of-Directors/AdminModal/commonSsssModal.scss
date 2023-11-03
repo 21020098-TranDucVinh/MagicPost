@@ -1,9 +1,9 @@
-.director-add-new-user-container {
+.modal-admin-container {
      border-radius: 5px;
-     .director-add-new-user-content {
+     .modal-admin-content {
           display: flex;
           flex-direction: column;
-          .director-add-new-user-header {
+          .modal-admin-header {
                padding: 10px;
                border-bottom: #ddd;
                background-color: #ddd;
@@ -22,17 +22,18 @@
                     }
                }
           }
-          .director-add-new-user-body {
+          .modal-admin-body {
                padding: 15px;
                height: 100%;
                border-top: 1px solid #ddd;
                border-bottom: 1px solid #ddd;
           }
-          .director-add-new-user-footer {
+          .modal-admin-footer {
                border-top: 1px solid #ccc;
                display: flex;
                justify-content: flex-end;
                gap: 15px;
+
                button {
                     border: none;
                     outline: none;
@@ -42,14 +43,17 @@
                     cursor: pointer;
                }
                .btn-add-new-user-confirm {
-                    background-color: orange;
+                    color: white;
+                    min-width: 5rem;
+                    background-color: #0069d9;
                     &:hover {
-                         background-color: rgb(123, 97, 50);
+                         background-color: rgb(50, 103, 123);
                     }
                }
                .btn-add-new-user-cancel {
+                    color: white;
                     background-color: rgb(234, 90, 90);
-                    min-width: 65px;
+                    min-width: 5rem;
                     margin-right: 8px;
                     &:hover {
                          background-color: rgb(60, 33, 148);

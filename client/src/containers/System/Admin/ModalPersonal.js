@@ -27,7 +27,7 @@ class ModalPersonal extends Component {
                               {/* <div className="log-out">Log out</div> */}
                          </div>
                          <div className="modal-personal-footer">
-                              <i class="fas fa-sign-out-alt"></i>
+                              <i className="fas fa-sign-out-alt"></i>
                          </div>
                     </Modal>
                </div>

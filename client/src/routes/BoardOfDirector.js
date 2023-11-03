@@ -4,8 +4,9 @@ import { Route, Switch } from 'react-router-dom';
 import Header from '../containers/Header/Header';
 import CreateAccountGatheringAndTransactionManager from '../containers/System/Board-of-Directors/CreateAccountGatheringAndTransactionManager';
 import HomepageDirector from '../containers/System/Board-of-Directors/HomepageDirector';
-import { Scrollbars } from 'react-custom-scrollbars';
+import ManageParcel from '../containers/System/Board-of-Directors/ManageParcel';
 import './BoardOfDirector.scss';
+import HomeFooter from '../containers/HomePage/HomeFooter';
 class BoardOfDirector extends Component {
      render() {
           const { isLoggedIn } = this.props;
@@ -21,12 +22,18 @@ class BoardOfDirector extends Component {
                                         <Route exact path="/system/director" component={HomepageDirector} />
                                         <Route
                                              exact
-                                             path="/system/director/create/account-captain-point"
+                                             path="/system/director/create/account/admin-transition-or-collection"
                                              component={CreateAccountGatheringAndTransactionManager}
+                                        />
+                                        <Route
+                                             exact
+                                             path="/system/director/statistics/parcels"
+                                             component={ManageParcel}
                                         />
                                    </Switch>
                               </div>
                          </div>
+                         <HomeFooter />
                     </div>
                </>
           );

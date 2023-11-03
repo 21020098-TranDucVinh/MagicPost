@@ -4,4 +4,8 @@ const handleLoginAPI = (userEmail, userPassword) => {
      return axios.post('/api/login', { email: userEmail, password: userPassword });
 };
 
-export { handleLoginAPI };
+const handleCreateNewAccountAdmin = () => {
+     return axios.post('/api/create-new-account-admin-transition-collection');
+};
+
+export { handleLoginAPI, handleCreateNewAccountAdmin };

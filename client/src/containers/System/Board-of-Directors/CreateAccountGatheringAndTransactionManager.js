@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './CreateAccountGatheringAndTransactionManager.scss';
-import DirectorModalAddNewUser from './DirectorModalAddNewUser';
-import ModalPersonal from '../Admin/ModalPersonal';
-import HomeFooter from '../../HomePage/HomeFooter';
+import DirectorModalAddNewUser from './AdminModal/DirectorModalAddNewUser';
+// import ModalPersonal from '../Admin/ModalPersonal';
+// import HomeFooter from '../../HomePage/HomeFooter';
 class CreateAccountGatheringAndTransactionManager extends Component {
      constructor(props) {
           super(props);
@@ -45,10 +45,10 @@ class CreateAccountGatheringAndTransactionManager extends Component {
           console.log('check user : ', arrUsers);
           return (
                <>
-                    <div className="board-of-director-container">
+                    <div className="admin-container">
                          <DirectorModalAddNewUser isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
 
-                         <div className="title-board-of-director text-center my-5">Tạo tài khoản</div>
+                         <div className="title-admin text-center my-5">Tạo tài khoản</div>
                          <div className="btn-director-add-new-user-container">
                               <div className="btn-create-new--user-container">
                                    <button
@@ -103,7 +103,6 @@ class CreateAccountGatheringAndTransactionManager extends Component {
                               </table>
                          </div>
                     </div>
-                    <HomeFooter />
                </>
           );
      }
