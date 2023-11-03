@@ -1,0 +1,7 @@
+ALTER USER 'root'@'localhost' IDENTIFIED WITH 'caching_sha2_password' BY 'your_password';
+
+ALTER TABLE collection MODIFY COLUMN zip_code VARCHAR(255) NULL;
+
+UPDATE table_name
+SET column1 = value1, column2 = value2, ...
+WHERE condition;
