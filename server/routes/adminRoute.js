@@ -1,8 +1,8 @@
 var express = require('express')
 var router = express.Router();
-var controller = require('../controller/admin.controller');
+var userController = require('../controllers/userController');
 
-router.get('', controller.index);
-router.post('/create', controller.create)
+router.get('/', userController.index);
+router.get('/login', userController.loginAdmin);
 
 module.exports = router;
