@@ -7,7 +7,6 @@ const app = express();
 const db = require('./models');
 (async () => {
   await db.sequelize.sync();
-  // await db.sequelize.sync({ alter: true });
 })();
 
 //Parse JSON bodies
