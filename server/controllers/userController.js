@@ -1,10 +1,10 @@
 class userController {
-  // GET /admin
+  // GET 
   index(req, res) {
     res.send('admin home page');
   }
 
-  // GET /admin/login
+  // GET 
   loginAdmin(req, res) {
     res.send('admin login page');
   }

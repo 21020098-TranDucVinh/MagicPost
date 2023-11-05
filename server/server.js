@@ -1,13 +1,16 @@
 const express = require('express');
+const cors = require('cors');
+
 const routesInit = require('./routes/indexRoute');
 
 const app = express();
+app.use(cors());
+
 
 //database
 const db = require('./models');
 (async () => {
   await db.sequelize.sync();
-  // await db.sequelize.sync({ alter: true });
 })();
 
 //Parse JSON bodies
