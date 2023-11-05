@@ -1,14 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './CreateAccountGatheringAndTransactionManager.scss';
-import ModalManageParcel from './AdminModal/ModalManageParcel';
-import HomeFooter from '../../HomePage/HomeFooter';
-class ManageParcel extends Component {
+import '../AdminManagement.scss';
+import ModalManageTransition from '../AdminModal/ModalManageTransition';
+import { getAllTransitions, deleteTransitionById } from '../../.././../services/userService';
+import { toast } from 'react-toastify';
+class ManagementTransition extends Component {
      constructor(props) {
           super(props);
           this.state = {
                isOpenModal: false,
+               arrTransitions: [],
           };
+     }
+     async componentDidMount() {
+          let res = await getAllTransitions();
+          console.log('check transition :', res);
+          if (res && res.errCode === 0) {
+               this.setState({
+                    arrTransitions: res.data,
+               });
+          }
      }
      directorCreateParcel = () => {
           this.setState({
@@ -23,22 +34,27 @@ class ManageParcel extends Component {
      handleEditUser = () => {
           alert('edit');
      };
-     handleDeleteUser = () => {
-          alert('delete');
+     handleDeleteTransition = async (id) => {
+          let res = await deleteTransitionById(id);
+          if (res && res.errCode === 0) {
+               toast.success('Delete Transition success');
+          } else {
+               toast.success('Delete Transition failed');
+          }
      };
      render() {
-          let { arrUsers } = this.state;
-          console.log('check user : ', arrUsers);
+          let { arrTransitions } = this.state;
+
           return (
                <>
                     <div className="admin-container">
-                         <ModalManageParcel isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
-                         <div className="title-admin text-center my-5">Thông kê bưu kiện</div>
+                         <ModalManageTransition isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
+                         <div className="title-admin text-center my-5">Management Transition</div>
                          <div className="btn-director-add-new-user-container">
                               <div className="btn-create-new-user-container">
                                    <button className="btn-create-new-user" onClick={() => this.directorCreateParcel()}>
                                         <i className="fas fa-plus"></i>
-                                        <span>Thêm bưu kiện</span>
+                                        <span>Add new transition</span>
                                    </button>
                               </div>
                               <div className="table-user-content mt-2 px-5 mb-3 ">
@@ -48,27 +64,21 @@ class ManageParcel extends Component {
                                              receiverName: '', receiverPhone: '', toAddress: '', type: '',
                                              senderZipCode: '', receiverZipCode: '', cost: '', */}
                                              <tr>
-                                                  <th>status</th>
-                                                  <th>senderName</th>
-                                                  <th>senderPhone</th>
-                                                  <th>from</th>
-                                                  <th>receiverName</th>
-                                                  <th>receiverPhone</th>
-                                                  <th>toAddress</th>
-                                                  <th>type</th>
-                                                  <th>senderZipCode</th>
-                                                  <th>receiverZipCode</th>
-                                                  <th>cost</th>
+                                                  <th>Admin ID</th>
+                                                  <th>Name</th>
+                                                  <th>Collection zip code</th>
+                                                  <th>Address</th>
+                                                  <th>Actions</th>
                                              </tr>
                                         </thead>
                                         <tbody>
-                                             {arrUsers &&
-                                                  arrUsers.map((item, index) => {
+                                             {arrTransitions &&
+                                                  arrTransitions.map((item, index) => {
                                                        return (
                                                             <tr>
-                                                                 <td>{item.email}</td>
-                                                                 <td>{item.firstName}</td>
-                                                                 <td>{item.lastName}</td>
+                                                                 <td>{item.zip_code}</td>
+                                                                 <td>{item.name}</td>
+                                                                 <td>{item.collection_zip_code}</td>
                                                                  <td>{item.address}</td>
                                                                  <td>
                                                                       <button
@@ -80,7 +90,9 @@ class ManageParcel extends Component {
                                                                       <button
                                                                            className="btn-delete"
                                                                            onClick={() =>
-                                                                                this.handleDeleteUser(item.className)
+                                                                                this.handleDeleteTransition(
+                                                                                     item.className,
+                                                                                )
                                                                            }
                                                                       >
                                                                            <i className="fas fa-trash"></i>
@@ -111,4 +123,4 @@ const mapDispatchToProps = (dispatch) => {
      };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageParcel);
+export default connect(mapStateToProps, mapDispatchToProps)(ManagementTransition);

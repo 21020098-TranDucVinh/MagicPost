@@ -5,7 +5,7 @@ import { Modal } from 'reactstrap';
 import 'flatpickr/dist/themes/material_green.css';
 import { toast } from 'react-toastify';
 import { handleCreateNewAccountAdmin } from '../../../../services/userService';
-class DirectorModalAddNewUser extends Component {
+class AdminModalAddNewUser extends Component {
      constructor(props) {
           super(props);
           this.state = {
@@ -71,7 +71,7 @@ class DirectorModalAddNewUser extends Component {
                               <div className="modal-admin-body">
                                    <div className="row">
                                         <div className="col-4 form-group">
-                                             <label>Tên người gửi</label>
+                                             <label>Sender Name</label>
                                              <input
                                                   type="text"
                                                   className="form-control"
@@ -81,7 +81,7 @@ class DirectorModalAddNewUser extends Component {
                                         </div>
 
                                         <div className="col-4 form-group">
-                                             <label>Điện thoại người gửi </label>
+                                             <label>Sender Phone</label>
                                              <input
                                                   type="text"
                                                   className="form-control"
@@ -90,7 +90,7 @@ class DirectorModalAddNewUser extends Component {
                                              ></input>
                                         </div>
                                         <div className="col-4 form-group">
-                                             <label>Địa chỉ gửi</label>
+                                             <label>From</label>
                                              <input
                                                   type="text"
                                                   className="form-control"
@@ -99,7 +99,7 @@ class DirectorModalAddNewUser extends Component {
                                              ></input>
                                         </div>
                                         <div className="col-4 form-group">
-                                             <label>Tên người nhận</label>
+                                             <label>Receiver Name</label>
                                              <input
                                                   type="text"
                                                   className="form-control"
@@ -108,7 +108,7 @@ class DirectorModalAddNewUser extends Component {
                                              ></input>
                                         </div>
                                         <div className="col-4 form-group">
-                                             <label>Điện thoại người nhận</label>
+                                             <label>Phone's Receiver</label>
                                              <input
                                                   type="text"
                                                   className="form-control"
@@ -117,7 +117,7 @@ class DirectorModalAddNewUser extends Component {
                                              ></input>
                                         </div>
                                         <div className="col-4 form-group">
-                                             <label>Địa chỉ nhận</label>
+                                             <label>To</label>
                                              <input
                                                   type="text"
                                                   className="form-control"
@@ -126,7 +126,7 @@ class DirectorModalAddNewUser extends Component {
                                              ></input>
                                         </div>
                                         <div className="col-4 form-group">
-                                             <label>Trạng thái bưu kiện</label>
+                                             <label>Status</label>
                                              <input
                                                   type="text"
                                                   className="form-control"
@@ -135,7 +135,7 @@ class DirectorModalAddNewUser extends Component {
                                              ></input>
                                         </div>
                                         <div className="col-4 form-group">
-                                             <label>Cân nặng</label>
+                                             <label>Weight</label>
                                              <input
                                                   type="text"
                                                   className="form-control"
@@ -145,7 +145,7 @@ class DirectorModalAddNewUser extends Component {
                                         </div>
 
                                         <div className="col-4 form-group">
-                                             <label>Loại</label>
+                                             <label>type</label>
                                              <input
                                                   type="text"
                                                   className="form-control"
@@ -154,7 +154,7 @@ class DirectorModalAddNewUser extends Component {
                                              ></input>
                                         </div>
                                         <div className="col-4 form-group">
-                                             <label>zip code người gửi</label>
+                                             <label>Sender's zip code </label>
                                              <input
                                                   type="text"
                                                   className="form-control"
@@ -163,7 +163,7 @@ class DirectorModalAddNewUser extends Component {
                                              ></input>
                                         </div>
                                         <div className="col-4 form-group">
-                                             <label>zip code người nhận</label>
+                                             <label>Receiver's zip code</label>
                                              <input
                                                   type="text"
                                                   className="form-control"
@@ -174,7 +174,7 @@ class DirectorModalAddNewUser extends Component {
                                              ></input>
                                         </div>
                                         <div className="col-4 form-group">
-                                             <label>Thanh toán</label>
+                                             <label>Cost</label>
                                              <input
                                                   type="text"
                                                   className="form-control"
@@ -189,10 +189,10 @@ class DirectorModalAddNewUser extends Component {
                                         className="btn-add-new-user-confirm"
                                         onClick={() => this.adminHandleCreateParcel()}
                                    >
-                                        Tạo
+                                        Create
                                    </button>
                                    <button className="btn-add-new-user-cancel" onClick={isCloseModal}>
-                                        Hủy
+                                        Cancel
                                    </button>
                               </div>
                          </div>
@@ -214,4 +214,4 @@ const mapDispatchToProps = (dispatch) => {
      };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DirectorModalAddNewUser);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminModalAddNewUser);

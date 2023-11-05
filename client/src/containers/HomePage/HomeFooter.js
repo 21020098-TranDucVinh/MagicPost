@@ -12,14 +12,14 @@ class HomeFooter extends Component {
           return (
                <div className="section-home-footer-container">
                     <div className="section-home-footer">
-                         <div className="icon-footer mb-2">
+                         {/* <div className="icon-footer mb-2">
                               <i className="fab fa-facebook-f"></i>
                               <i className="fab fa-twitter"></i>
                               <i className="fab fa-google"></i>
                               <i className="fab fa-instagram"></i>
                               <i className="fab fa-linkedin-in"></i>
                               <i className="fab fa-github"></i>
-                         </div>
+                         </div> */}
                          <div className="copyright-content">
                               &copy; 2023 ,Thạch + Vinh + Bảo
                               {/* <a

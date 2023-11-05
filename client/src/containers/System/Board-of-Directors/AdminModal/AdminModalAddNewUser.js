@@ -6,7 +6,7 @@ import Select from 'react-select';
 import 'flatpickr/dist/themes/material_green.css';
 import { toast } from 'react-toastify';
 import { handleCreateNewAccountAdmin } from '../../../../services/userService';
-class DirectorModalAddNewUser extends Component {
+class AdminModalAddNewUser extends Component {
      constructor(props) {
           super(props);
           this.state = {
@@ -44,7 +44,7 @@ class DirectorModalAddNewUser extends Component {
           let data = ['userName', 'phone', 'password', 'selectedRole'];
           for (let i = 0; i < data.length; i++) {
                if (!this.state[data[i]]) {
-                    toast.error('Vui lòng nhập đủ thông tin');
+                    toast.error('Please enter all the necessary information.');
                     return false;
                     break;
                }
@@ -64,12 +64,12 @@ class DirectorModalAddNewUser extends Component {
           if (checkPasswordValid && checkInputValid) {
                res = await handleCreateNewAccountAdmin(data);
           } else {
-               toast.error('Nhập lại mật khẩu phù hợp');
+               toast.error('Re-enter a matching password.');
           }
           if (res && res.errCode === 0) {
-               toast.success('Taọ tài khoản thành công');
+               toast.success('Account creation successful.');
           } else if (res && res.errCode !== 0) {
-               toast.success('Taọ tài khoản thất bại');
+               toast.success('Account creation failed.');
           }
      };
      render() {
@@ -163,4 +163,4 @@ const mapDispatchToProps = (dispatch) => {
      };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DirectorModalAddNewUser);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminModalAddNewUser);

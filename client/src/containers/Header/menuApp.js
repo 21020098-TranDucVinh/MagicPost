@@ -1,32 +1,32 @@
 export const adminMenu = [
      //quan li nguoi dung
      {
-          name: 'Quản lí tài khoản',
+          name: 'Manage Account',
           menus: [
                {
-                    name: 'Tạo tài khoản',
+                    name: 'Create Account',
                     link: '/system/director/create/account/admin-transition-or-collection',
                },
           ],
      },
      {
-          name: 'Quản lí đơn hàng',
+          name: 'Management',
           menus: [
                {
-                    name: 'Đơn hàng tại tụ điểm',
-                    link: '/system/user-crud',
+                    name: 'Manage Collection',
+                    link: '/system/admin/management-collection',
                },
                {
-                    name: 'Đơn hàng tại điểm giao dịch',
-                    link: '/system/user-redux',
+                    name: 'Manage Transition',
+                    link: '/system/admin/management-transition',
                },
           ],
      },
      {
-          name: 'Thống kê',
+          name: 'Statistic',
           menus: [
                {
-                    name: 'Thống kê',
+                    name: 'Statistic',
                     link: '/system/director/statistics/parcels',
                     // subMenus: [
                     //      {

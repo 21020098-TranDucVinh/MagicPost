@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import Header from '../containers/Header/Header';
-import CreateAccountGatheringAndTransactionManager from '../containers/System/Board-of-Directors/CreateAccountGatheringAndTransactionManager';
+import AdminManagement from '../containers/System/Board-of-Directors/AdminManagement';
 import HomepageDirector from '../containers/System/Board-of-Directors/HomepageDirector';
-import ManageParcel from '../containers/System/Board-of-Directors/ManageParcel';
+import ManageParcel from '../containers/System/Board-of-Directors/Management/ManageParcel';
 import './BoardOfDirector.scss';
+import ManagementTransition from '../containers/System/Board-of-Directors/Management/ManagementTransition';
+import ManagementCollection from '../containers/System/Board-of-Directors/Management/ManagementCollection';
 import HomeFooter from '../containers/HomePage/HomeFooter';
+
 class BoardOfDirector extends Component {
      render() {
           const { isLoggedIn } = this.props;
@@ -23,18 +26,28 @@ class BoardOfDirector extends Component {
                                         <Route
                                              exact
                                              path="/system/director/create/account/admin-transition-or-collection"
-                                             component={CreateAccountGatheringAndTransactionManager}
+                                             component={AdminManagement}
                                         />
                                         <Route
                                              exact
                                              path="/system/director/statistics/parcels"
                                              component={ManageParcel}
                                         />
+                                        <Route
+                                             exact
+                                             path="/system/admin/management-transition"
+                                             component={ManagementTransition}
+                                        />
+                                        <Route
+                                             exact
+                                             path="/system/admin/management-collection"
+                                             component={ManagementCollection}
+                                        />
                                    </Switch>
                               </div>
                          </div>
-                         <HomeFooter />
                     </div>
+                    <HomeFooter />
                </>
           );
      }

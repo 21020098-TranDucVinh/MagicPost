@@ -1,34 +1,36 @@
-.section-home-footer {
-     position: sticky;
-     bottom: 0;
-     background-color: #ddd;
-     display: flex;
-     flex-direction: column;
-     justify-content: center; /* Căn giữa theo chiều ngang */
-     align-items: center; /* Căn giữa theo chiều dọc */
-     height: 100px;
-     .icon-footer {
-          display: flex;
-          gap: 2rem;
-     }
-}
-// .section-home-footer-container {
-//      height: 100px;
+// .section-home-footer {
+//      position: sticky;
+//      bottom: 0;
 //      background-color: #ddd;
-//      .section-home-footer {
-//           height: 100%;
-//           .icon-footer {
-//                height: 50%;
-//                display: flex;
-//                justify-content: center; /* Căn giữa theo chiều ngang */
-//                align-items: center; /* Căn giữa theo chiều dọc */
-//                gap: 1rem;
-//           }
-//           .copyright-content {
-//                height: 50%;
-//                display: flex;
-//                justify-content: center; /* Căn giữa theo chiều ngang */
-//                align-items: center; /* Căn giữa theo chiều dọc */
-//           }
+//      // display: flex;
+//      // flex-direction: column;
+//      // justify-content: center; /* Căn giữa theo chiều ngang */
+//      // align-items: center; /* Căn giữa theo chiều dọc */
+//      height: 100px;
+//      .icon-footer {
+//           display: flex;
+//           gap: 2rem;
 //      }
 // }
+.section-home-footer-container {
+     // height: 100px;
+     border-top: 1px solid #b4a7a7;
+     height: 5rem;
+     background-color: #ddd;
+     .section-home-footer {
+          height: 100%;
+          // .icon-footer {
+          //      height: 50%;
+          //      display: flex;
+          //      justify-content: center; /* Căn giữa theo chiều ngang */
+          //      align-items: center; /* Căn giữa theo chiều dọc */
+          //      gap: 1rem;
+          // }
+          .copyright-content {
+               height: 100%;
+               display: flex;
+               justify-content: center; /* Căn giữa theo chiều ngang */
+               align-items: center; /* Căn giữa theo chiều dọc */
+          }
+     }
+}

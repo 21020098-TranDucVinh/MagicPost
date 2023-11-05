@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './CreateAccountGatheringAndTransactionManager.scss';
-import DirectorModalAddNewUser from './AdminModal/DirectorModalAddNewUser';
+import './AdminManagement.scss';
+import AdminModalAddNewUser from './AdminModal/AdminModalAddNewUser';
 // import ModalPersonal from '../Admin/ModalPersonal';
 // import HomeFooter from '../../HomePage/HomeFooter';
-class CreateAccountGatheringAndTransactionManager extends Component {
+class AdminManagement extends Component {
      constructor(props) {
           super(props);
           this.state = {
@@ -42,13 +42,13 @@ class CreateAccountGatheringAndTransactionManager extends Component {
      };
      render() {
           let { arrUsers } = this.state;
-          console.log('check user : ', arrUsers);
+          //console.log('check user : ', arrUsers);
           return (
                <>
                     <div className="admin-container">
-                         <DirectorModalAddNewUser isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
+                         <AdminModalAddNewUser isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
 
-                         <div className="title-admin text-center my-5">Tạo tài khoản</div>
+                         <div className="title-admin text-center my-5">Create Account</div>
                          <div className="btn-director-add-new-user-container">
                               <div className="btn-create-new--user-container">
                                    <button
@@ -56,7 +56,7 @@ class CreateAccountGatheringAndTransactionManager extends Component {
                                         onClick={() => this.directorDandleCreateNewUser()}
                                    >
                                         <i className="fas fa-plus"></i>
-                                        <span>Thêm người dùng</span>
+                                        <span>Add New User</span>
                                    </button>
                               </div>
                          </div>
@@ -120,4 +120,4 @@ const mapDispatchToProps = (dispatch) => {
      };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateAccountGatheringAndTransactionManager);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminManagement);
