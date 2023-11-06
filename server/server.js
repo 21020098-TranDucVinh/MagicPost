@@ -1,10 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-
 const routesInit = require('./routes/indexRoute');
 
 const app = express();
-app.use(cors());
 
 
 //database
@@ -17,6 +15,12 @@ const db = require('./models');
 app.use(express.json())
 //Parse URL-encoded bodies
 app.use(express.urlencoded({ extended: true }))
+
+// cors 
+app.use(cors({
+  origin: process.env.FRONTEND_HOST,
+  credentials: true
+}));
 
 // handle routes
 routesInit(app);

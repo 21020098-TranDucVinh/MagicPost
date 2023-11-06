@@ -4,7 +4,7 @@ USE `magic_post`;
 
 CREATE TABLE `admin`(
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `role` ENUM('ADMIN', 'TRANSACTION_ADMIN', 'COLLECTION_ADMIN') NOT NULL,
+    `role` ENUM('ADMIN', 'TRANSACTION_ADMIN', 'COLLECTION_ADMIN', 'PENDING') NOT NULL DEFAULT 'PENDING',
     `username` VARCHAR(255) NOT NULL,
     `password` VARCHAR(255) NOT NULL,
     `phone` INT UNSIGNED NOT NULL
@@ -109,6 +109,29 @@ BEGIN
 
     SET NEW.zip_code = CONCAT('C', LPAD(c_id, 5, '0'));
 END$$
+
+CREATE TRIGGER `update_collection_admin_role`
+AFTER UPDATE ON `collection`
+FOR EACH ROW
+BEGIN
+  IF NEW.admin_id != OLD.admin_id THEN
+    UPDATE admin
+    SET role = 'PENDING'
+    WHERE id = OLD.admin_id;
+  END IF;
+END$$
+
+CREATE TRIGGER `update_transaction_admin_role`
+AFTER UPDATE ON `transaction`
+FOR EACH ROW
+BEGIN
+  IF NEW.admin_id != OLD.admin_id THEN
+    UPDATE admin
+    SET role = 'PENDING'
+    WHERE id = OLD.admin_id;
+  END IF;
+END$$
+
 DELIMITER ;
 
 -- DATA 
