@@ -4,9 +4,11 @@ const transactionController = require('../controllers/transactionController');
 const router = express.Router();
 
 router.get('/transactions', transactionController.getAllTransactions);
-router.get('/transaction/:zipcode', transactionController.getTransactionByZipcode);
-router.get('/transactions/:collection_zip_code', transactionController.getTransactionByCollectionId);
+router.get('/transactions/:zip_code', transactionController.getTransactionByZipcode);
 
 router.post('/transactions', transactionController.createTransaction);
 
+router.put('/transactions/:zip_code', transactionController.updateTransaction);
+
+router.delete('/transactions/:zip_code', transactionController.deleteTransaction);
 module.exports = router;
