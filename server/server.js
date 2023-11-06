@@ -1,7 +1,11 @@
 const express = require('express');
+const cors = require('cors');
+
 const routesInit = require('./routes/indexRoute');
 
 const app = express();
+app.use(cors());
+
 
 //database
 const db = require('./models');
