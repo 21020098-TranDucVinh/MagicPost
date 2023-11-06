@@ -4,6 +4,7 @@ const routesInit = require('./routes/indexRoute');
 
 const app = express();
 
+
 //database
 const db = require('./models');
 (async () => {

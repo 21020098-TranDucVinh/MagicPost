@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     zip_code: {
       type: DataTypes.STRING,
-      allowNull: null,
+      allowNull: true, // zip_code is auto insert by trigger
       unique: true
     },
     name: {
