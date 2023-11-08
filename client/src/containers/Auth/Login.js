@@ -70,9 +70,9 @@ class Login extends Component {
           return (
                <>
                     <div className="login-background">
-                         <div className="login-container">
+                         <div className="login-container container">
                               <div className="login-content row">
-                                   <div className="col-12 text-login">LOGIN</div>
+                                   {/* <div className="col-12 text-login">LOGIN</div> */}
                                    <div className="col-12 form-group login-input">
                                         <label className="text-label">Username:</label>
                                         <input

@@ -48,7 +48,7 @@ class AdminManagement extends Component {
                     <div className="admin-container">
                          <AdminModalAddNewUser isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
 
-                         <div className="title-admin text-center my-5">Create Account</div>
+                         <div className="title-admin text-center my-4">Create Account</div>
                          <div className="btn-director-add-new-user-container">
                               <div className="btn-create-new--user-container">
                                    <button
@@ -61,7 +61,7 @@ class AdminManagement extends Component {
                               </div>
                          </div>
                          <div className="table-user-content mt-2 px-5 mb-3 ">
-                              <table className="customers table">
+                              <table className="customers">
                                    <thead>
                                         <tr>
                                              <th>Email</th>

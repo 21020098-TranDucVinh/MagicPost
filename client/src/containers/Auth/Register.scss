@@ -3,25 +3,7 @@
      height: 100vh;
      // border: 1px solid;
      .register-container {
-          width: 500px;
-          position: absolute;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          height: 540px;
-          margin: auto;
-          border-radius: 10px;
-          background-color: rgba(255, 255, 255, 0.8);
           .register-content {
-               margin-top: 25px;
-               .text-register {
-                    text-transform: uppercase;
-                    text-align: center;
-                    font-weight: 600;
-                    font-size: 20px;
-                    margin-bottom: 25px;
-               }
                .input-info {
                     padding: 5px 20px;
                     .custom-input-password,

@@ -45,9 +45,9 @@ class Register extends Component {
           return (
                <>
                     <div className="background-register">
-                         <div className="register-container">
+                         <div className="register-container container">
                               <div className="register-content">
-                                   <div className="col-12 text-register">register</div>
+                                   {/* <div className="col-12 text-register">register</div> */}
                                    <div className="row input-info">
                                         <div className="col-6 form-group">
                                              <label>First Name</label>

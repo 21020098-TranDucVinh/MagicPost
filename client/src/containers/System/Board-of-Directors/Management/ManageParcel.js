@@ -33,7 +33,7 @@ class ManageParcel extends Component {
                <>
                     <div className="admin-container">
                          <ModalManageParcel isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
-                         <div className="title-admin text-center my-5">Statistic Parcel</div>
+                         <div className="title-admin text-center my-4">Statistic Parcel</div>
                          <div className="btn-director-add-new-user-container">
                               <div className="btn-create-new-user-container">
                                    <button className="btn-create-new-user" onClick={() => this.directorCreateParcel()}>

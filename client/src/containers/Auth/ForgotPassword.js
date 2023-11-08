@@ -14,9 +14,9 @@ class ForgotPassword extends Component {
      render() {
           return (
                <>
-                    <div className="forgot-password-container">
+                    <div className="forgot-password-container container">
                          <div className="forgot-password-content">
-                              <div className="col-12 title-forget-password">Forgot Password</div>
+                              {/* <div className="col-12 title-forget-password">Forgot Password</div> */}
                               <div className="input-info-forgot-password row">
                                    <div className="input-email col-12 form-group">
                                         <label>Email: </label>

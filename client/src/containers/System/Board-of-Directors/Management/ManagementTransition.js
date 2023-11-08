@@ -49,7 +49,7 @@ class ManagementTransition extends Component {
                <>
                     <div className="admin-container">
                          <ModalManageTransition isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
-                         <div className="title-admin text-center my-5">Management Transition</div>
+                         <div className="title-admin text-center my-4">Management Transition</div>
                          <div className="btn-director-add-new-user-container">
                               <div className="btn-create-new-user-container">
                                    <button className="btn-create-new-user" onClick={() => this.directorCreateParcel()}>
