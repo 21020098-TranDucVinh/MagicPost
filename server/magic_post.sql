@@ -43,7 +43,8 @@ CREATE TABLE `transaction`(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `staff`(
-    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `staff_id` VARCHAR(255) NOT NULL,
     `username` VARCHAR(255) NOT NULL,
     `password` VARCHAR(255) NOT NULL,
     `phone` INT UNSIGNED NOT NULL,
@@ -132,6 +133,15 @@ BEGIN
   END IF;
 END$$
 
+CREATE TRIGGER `add_id_staff` BEFORE INSERT ON `staff` FOR EACH ROW
+BEGIN
+    DECLARE t_id int;
+    SELECT auto_increment INTO t_id
+    FROM information_schema.tables
+    WHERE table_name = 'staff';
+
+    SET NEW.staff_id = CONCAT('S', LPAD(t_id, 5, '0'));
+END$$
 DELIMITER ;
 
 -- DATA 
