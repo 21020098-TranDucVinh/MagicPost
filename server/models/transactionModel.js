@@ -14,6 +14,9 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE'
       });
+      Transaction.hasMany(models.Staff, {
+        foreignKey: 'transaction_zip_code'
+      })
     }
   };
 
@@ -44,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     admin_id: {
       type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: true,
+      allowNull: false,
       references: {
         model: 'admin',
         key: 'id'
