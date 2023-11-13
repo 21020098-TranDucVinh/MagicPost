@@ -146,38 +146,7 @@ class parcelsController {
     }
   }
 
-  async deleteParcel(req, res) {
-    try {
-      const parcel_id = req.params.parcel_id;
-      const parcel = await Parcels.findOne({
-        where:{
-          parcel_id
-        }
-      });
-      if (parcel.status === "PENDING"){
-        parcel.destroy()
-      }
-      
 
-      if (parcel === 0) {
-        res.status(404).json({
-          errorCode: 1,
-          message: 'No parcel found with parcel_id = ' + parcel_id
-        })
-      } else {
-        res.status(200).json({
-          errorCode: 0,
-          message: 'Parcel deleted successfully'
-        });
-      }
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({
-        errorCode: 1,
-        message: 'Something went wrong with server'
-      });
-    }
-  }
 }
 
 module.exports = new parcelsController();
