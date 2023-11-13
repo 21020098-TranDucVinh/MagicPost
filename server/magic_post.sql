@@ -62,21 +62,20 @@ CREATE TABLE `staff`(
 CREATE TABLE `parcels`(
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `parcel_id` VARCHAR(255) NOT NULL,
-    `status` ENUM ('PENDING','SHIPPING', 'DELIVERING', 'DELIVERED', 'RETURNED') NOT NULL DEFAULT 'PENDING',
+    `status` ENUM ('PENDING','SHIPPING', 'DELIVERING', 'DELIVERED', 'SUCCESS', 'RETURNED') NOT NULL DEFAULT 'PENDING',
     `s_name` VARCHAR(255) NOT NULL,
     `s_phone` INT UNSIGNED NOT NULL,
-    `s_address` VARCHAR(255) NOT NULL,
+    `s_address` JSON NOT NULL,
     `s_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `r_name` VARCHAR(255) NOT NULL,
     `r_phone` INT UNSIGNED NOT NULL,
-    `r_address` VARCHAR(255) NOT NULL,
+    `r_address` JSON NOT NULL,
     `r_time` TIMESTAMP NULL,
     `type` ENUM('DOCUMENT', 'PACKAGE') NOT NULL DEFAULT 'PACKAGE',
     `weight` DOUBLE NOT NULL,
     `s_zip_code` VARCHAR(255) NOT NULL,
     `r_zip_code` VARCHAR(255) NULL,
-    `cost` INT UNSIGNED NOT NULL,
-    `payment_status` ENUM('PAID', 'UNPAID') NOT NULL DEFAULT 'UNPAID',
+    `cost`  JSON NOT NULL,
     `last_shipper_name` VARCHAR(255) NULL,
     `last_shipper_phone` INT UNSIGNED NULL,
     UNIQUE(`parcel_id`)
@@ -205,16 +204,5 @@ INSERT INTO `staff` (`username`, `password`, `phone`, `collection_zip_code`) VAL
 INSERT INTO `staff` (`username`, `password`, `phone`, `collection_zip_code`) VALUE ('staff5', 'staff5', 123456789, 'C00002');
 INSERT INTO `staff` (`username`, `password`, `phone`, `collection_zip_code`) VALUE ('staff6', 'staff6', 123456789, 'C00003');
 
-INSERT INTO `parcels` (`s_name`, `s_phone`, `s_address`, `r_name`, `r_phone`, `r_address`, `type`, `weight`, `s_zip_code`, `r_zip_code`, `cost`, `payment_status`) 
-VALUE ('s_name', 123456789, 's_address', 'r_name', 123456789, 'r_address', 'DOCUMENT', 1, 'T00001', 'T00002', 10000, 'PAID');
-INSERT INTO `parcels` (`s_name`, `s_phone`, `s_address`, `r_name`, `r_phone`, `r_address`, `type`, `weight`, `s_zip_code`, `r_zip_code`, `cost`, `payment_status`)
-VALUE ('s_name2', 123456789, 's_address2', 'r_name2', 123456789, 'r_address2', 'DOCUMENT', 1, 'T00002', 'T00003', 10000, 'PAID');
-
-INSERT INTO `track_history` (`s_staff_id`, `s_zip_code`, `r_staff_id`, `r_zip_code`, `r_time`, `parcel_id`) 
-VALUE ('0', '0', 'C00001S00004', 'C00001', '2020-12-12 12:12:12', 'P00001');
-INSERT INTO `track_history` (`s_staff_id`, `s_zip_code`, `r_staff_id`, `r_zip_code`, `r_time`, `parcel_id`, `status`)
-VALUE ('C00001S00004', 'C00001', 'C00002S00005', 'C00002', '2020-12-12 12:12:12', 'P00001', 'DELIVERED');
-INSERT INTO `track_history` (`s_staff_id`, `s_zip_code`, `r_staff_id`, `r_zip_code`, `r_time`, `parcel_id`, `status`)
-VALUE ('C00002S00005', 'C00002', 'T00002S00002', 'T00002', '2020-12-12 12:12:12', 'P00001', 'DELIVERING');
 
 COMMIT;
