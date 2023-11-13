@@ -6,12 +6,13 @@ class parcelsController {
   // [GET] /parcels
   async getAllParcels(req, res) {
     try {
-      const parcels = await Parcels.findAll({
+      const parcels = await Parcels.findAndCountAll({
         attribute: { exclude: ['id'] }
       });
       res.status(200).json({
         errorCode: 0,
-        parcels,
+        count: parcels.count,
+        parcels: parcels.rows,
       });
     } catch (error) {
       console.log(error);
@@ -41,6 +42,111 @@ class parcelsController {
           parcel,
         });
       }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        errorCode: 1,
+        message: error.message
+      });
+    }
+  }
+
+  // [GET] /parcelsPending
+  async getAllParcelsPending(req, res) {
+    try {
+      const parcels = await Parcels.findAndCountAll({
+        where: { status: 'PENDING' },
+        attribute: { exclude: ['id'] }
+      });
+      res.status(200).json({
+        errorCode: 0,
+        count: parcels.count,
+        parcels: parcels.rows,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        errorCode: 1,
+        message: error.message
+      });
+    }
+  }
+
+  // [GET] /parcelsShipping
+  async getAllParcelsShipping(req, res) {
+    try {
+      const parcels = await Parcels.findAndCountAll({
+        where: { status: 'SHIPPING' },
+        attribute: { exclude: ['id'] }
+      });
+      res.status(200).json({
+        errorCode: 0,
+        count: parcels.count,
+        parcels: parcels.rows,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        errorCode: 1,
+        message: error.message
+      });
+    }
+  }
+
+  // [GET] /parcelsDelivering
+  async getAllParcelsDelivering(req, res) {
+    try {
+      const parcels = await Parcels.findAndCountAll({
+        where: { status: 'DELIVERING' },
+        attribute: { exclude: ['id'] }
+      });
+      res.status(200).json({
+        errorCode: 0,
+        count: parcels.count,
+        parcels: parcels.rows,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        errorCode: 1,
+        message: error.message
+      });
+    }
+  }
+
+  // [GET] /parcelsDelivered
+  async getAllParcelsDelivered(req, res) {
+    try {
+      const parcels = await Parcels.findAndCountAll({
+        where: { status: 'DELIVERED' },
+        attribute: { exclude: ['id'] }
+      });
+      res.status(200).json({
+        errorCode: 0,
+        count: parcels.count,
+        parcels: parcels.rows,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        errorCode: 1,
+        message: error.message
+      });
+    }
+  }
+
+  // [GET] /parcelsReturned
+  async getAllParcelsReturned(req, res) {
+    try {
+      const parcels = await Parcels.findAndCountAll({
+        where: { status: 'RETURNED' },
+        attribute: { exclude: ['id'] }
+      });
+      res.status(200).json({
+        errorCode: 0,
+        count: parcels.count,
+        parcels: parcels.rows,
+      });
     } catch (error) {
       console.log(error);
       res.status(500).json({
