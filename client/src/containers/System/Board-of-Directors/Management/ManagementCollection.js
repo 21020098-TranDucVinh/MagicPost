@@ -14,7 +14,6 @@ class ManagementCollection extends Component {
      }
      async componentDidMount() {
           let res = await getAllCollections();
-          console.log('check col : ', res);
           if (res && res.errCode === 0) {
                this.setState({
                     arrCollections: res.data,
@@ -34,35 +33,29 @@ class ManagementCollection extends Component {
      handleEditCollection = () => {
           alert('edit');
      };
-     // handleDeleteCollection = async (id) => {
-     //      let res = await deleteTransitionById(id);
-     //      if (res && res.errCode === 0) {
-     //           toast.success('Delete Transition success');
-     //      } else {
-     //           toast.success('Delete Transition failed');
-     //      }
-     // };
      render() {
           let { arrCollections } = this.state;
 
           return (
                <>
-                    <div className="admin-container">
+                    <div className="admin-container container">
                          <ModalManageTransition isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
                          <div className="title-admin text-center my-4">Management Collection</div>
-                         <div className="btn-director-add-new-user-container">
-                              <div className="btn-create-new-user-container">
-                                   <button className="btn-create-new-user" onClick={() => this.directorCreateParcel()}>
-                                        <i className="fas fa-plus"></i>
-                                        <span>Add new Collection</span>
-                                   </button>
+                         <div className="admin-content">
+                              <div className="btn-director-add-new-user-container">
+                                   <div className="btn-create-new-user-container">
+                                        <button
+                                             className="btn-create-new-user"
+                                             onClick={() => this.directorCreateParcel()}
+                                        >
+                                             <i className="fas fa-plus"></i>
+                                             <span>Add new Collection</span>
+                                        </button>
+                                   </div>
                               </div>
-                              <div className="table-user-content mt-2 px-5 mb-3 ">
+                              <div className="table-user-content mt-2 px-5 mb-3">
                                    <table className="customers table">
                                         <thead>
-                                             {/* status: '', status: '', senderName: '', senderPhone: '', from: '',
-                                             receiverName: '', receiverPhone: '', toAddress: '', type: '',
-                                             senderZipCode: '', receiverZipCode: '', cost: '', */}
                                              <tr>
                                                   <th>Zip Code</th>
                                                   <th>Name</th>

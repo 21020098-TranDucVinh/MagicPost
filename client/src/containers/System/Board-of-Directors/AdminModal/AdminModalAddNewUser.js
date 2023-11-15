@@ -4,8 +4,9 @@ import './commonSsssModal.scss';
 import { Modal } from 'reactstrap';
 import Select from 'react-select';
 import 'flatpickr/dist/themes/material_green.css';
+import * as actions from '../../../../store/actions/index';
 import { toast } from 'react-toastify';
-import { handleCreateNewAccountAdmin } from '../../../../services/userService';
+import { handleCreateNewPotentialAdmin } from '../.././../../services/userService';
 class AdminModalAddNewUser extends Component {
      constructor(props) {
           super(props);
@@ -14,14 +15,16 @@ class AdminModalAddNewUser extends Component {
                phone: '',
                password: '',
                rePassword: '',
-               selectedRole: '',
-               roles: [
-                    { value: 'adminCollection', label: 'Trưởng điểm tập kết' },
-                    { value: 'adminTransition', label: 'Trưởng điểm giao dịch' },
-               ],
           };
      }
-     componentDidMount() {}
+     async componentDidMount() {}
+     componentDidUpdate(prevProps, prevState, snapshot) {
+          if (prevProps.arrUsersPending !== this.props.arrUsersPending) {
+               this.setState({
+                    arrUsersPending: this.props.arrUsersPending,
+               });
+          }
+     }
      handleOnchangeInput = (event, id) => {
           let copyState = this.state;
           copyState[id] = event.target.value;
@@ -41,35 +44,34 @@ class AdminModalAddNewUser extends Component {
           return true;
      };
      checkInputValid = () => {
-          let data = ['userName', 'phone', 'password', 'selectedRole'];
+          let data = ['userName', 'phone', 'password'];
           for (let i = 0; i < data.length; i++) {
                if (!this.state[data[i]]) {
-                    toast.error('Please enter all the necessary information.');
                     return false;
                     break;
                }
           }
           return true;
      };
-     handleCreateNewAccountAdminTransitionOrCollection = async () => {
-          let res = '';
-          let data = {
-               userName: this.state.userName,
-               phone: this.state.phone,
-               password: this.state.password,
-               role: this.state.selectedRole.value,
-          };
-          let checkPasswordValid = this.checkInputPasswordValid(this.state.password, this.state.rePassword);
+     handleCreatePotentialAdmin = async () => {
           let checkInputValid = this.checkInputValid();
-          if (checkPasswordValid && checkInputValid) {
-               res = await handleCreateNewAccountAdmin(data);
+          let checkInputPasswordValid = this.checkInputPasswordValid(this.state.password, this.state.rePassword);
+          let data = {
+               username: this.state.userName,
+               password: this.state.password,
+               phone: this.state.phone,
+          };
+          let res = false;
+          if (checkInputValid && checkInputPasswordValid) {
+               let res = await handleCreateNewPotentialAdmin(data);
+               console.log('check res :', res);
+               if (res && res.errorCode === 0) {
+                    toast.success(res.msg);
+                    this.props.isCloseModal();
+                    this.props.getAllUserPending();
+               }
           } else {
-               toast.error('Re-enter a matching password.');
-          }
-          if (res && res.errCode === 0) {
-               toast.success('Account creation successful.');
-          } else if (res && res.errCode !== 0) {
-               toast.success('Account creation failed.');
+               toast.error('Your input invalid');
           }
      };
      render() {
@@ -86,49 +88,45 @@ class AdminModalAddNewUser extends Component {
                               </div>
                               <div className="modal-admin-body">
                                    <div className="row">
-                                        <div className="col-12 form-group">
-                                             <label>Họ tên</label>
+                                        <div className="col-6 form-group">
+                                             <label>User Name</label>
                                              <input
                                                   type="text"
                                                   className="form-control"
                                                   value={this.state.userName}
                                                   onChange={(event) => this.handleOnchangeInput(event, 'userName')}
+                                                  placeholder="Your Name"
                                              ></input>
                                         </div>
                                         <div className="col-6 form-group">
-                                             <label>Số điện thoại</label>
+                                             <label>Phone</label>
                                              <input
                                                   type="text"
                                                   className="form-control"
                                                   value={this.state.phone}
                                                   onChange={(event) => this.handleOnchangeInput(event, 'phone')}
+                                                  placeholder="Your Phone"
                                              ></input>
                                         </div>
                                         <div className="col-6 form-group">
-                                             <label>Mật khẩu</label>
+                                             <label>Password</label>
                                              <input
                                                   type="password"
                                                   className="form-control"
                                                   value={this.state.password}
                                                   onChange={(event) => this.handleOnchangeInput(event, 'password')}
+                                                  placeholder="Your Password"
                                              ></input>
                                         </div>
 
                                         <div className="col-6 form-group">
-                                             <label>Vai trò</label>
-                                             <Select
-                                                  options={this.state.roles}
-                                                  value={this.state.selectedRole}
-                                                  onChange={this.handleOnchangeSelectRole}
-                                             />
-                                        </div>
-                                        <div className="col-6 form-group">
-                                             <label> Nhập lại Mật khẩu</label>
+                                             <label>Re-enter password</label>
                                              <input
                                                   type="password"
                                                   className="form-control"
                                                   value={this.state.rePassword}
                                                   onChange={(event) => this.handleOnchangeInput(event, 'rePassword')}
+                                                  placeholder="Your Password"
                                              ></input>
                                         </div>
                                    </div>
@@ -136,7 +134,7 @@ class AdminModalAddNewUser extends Component {
                               <div className="modal-admin-footer">
                                    <button
                                         className="btn-add-new-user-confirm"
-                                        onClick={() => this.handleCreateNewAccountAdminTransitionOrCollection()}
+                                        onClick={() => this.handleCreatePotentialAdmin()}
                                    >
                                         Tạo
                                    </button>
@@ -153,13 +151,13 @@ class AdminModalAddNewUser extends Component {
 
 const mapStateToProps = (state) => {
      return {
-          language: state.app.language,
+          arrUsersPending: state.admin.arrUsersPending,
      };
 };
 
 const mapDispatchToProps = (dispatch) => {
      return {
-          // userDefaultClassSuccess: (userInfo) => dispatch(actions.userDefaultClassSuccess(userInfo)),
+          getAllUserPending: () => dispatch(actions.getAllUserPendingAction()),
      };
 };
 

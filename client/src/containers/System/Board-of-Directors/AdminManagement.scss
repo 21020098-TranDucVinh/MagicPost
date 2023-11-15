@@ -1,81 +1,88 @@
 .admin-container {
+     max-width: 1300px !important;
      .title-admin {
           font-size: 17px;
           font-weight: 600;
           text-transform: uppercase;
-
-          // text-align: center;
-          // margin: 15px 0px;
      }
-     .btn-director-add-new-user-container {
-          .btn-create-new-user {
-               padding: 7px 10px;
-               border: none;
-               color: white;
-               background-color: #0062a1;
-               min-width: 115px;
-               border-radius: 2px;
-               margin-left: 3rem;
-               &:hover {
-                    background-color: #3e6185;
+     .admin-content {
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          box-shadow: 0 0 20px #333;
+          margin: 40px;
+          border-collapse: collapse;
+          overflow: hidden;
+          padding: 10px;
+          .btn-director-add-new-user-container {
+               .btn-create-new-user {
+                    padding: 7px 10px;
+                    border: none;
+                    color: white;
+                    background-color: #0062a1;
+                    min-width: 115px;
+                    border-radius: 2px;
+                    margin-left: 3rem;
+                    &:hover {
+                         background-color: #3e6185;
+                    }
                }
           }
-     }
-     .customers {
-          font-family: Arial, Helvetica, sans-serif;
-          border-collapse: collapse;
+          .customers {
+               font-family: Arial, Helvetica, sans-serif;
+               border-collapse: collapse;
+               overflow: hidden;
+               width: 100%;
+               tr {
+                    text-align: center;
+               }
+          }
 
-          width: 100%;
-          tr {
+          .customers td,
+          .customers th {
+               border: 1px solid #c9c4c4;
+               padding: 8px;
+          }
+
+          .customers tr:nth-child(even) {
+               background-color: #f2f2f2;
+          }
+
+          .customers tr:hover {
+               background-color: #f3ebeb;
+          }
+
+          .customers th {
+               padding-top: 12px;
+               padding-bottom: 12px;
                text-align: center;
+               background-color: #333;
+               color: white;
           }
-     }
 
-     .customers td,
-     .customers th {
-          border: 1px solid #c9c4c4;
-          padding: 8px;
-     }
+          .btn-edit {
+               width: 50px;
+               border: none;
+               outline: none;
+               background: transparent;
+               color: orange;
 
-     .customers tr:nth-child(even) {
-          background-color: #f2f2f2;
-     }
-
-     .customers tr:hover {
-          background-color: #f3ebeb;
-     }
-
-     .customers th {
-          padding-top: 12px;
-          padding-bottom: 12px;
-          text-align: center;
-          background-color: #333;
-          color: white;
-     }
-
-     .btn-edit {
-          width: 50px;
-          border: none;
-          outline: none;
-          background: transparent;
-          color: orange;
-
-          &:hover {
-               background-color: transparent !important;
-               color: orange !important;
+               &:hover {
+                    background-color: transparent !important;
+                    color: orange !important;
+               }
           }
-     }
 
-     .btn-delete {
-          width: 50px;
-          border: none;
-          outline: none;
-          background: transparent;
-          color: rgb(222, 11, 11);
+          .btn-delete {
+               width: 50px;
+               border: none;
+               outline: none;
+               background: transparent;
+               color: rgb(222, 11, 11);
 
-          &:hover {
-               background-color: transparent !important;
-               color: rgb(222, 11, 11) !important;
+               &:hover {
+                    background-color: transparent !important;
+                    color: rgb(222, 11, 11) !important;
+               }
           }
      }
 }

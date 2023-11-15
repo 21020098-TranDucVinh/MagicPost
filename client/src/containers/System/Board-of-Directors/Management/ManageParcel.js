@@ -28,18 +28,22 @@ class ManageParcel extends Component {
      };
      render() {
           let { arrUsers } = this.state;
-          //console.log('check user : ', arrUsers);
           return (
                <>
-                    <div className="admin-container">
+                    <div className="admin-container container">
                          <ModalManageParcel isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
                          <div className="title-admin text-center my-4">Statistic Parcel</div>
-                         <div className="btn-director-add-new-user-container">
-                              <div className="btn-create-new-user-container">
-                                   <button className="btn-create-new-user" onClick={() => this.directorCreateParcel()}>
-                                        <i className="fas fa-plus"></i>
-                                        <span>Add Parcel</span>
-                                   </button>
+                         <div className="admin-content">
+                              <div className="btn-director-add-new-user-container">
+                                   <div className="btn-create-new-user-container">
+                                        <button
+                                             className="btn-create-new-user"
+                                             onClick={() => this.directorCreateParcel()}
+                                        >
+                                             <i className="fas fa-plus"></i>
+                                             <span>Add Parcel</span>
+                                        </button>
+                                   </div>
                               </div>
                               <div className="table-user-content mt-2 px-5 mb-3 ">
                                    <table className="customers table">

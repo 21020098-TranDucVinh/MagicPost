@@ -10,7 +10,7 @@ export const adminMenu = [
           ],
      },
      {
-          name: 'Management',
+          name: 'Manage Collection & Transition',
           menus: [
                {
                     name: 'Manage Collection',

@@ -9,5 +9,7 @@ const actionTypes = Object.freeze({
      USER_LOGIN_FAIL: 'USER_LOGIN_FAIL',
      PROCESS_LOGOUT: 'PROCESS_LOGOUT',
      //admin
+     GET_PENDING_USER: 'GET_PENDING_USER',
+     GET_PENDING_USER_SUCCESS: 'GET_PENDING_USER_SUCCESS',
 });
 export default actionTypes;
