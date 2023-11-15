@@ -43,10 +43,9 @@ class Header extends Component {
                          </div>
 
                          <div className="languages">
-                              <span className="welcome">
-                                   {/* <FormattedMessage id="home-header.welcome" />{' '} */}
+                              {/* <span className="welcome">
                                    {userInfo && userInfo.firstName ? userInfo.firstName : ' '}!
-                              </span>
+                              </span> */}
 
                               <div
                                    className="btn btn-logout"

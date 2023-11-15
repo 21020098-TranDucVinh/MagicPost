@@ -1,5 +1,5 @@
 .admin-container {
-     max-width: 1300px !important;
+     max-width: 1500px !important;
      .title-admin {
           font-size: 17px;
           font-weight: 600;
@@ -9,7 +9,7 @@
           border: 1px solid #ddd;
           border-radius: 5px;
           box-shadow: 0 0 20px #333;
-          margin: 40px;
+          // margin: 40px;
           border-collapse: collapse;
           overflow: hidden;
           padding: 10px;
@@ -21,7 +21,7 @@
                     background-color: #0062a1;
                     min-width: 115px;
                     border-radius: 2px;
-                    margin-left: 3rem;
+                    // margin-left: 3rem;
                     &:hover {
                          background-color: #3e6185;
                     }
@@ -32,56 +32,60 @@
                border-collapse: collapse;
                overflow: hidden;
                width: 100%;
-               tr {
-                    text-align: center;
+               thead {
+                    background-color: #333;
+                    color: white;
                }
-          }
-
-          .customers td,
-          .customers th {
-               border: 1px solid #c9c4c4;
-               padding: 8px;
-          }
-
-          .customers tr:nth-child(even) {
-               background-color: #f2f2f2;
-          }
-
-          .customers tr:hover {
-               background-color: #f3ebeb;
-          }
-
-          .customers th {
-               padding-top: 12px;
-               padding-bottom: 12px;
-               text-align: center;
-               background-color: #333;
-               color: white;
-          }
-
-          .btn-edit {
-               width: 50px;
-               border: none;
-               outline: none;
-               background: transparent;
-               color: orange;
-
-               &:hover {
-                    background-color: transparent !important;
-                    color: orange !important;
+               th,
+               td {
+                    border: 1px solid #c9c4c4 !important;
                }
-          }
+               // tr {
+               //      text-align: center;
+               // }
+               // td,
+               // th {
+               //      border: 1px solid #c9c4c4;
+               //      padding: 8px;
+               // }
+               // tr:nth-child(even) {
+               //      background-color: #f2f2f2;
+               // }
 
-          .btn-delete {
-               width: 50px;
-               border: none;
-               outline: none;
-               background: transparent;
-               color: rgb(222, 11, 11);
+               // tr:hover {
+               //      background-color: #f3ebeb;
+               // }
 
-               &:hover {
-                    background-color: transparent !important;
-                    color: rgb(222, 11, 11) !important;
+               // th {
+               //      padding-top: 12px;
+               //      padding-bottom: 12px;
+               //      text-align: center;
+               //      background-color: #333;
+               //      color: white;
+               // }
+               .btn-edit {
+                    width: 50px;
+                    border: none;
+                    outline: none;
+                    background: transparent;
+                    color: orange;
+
+                    &:hover {
+                         background-color: transparent !important;
+                         color: orange !important;
+                    }
+               }
+               .btn-delete {
+                    width: 50px;
+                    border: none;
+                    outline: none;
+                    background: transparent;
+                    color: rgb(222, 11, 11);
+
+                    &:hover {
+                         background-color: transparent !important;
+                         color: rgb(222, 11, 11) !important;
+                    }
                }
           }
      }

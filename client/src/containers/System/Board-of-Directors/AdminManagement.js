@@ -42,14 +42,14 @@ class AdminManagement extends Component {
      handleDeleteUserPending = () => {};
      render() {
           let { arrUsersPending } = this.state;
-          console.log('check user : ', arrUsersPending);
+          // console.log('check user : ', arrUsersPending);
           return (
                <>
-                    <div className="admin-container container">
+                    <div className="admin-container">
                          <AdminModalAddNewUser isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
 
                          <div className="title-admin text-center my-4">Create Account</div>
-                         <div className="admin-content">
+                         <div className="admin-content container">
                               <div className="btn-director-add-new-user-container">
                                    <div className="btn-create-new-user-container">
                                         <button
@@ -61,21 +61,23 @@ class AdminManagement extends Component {
                                         </button>
                                    </div>
                               </div>
-                              <div className="table-user-content mt-2 px-5 mb-3 ">
-                                   <table className="customers">
-                                        <thead>
+                              <div className="table-user-content mt-2 mb-3 ">
+                                   <table class="table table-hover customers">
+                                        <thead className="text-center">
                                              <tr>
+                                                  <th scope="col">#</th>
                                                   <th>userName</th>
                                                   <th>Phone</th>
                                                   <th>Role</th>
                                                   <th>Actions</th>
                                              </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody className="text-center">
                                              {arrUsersPending &&
                                                   arrUsersPending.map((item, index) => {
                                                        return (
                                                             <tr>
+                                                                 <td>{index + 1}</td>
                                                                  <td>{item.username}</td>
                                                                  <td>{item.phone}</td>
                                                                  <td>{item.role}</td>

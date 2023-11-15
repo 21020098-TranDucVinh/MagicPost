@@ -81,7 +81,7 @@ class AdminModalAddNewUser extends Component {
                     <Modal className="modal-admin-container" isOpen={isOpen} size="lg" centered>
                          <div className="modal-admin-content">
                               <div className="modal-admin-header">
-                                   <span className="left">Thêm người dùng mới</span>
+                                   <span className="left">Add new potential admin </span>
                                    <span className="right" onClick={isCloseModal}>
                                         <i className="fa fa-times"></i>
                                    </span>
@@ -136,10 +136,10 @@ class AdminModalAddNewUser extends Component {
                                         className="btn-add-new-user-confirm"
                                         onClick={() => this.handleCreatePotentialAdmin()}
                                    >
-                                        Tạo
+                                        Create
                                    </button>
                                    <button className="btn-add-new-user-cancel" onClick={isCloseModal}>
-                                        Hủy
+                                        Cancel
                                    </button>
                               </div>
                          </div>

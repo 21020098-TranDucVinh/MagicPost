@@ -54,46 +54,49 @@ class ManagementCollection extends Component {
                                    </div>
                               </div>
                               <div className="table-user-content mt-2 px-5 mb-3">
-                                   <table className="customers table">
-                                        <thead>
+                                   <table class="table table-hover customers">
+                                        <thead className="text-center">
                                              <tr>
-                                                  <th>Zip Code</th>
-                                                  <th>Name</th>
-                                                  <th>Admin ID</th>
-                                                  <th>Address</th>
-                                                  <th>Actions</th>
+                                                  <th scope="col">#</th>
+                                                  <th scope="col">Zip Code</th>
+                                                  <th scope="col">Admin ID</th>
+                                                  <th scope="col">Name</th>
+                                                  <th scope="col">Address</th>
+                                                  <th scope="col">Actions</th>
                                              </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody className="text-center">
                                              {arrCollections &&
                                                   arrCollections.map((item, index) => {
                                                        return (
-                                                            <tr>
-                                                                 <td>{item.zip_code}</td>
-                                                                 <td>{item.name}</td>
-                                                                 <td>{item.admin_id}</td>
-                                                                 <td>{item.address}</td>
-                                                                 <td>
-                                                                      <button
-                                                                           className="btn-edit"
-                                                                           onClick={() =>
-                                                                                this.handleEditCollection(item)
-                                                                           }
-                                                                      >
-                                                                           <i className="fas fa-pencil-alt"></i>
-                                                                      </button>
-                                                                      <button
-                                                                           className="btn-delete"
-                                                                           onClick={() =>
-                                                                                this.handleDeleteCollection(
-                                                                                     item.className,
-                                                                                )
-                                                                           }
-                                                                      >
-                                                                           <i className="fas fa-trash"></i>
-                                                                      </button>
-                                                                 </td>
-                                                            </tr>
+                                                            <>
+                                                                 <tr>
+                                                                      <th scope="row">{index + 1}</th>
+                                                                      <td>{item.username}</td>
+                                                                      <td>{item.phone}</td>
+                                                                      <td>{item.role}</td>
+                                                                      <td>
+                                                                           <button
+                                                                                className="btn-edit"
+                                                                                onClick={() =>
+                                                                                     this.handleEditCollection('item')
+                                                                                }
+                                                                           >
+                                                                                <i className="fas fa-pencil-alt"></i>
+                                                                           </button>
+                                                                           <button
+                                                                                className="btn-delete"
+                                                                                onClick={() =>
+                                                                                     this.handleDeleteUserPending(
+                                                                                          'item.className',
+                                                                                     )
+                                                                                }
+                                                                           >
+                                                                                <i className="fas fa-trash"></i>
+                                                                           </button>
+                                                                      </td>
+                                                                 </tr>
+                                                            </>
                                                        );
                                                   })}
                                         </tbody>

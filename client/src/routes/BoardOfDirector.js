@@ -20,7 +20,7 @@ class BoardOfDirector extends Component {
                     <div className="board-of-director-container">
                          <Header />
                          <div className="system-container">
-                              <div className="system-list">
+                              <div className="system-list container">
                                    <Switch>
                                         <Route exact path="/system/director" component={HomepageDirector} />
                                         <Route
