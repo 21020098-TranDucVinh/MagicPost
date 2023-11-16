@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
       Collection.hasMany(models.Transaction, {
         foreignKey: 'collection_zip_code',
       });
+      Collection.hasMany(models.Staff, {
+        foreignKey: 'collection_zip_code',
+      });
     }
   };
 
@@ -34,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     admin_id: {
       type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: true,
+      allowNull: false,
       references: {
         model: 'admin',
         key: 'id'

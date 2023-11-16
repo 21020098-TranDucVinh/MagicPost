@@ -24,36 +24,39 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       primaryKey: true
     },
+    staff_id: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: true,
+      unique: true
+    },
     username: {
-        type: DataTypes.STRING,
-        allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false
     },
     password: {
-        type: DataTypes.STRING,
-        allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false
     },
     phone: {
-        type: {
-          type: DataTypes.INTEGER.UNSIGNED,
-          allowNull: false
-        }
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false
     },
     collection_zip_code: {
       type: DataTypes.STRING,
       allowNull: true,
       references: {
         model: 'collection',
-        key: 'collection_zip_cde'
+        key: 'zip_code'
       }
     },
     transaction_zip_code: {
-        type: DataTypes.STRING,
-        allowNull: true,
-        references: {
-          model: 'transaction',
-          key: 'transaction_zip_code'
-        }
-      },
+      type: DataTypes.STRING,
+      allowNull: true,
+      references: {
+        model: 'transaction',
+        key: 'zip_code'
+      }
+    },
 
   }, {
     sequelize, // We need to pass the connection instance

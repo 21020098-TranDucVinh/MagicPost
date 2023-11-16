@@ -30,10 +30,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     phone: {
-      type: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        allowNull: false
-      }
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false
     }
   }, {
     sequelize, // We need to pass the connection instance
