@@ -113,6 +113,70 @@ class adminController {
         }
     }
 
+    async updateAdmin(req, res) {
+        try {
+          const id = req.params.id;
+          const { username, password, phone } = req.body;
+          if (!username || !password || !phone) {
+            res.status(400).json({
+              errorCode: 1,
+              message: 'Missing required field(s)'
+            });
+          }
+    
+          await Admin.update({
+            username, password, phone
+          }, {
+            where: { id },
+            returning: true, // to return the object
+            plain: true // return the object itself and not the other messy meta data that might not be useful.
+          }).then((admin) => {
+            console.log(admin);
+            return res.status(201).json({
+              errorCode: 0,
+              admin
+            });
+          }).catch((error) => {
+            console.log(error);
+            // catch error from unique constraint
+            res.status(400).json({
+              errorCode: 1,
+              message: error.errors[0].message
+            });
+          });
+        } catch (error) {
+          console.log(error);
+          res.status(500).json({
+            errorCode: 1,
+            message: 'Something went wrong with server'
+          });
+        }
+      }
+    
+    async deleteAdmin(req, res) {
+        try {
+          const id = req.params.id;
+          const admin = await Admin.destroy({
+            where: { id }
+          });
+          if (admin === 0) {
+            return res.status(404).json({
+              errorCode: 1,
+              message: 'Admin not found with this id'
+            });
+          }
+          res.status(200).json({
+            errorCode: 0,
+            message: 'Delete admin successfully'
+          });
+        } catch (error) {
+          console.log(error);
+          res.status(500).json({
+            errorCode: 1,
+            message: 'Something went wrong with server'
+          });
+        }
+    }
 
 }
 
