@@ -76,13 +76,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     cost: {
-      type: DataTypes.JSON,
+      type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
     },
-    payment_status: {
-      type: DataTypes.ENUM('PAID', 'UNPAID'),
+    r_cod: {
+      type: DataTypes.JSON,
       allowNull: false,
-      defaultValue: 'UNPAID'
+      defaultValue: { cod: 0, bonus: 0 }
     },
     last_shipper_name: {
       type: DataTypes.STRING,

@@ -76,7 +76,8 @@ CREATE TABLE `parcels`(
     `weight` DOUBLE NOT NULL,
     `s_zip_code` VARCHAR(255) NOT NULL,
     `r_zip_code` VARCHAR(255) NULL,
-    `cost`  JSON NOT NULL,
+    `cost`  INT UNSIGNED NOT NULL,  -- 9
+    `r_cod` JSON NOT NULL, -- 11
     `last_shipper_name` VARCHAR(255) NULL,
     `last_shipper_phone` INT UNSIGNED NULL,
     UNIQUE(`parcel_id`)
@@ -130,7 +131,20 @@ BEGIN
     UPDATE admin
     SET role = 'PENDING'
     WHERE id = OLD.admin_id;
+
+    UPDATE admin
+    SET role = 'COLLECTION_ADMIN'
+    WHERE id = NEW.admin_id;
   END IF;
+END$$
+
+CREATE TRIGGER `insert_collection_admin_role`
+AFTER INSERT ON `collection`
+FOR EACH ROW
+BEGIN
+    UPDATE admin
+    SET role = 'COLLECTION_ADMIN'
+    WHERE id = NEW.admin_id;
 END$$
 
 CREATE TRIGGER `update_transaction_admin_role`
@@ -141,7 +155,20 @@ BEGIN
     UPDATE admin
     SET role = 'PENDING'
     WHERE id = OLD.admin_id;
+
+    UPDATE admin
+    SET role = 'TRANSACTION_ADMIN'
+    WHERE id = NEW.admin_id;
   END IF;
+END$$
+
+CREATE TRIGGER `insert_transaction_admin_role`
+AFTER INSERT ON `transaction`
+FOR EACH ROW
+BEGIN
+    UPDATE admin
+    SET role = 'TRANSACTION_ADMIN'
+    WHERE id = NEW.admin_id;
 END$$
 
 CREATE TRIGGER `add_id_staff` BEFORE INSERT ON `staff` FOR EACH ROW
@@ -206,10 +233,12 @@ INSERT INTO `staff` (`username`, `password`, `phone`, `collection_zip_code`) VAL
 INSERT INTO `staff` (`username`, `password`, `phone`, `collection_zip_code`) VALUE ('staff5', 'staff5', 123456789, 'C00002');
 INSERT INTO `staff` (`username`, `password`, `phone`, `collection_zip_code`) VALUE ('staff6', 'staff6', 123456789, 'C00003');
 
-INSERT INTO `parcels` (`s_name`, `s_phone`, `s_address`, `r_name`, `r_phone`, `r_address`, `type`, `weight`, `s_zip_code`, `r_zip_code`, `cost`, `payment_status`) 
-VALUE ('s_name', 123456789, 's_address', 'r_name', 123456789, 'r_address', 'DOCUMENT', 1, 'T00001', 'T00002', 10000, 'PAID');
-INSERT INTO `parcels` (`s_name`, `s_phone`, `s_address`, `r_name`, `r_phone`, `r_address`, `type`, `weight`, `s_zip_code`, `r_zip_code`, `cost`, `payment_status`)
-VALUE ('s_name2', 123456789, 's_address2', 'r_name2', 123456789, 'r_address2', 'DOCUMENT', 1, 'T00002', 'T00003', 10000, 'PAID');
+INSERT INTO `parcels` (`status`, `s_name`, `s_phone`, `s_address`, `r_name`, `r_phone`, `r_address`, `type`, `weight`, `s_zip_code`, `r_zip_code`, `cost`, `r_cod`) 
+VALUE ('PENDING', 's_name', 123456789, '{"address": "s_address"}', 'r_name', 123456789, '{"address": "r_address"}', 'DOCUMENT', 1, 'T00001', 'C00001', 100, '{"cod": 100}');
+INSERT INTO `parcels` (`status`, `s_name`, `s_phone`, `s_address`, `r_name`, `r_phone`, `r_address`, `type`, `weight`, `s_zip_code`, `r_zip_code`, `cost`, `r_cod`)
+VALUE ('PENDING', 's_name2', 123456789, '{"address": "s_address2"}', 'r_name2', 123456789, '{"address": "r_address2"}', 'DOCUMENT', 2, 'T00002', 'C00002', 200, '{"cod": 200}');
+INSERT INTO `parcels` (`status`, `s_name`, `s_phone`, `s_address`, `r_name`, `r_phone`, `r_address`, `type`, `weight`, `s_zip_code`, `r_zip_code`, `cost`, `r_cod`)
+VALUE ('PENDING', 's_name3', 123456789, '{"address": "s_address3"}', 'r_name3', 123456789, '{"address": "r_address3"}', 'DOCUMENT', 3, 'T00003', 'C00003', 300, '{"cod": 300}');
 
 INSERT INTO `track_history` (`s_staff_id`, `s_zip_code`, `r_zip_code`, `parcel_id`, `last_staff_id_update`, `description`)
 VALUE ('T00001S00001', 'T00001', 'C00001', 'P00001', 'T00001S00001', 'Delivering from T00001 to C00001'); 
