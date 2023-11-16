@@ -158,18 +158,10 @@ class parcelsController {
 
   // [POST] /parcels
   async createParcel(req, res) {
-    try {      
-      const transaction_zip_code = req.params.transaction_zip_code
-      const transaction = await Transaction.findOne({
-        where:{
-          zip_code: transaction_zip_code,
-        }
-      });
-      const s_zip_code = transaction.collection_zip_code
-
-      const { status, s_name, s_phone,s_transaction, s_collection, s_address,
-        r_name, r_phone,r_transaction, r_collection, r_address,
-        type, weight, cod_ship, cod_bonus } = req.body;
+    try {
+      const { s_name, s_phone, s_district, s_city, s_address,
+        r_name, r_phone, r_district, r_city, r_address,
+        type, weight, s_zip_code, r_zip_code, cost, cod, bonus } = req.body;
       // if (!s_name || !s_phone || !s_address || !r_name || !r_phone || !r_address ||
       //   !type || !weight || !s_zip_code || !cost || !payment_status) {
       //   res.status(400).json({
@@ -177,33 +169,27 @@ class parcelsController {
       //     message: 'Missing required field(s)'
       //   });
       // }
-      
-      const collection = await Collection.findOne({
-        where:{
-          address: r_collection
-        }
-      });
-      const r_zip_code = collection.zip_code
 
       const parcel = await Parcels.create({
-        status,
-        s_name, s_phone, 
+        s_name, s_phone,
         s_address: {
-          s_transaction: s_transaction,
-          s_collection: s_collection,
+          s_district: s_district,
+          s_city: s_city,
           s_address: s_address
         },
         r_name, r_phone,
         r_address: {
-          r_transaction: r_transaction,
-          r_collection: r_collection,
+          r_district: r_district,
+          r_city: r_city,
           r_address: r_address
         },
-        type, weight, s_zip_code,
-        cost: { cod_ship: cod_ship },
-        r_zip_code
+        type, weight, s_zip_code, r_zip_code, cost,
+        r_cod: {
+          cod: cod,
+          bonus: bonus
+        },
       });
-      
+
       res.status(201).json({
         errorCode: 0,
         parcel
