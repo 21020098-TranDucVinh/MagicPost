@@ -51,6 +51,7 @@ CREATE TABLE `staff`(
     `transaction_zip_code` VARCHAR(255) NULL,
     `collection_zip_code` VARCHAR(255) NULL,
     UNIQUE(`staff_id`),
+    UNIQUE(`username`),
     FOREIGN KEY(`transaction_zip_code`) REFERENCES `transaction`(`zip_code`)
         ON DELETE SET NULL
         ON UPDATE CASCADE,
@@ -83,16 +84,17 @@ CREATE TABLE `parcels`(
     
 CREATE TABLE `track_history`(
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `s_staff_id` VARCHAR(255) NOT NULL DEFAULT '0',
-    `s_zip_code` VARCHAR(255) NOT NULL DEFAULT '0',
+    `s_staff_id` VARCHAR(255) NOT NULL,
+    `s_zip_code` VARCHAR(255) NOT NULL,
     `s_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `r_staff_id` VARCHAR(255) NULL,
     `r_zip_code` VARCHAR(255) NOT NULL,
-    `r_time` TIMESTAMP NULL,
+    `parcel_id` VARCHAR(255) NULL,
+    `status` ENUM('PENDING', 'DELIVERING', 'DELIVERED', 'RETURNED') NOT NULL DEFAULT 'PENDING',
+    `last_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `last_staff_id_update` VARCHAR(255) NOT NULL,
+    `description` TEXT NULL,
     `shipper_name` VARCHAR(255) NULL,
     `shipper_phone` INT UNSIGNED NULL,
-    `parcel_id` VARCHAR(255) NULL,
-    `status` ENUM('PENDING', 'PICK UP', 'DELIVERING', 'DELIVERED') NOT NULL DEFAULT 'PENDING',
     FOREIGN KEY(`parcel_id`) REFERENCES `parcels`(`parcel_id`)
         ON DELETE SET NULL
         ON UPDATE CASCADE
@@ -204,5 +206,14 @@ INSERT INTO `staff` (`username`, `password`, `phone`, `collection_zip_code`) VAL
 INSERT INTO `staff` (`username`, `password`, `phone`, `collection_zip_code`) VALUE ('staff5', 'staff5', 123456789, 'C00002');
 INSERT INTO `staff` (`username`, `password`, `phone`, `collection_zip_code`) VALUE ('staff6', 'staff6', 123456789, 'C00003');
 
+INSERT INTO `parcels` (`s_name`, `s_phone`, `s_address`, `r_name`, `r_phone`, `r_address`, `type`, `weight`, `s_zip_code`, `r_zip_code`, `cost`, `payment_status`) 
+VALUE ('s_name', 123456789, 's_address', 'r_name', 123456789, 'r_address', 'DOCUMENT', 1, 'T00001', 'T00002', 10000, 'PAID');
+INSERT INTO `parcels` (`s_name`, `s_phone`, `s_address`, `r_name`, `r_phone`, `r_address`, `type`, `weight`, `s_zip_code`, `r_zip_code`, `cost`, `payment_status`)
+VALUE ('s_name2', 123456789, 's_address2', 'r_name2', 123456789, 'r_address2', 'DOCUMENT', 1, 'T00002', 'T00003', 10000, 'PAID');
+
+INSERT INTO `track_history` (`s_staff_id`, `s_zip_code`, `r_zip_code`, `parcel_id`, `last_staff_id_update`, `description`)
+VALUE ('T00001S00001', 'T00001', 'C00001', 'P00001', 'T00001S00001', 'Delivering from T00001 to C00001'); 
+INSERT INTO `track_history` (`s_staff_id`, `s_zip_code`, `r_zip_code`, `parcel_id`, `last_staff_id_update`, `description`)
+VALUE ('T00002S00001', 'T00002', 'C00002', 'P00001', 'T00002S00001', 'Delivering from T00002 to C00002');
 
 COMMIT;

@@ -21,38 +21,20 @@ module.exports = (sequelize, DataTypes) => {
     },
     s_staff_id: {
       type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: '0'
+      allowNull: false
     },
     s_zip_code: {
       type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: '0'
+      allowNull: false
     },
     s_time: {
       type: 'TIMESTAMP',
       allowNull: false,
       defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
     },
-    r_staff_id: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
     r_zip_code: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    r_time: {
-      type: 'TIMESTAMP',
-      allowNull: true
-    },
-    shipper_name: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    shipper_phone: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false
     },
     parcels_id: {
       type: DataTypes.STRING,
@@ -63,10 +45,31 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     status: {
-      type: DataTypes.ENUM('PICK UP', 'DELIVERING', 'DELIVERED'),
+      type: DataTypes.ENUM('PENDING', 'DELIVERING', 'DELIVERED'),
       allowNull: false,
-      defaultValue: 'PICK UP'
+      defaultValue: 'PENDING'
     },
+    last_update: {
+      type: 'TIMESTAMP',
+      allowNull: false,
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+    },
+    last_staff_id: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    shipper_name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    shipper_phone: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false
+    }
   }, {
     sequelize, // We need to pass the connection instance
     modelName: 'track_history', // We need to choose the model name
