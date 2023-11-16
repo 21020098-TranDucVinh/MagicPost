@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     s_address: {
-      type: DataTypes.STRING,
+      type: DataTypes.JSON,
       allowNull: false
     },
     s_time: {
@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     r_address: {
-      type: DataTypes.STRING,
+      type: DataTypes.JSON,
       allowNull: false
     },
     r_time: {
@@ -76,7 +76,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     cost: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.JSON,
       allowNull: false
     },
     payment_status: {
