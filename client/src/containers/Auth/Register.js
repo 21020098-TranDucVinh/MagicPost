@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import './Register.scss';
-import { handleRegisterAPI } from '../../services/userService';
+import { handleRegisterAPI } from '../../services/adminService';
 
 class Register extends Component {
      constructor(props) {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 // import * as actions from '../../store/actions';
 import './DefaultClass.scss';
 
-// import { handleDefaultClassAPI } from '../../services/userService';
+// import { handleDefaultClassAPI } from '../../services/adminService';
 
 class DefaultClass extends Component {
      constructor(props) {

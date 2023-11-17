@@ -4,7 +4,7 @@ import './commonSsssModal.scss';
 import { Modal } from 'reactstrap';
 import 'flatpickr/dist/themes/material_green.css';
 import { toast } from 'react-toastify';
-import { handleCreateNewAccountAdmin } from '../../../../services/userService';
+import { handleCreateNewAccountAdmin } from '../../../../services/adminService';
 class AdminModalAddNewUser extends Component {
      constructor(props) {
           super(props);

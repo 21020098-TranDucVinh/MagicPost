@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../AdminManagement.scss';
 import ModalManageTransition from '../AdminModal/ModalManageTransition';
-import { getAllCollections } from '../../.././../services/userService';
+import { getAllCollections } from '../../.././../services/adminService';
 import { toast } from 'react-toastify';
 class ManagementCollection extends Component {
      constructor(props) {
@@ -54,7 +54,7 @@ class ManagementCollection extends Component {
                                    </div>
                               </div>
                               <div className="table-user-content mt-2 px-5 mb-3">
-                                   <table class="table table-hover customers">
+                                   <table className="table table-hover customers">
                                         <thead className="text-center">
                                              <tr>
                                                   <th scope="col">#</th>

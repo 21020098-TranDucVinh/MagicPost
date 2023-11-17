@@ -50,6 +50,14 @@
                          background-color: rgb(50, 103, 123);
                     }
                }
+               .btn-edit-user {
+                    color: white;
+                    min-width: 5rem;
+                    background-color: orange;
+                    &:hover {
+                         background-color: rgb(50, 103, 123);
+                    }
+               }
                .btn-add-new-user-cancel {
                     color: white;
                     background-color: rgb(234, 90, 90);

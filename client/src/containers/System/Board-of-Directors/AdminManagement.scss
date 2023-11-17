@@ -1,15 +1,27 @@
 .admin-container {
      max-width: 1500px !important;
      .title-admin {
-          font-size: 17px;
+          @media (min-width: 1490px) {
+               font-size: 17px;
+          }
+          @media (max-width: 1489px) {
+               font-size: 2vw;
+          }
           font-weight: 600;
           text-transform: uppercase;
      }
      .admin-content {
+          @media (min-width: 1490px) {
+               font-size: 15px;
+          }
+          @media (max-width: 1489px) {
+               font-size: 2vw;
+          }
           border: 1px solid #ddd;
           border-radius: 5px;
           box-shadow: 0 0 20px #333;
           // margin: 40px;
+
           border-collapse: collapse;
           overflow: hidden;
           padding: 10px;
@@ -32,6 +44,9 @@
                border-collapse: collapse;
                overflow: hidden;
                width: 100%;
+               .STT {
+                    padding: 0.3rem;
+               }
                thead {
                     background-color: #333;
                     color: white;
@@ -39,6 +54,10 @@
                th,
                td {
                     border: 1px solid #c9c4c4 !important;
+                    padding: 0.5rem 0;
+               }
+               .break-word {
+                    word-wrap: break-word;
                }
                // tr {
                //      text-align: center;

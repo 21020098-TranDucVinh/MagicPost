@@ -1,5 +1,4 @@
 import axios from '../axios';
-// import axios from 'axios';
 const handleLoginAPI = (userEmail, userPassword) => {
      return axios.post('/api/login', { email: userEmail, password: userPassword });
 };
@@ -12,16 +11,23 @@ const getAllUserPending = () => {
      return axios.get('/adminPending');
 };
 // Delete user Pending
-const DeleteUserPending = () => {
-     return axios.get('/adminPending');
+const deleteUserPending = (id) => {
+     return axios.delete(`/admin/${id}`);
 };
-const handleCreateNewTransition = () => {
-     return axios.post('/transitions');
+const editUserPending = (body) => {
+     return axios.put(`/admin/${body.id}`, body);
 };
+
+// Create new Transition
+const handleCreateNewTransition = (body) => {
+     return axios.post('/transactions', body);
+};
+// get all transitions
 const getAllTransitions = () => {
      return axios.get('/transactions');
 };
 
+// * Collection * //
 const getAllCollections = () => {
      return axios.get('/collections');
 };
@@ -33,6 +39,7 @@ const deleteTransitionById = (id) => {
           },
      });
 };
+
 export {
      handleLoginAPI,
      getAllUserPending,
@@ -41,5 +48,6 @@ export {
      getAllTransitions,
      deleteTransitionById,
      getAllCollections,
-     DeleteUserPending,
+     deleteUserPending,
+     editUserPending,
 };

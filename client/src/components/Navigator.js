@@ -7,10 +7,10 @@ class MenuGroup extends Component {
      render() {
           const { name, children } = this.props;
           return (
-               <li className="menu-group">
+               <div className="menu-group">
                     <div className="menu-group-name">{name}</div>
-                    <ul className="menu-list list-unstyled">{children}</ul>
-               </li>
+                    <div className="menu-list list-unstyled">{children}</div>
+               </div>
           );
      }
 }
@@ -19,10 +19,10 @@ class Menu extends Component {
      render() {
           const { name, active, link, children, onClick, hasSubMenu, onLinkClick } = this.props;
           return (
-               <li className={'menu' + (hasSubMenu ? ' has-sub-menu' : '') + '' + (active ? ' active' : '')}>
+               <div className={'menu' + (hasSubMenu ? ' has-sub-menu' : '') + '' + (active ? ' active' : '')}>
                     {hasSubMenu ? (
                          <>
-                              <span
+                              <div
                                    data-toggle="collapse"
                                    className={'menu-link collapsed'}
                                    onClick={onClick}
@@ -32,9 +32,9 @@ class Menu extends Component {
                                    <div className="icon-right">
                                         <i className={'far fa-angle-right'} />
                                    </div>
-                              </span>
+                              </div>
                               <div>
-                                   <ul className="sub-menu-list list-unstyled">{children}</ul>
+                                   <div className="sub-menu-list list-unstyled">{children}</div>
                               </div>
                          </>
                     ) : (
@@ -42,7 +42,7 @@ class Menu extends Component {
                               {name}
                          </Link>
                     )}
-               </li>
+               </div>
           );
      }
 }
@@ -55,11 +55,11 @@ class SubMenu extends Component {
      render() {
           const { name, link, onLinkClick } = this.props;
           return (
-               <li className={'sub-menu ' + this.getItemClass(link)}>
+               <div className={'sub-menu ' + this.getItemClass(link)}>
                     <Link to={link} className="sub-menu-link" onClick={onLinkClick}>
                          {name}
                     </Link>
-               </li>
+               </div>
           );
      }
 }
@@ -160,7 +160,7 @@ class Navigator extends Component {
           const { menus, location, onLinkClick } = this.props;
           return (
                <>
-                    <ul className="navigator-menu list-unstyled">
+                    <div className="navigator-menu list-unstyled">
                          {menus.map((group, groupIndex) => {
                               return (
                                    <Fragment key={groupIndex}>
@@ -204,7 +204,7 @@ class Navigator extends Component {
                                    </Fragment>
                               );
                          })}
-                    </ul>
+                    </div>
                </>
           );
      }

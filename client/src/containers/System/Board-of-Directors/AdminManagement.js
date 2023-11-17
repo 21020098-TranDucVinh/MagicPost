@@ -2,13 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './AdminManagement.scss';
 import AdminModalAddNewUser from './AdminModal/AdminModalAddNewUser';
-import { getAllUserPending } from '../../.././services/userService';
 import * as actions from '../../../store/actions/index';
+import { deleteUserPending } from '../../../services/adminService';
+import { toast } from 'react-toastify';
+
 class AdminManagement extends Component {
      constructor(props) {
           super(props);
           this.state = {
                isOpenModal: false,
+               isEditUser: false,
+               userEdit: '',
                arrUsersPending: [],
           };
      }
@@ -33,27 +37,44 @@ class AdminManagement extends Component {
                isOpenModal: false,
           });
      };
-     handleEditUser = () => {
-          alert('edit');
+     handleDeleteUserPending = async (id) => {
+          if (id) {
+               let res = await deleteUserPending(id);
+               console.log(res);
+               if (res && res.errorCode === 0) {
+                    toast.success(res.message);
+                    await this.props.getAllUserPending();
+               } else {
+                    toast.error(res.message);
+               }
+          }
      };
-     handleDeleteUser = () => {
-          alert('delete');
+     isOpenModalEditUserPending = (user) => {
+          this.setState({
+               isOpenModal: true,
+               isEditUser: true,
+               userEdit: user,
+          });
      };
-     handleDeleteUserPending = () => {};
      render() {
-          let { arrUsersPending } = this.state;
+          let { arrUsersPending, isEditUser, isOpenModal, userEdit } = this.state;
           // console.log('check user : ', arrUsersPending);
           return (
                <>
                     <div className="admin-container">
-                         <AdminModalAddNewUser isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
+                         <AdminModalAddNewUser
+                              isOpen={this.state.isOpenModal}
+                              isCloseModal={this.isCloseModal}
+                              userEdit={isEditUser ? userEdit : ''}
+                         />
 
                          <div className="title-admin text-center my-4">Create Account</div>
                          <div className="admin-content container">
                               <div className="btn-director-add-new-user-container">
                                    <div className="btn-create-new-user-container">
                                         <button
-                                             className="btn-create-new-user"
+                                             // className="btn-create-new-user"
+                                             className="btn btn-primary"
                                              onClick={() => this.directorDandleCreateNewUser()}
                                         >
                                              <i className="fas fa-plus"></i>
@@ -62,7 +83,7 @@ class AdminManagement extends Component {
                                    </div>
                               </div>
                               <div className="table-user-content mt-2 mb-3 ">
-                                   <table class="table table-hover customers">
+                                   <table className="table table-hover customers">
                                         <thead className="text-center">
                                              <tr>
                                                   <th scope="col">#</th>
@@ -84,16 +105,16 @@ class AdminManagement extends Component {
                                                                  <td>
                                                                       <button
                                                                            className="btn-edit"
-                                                                           onClick={() => this.handleEditUser(item)}
+                                                                           onClick={() =>
+                                                                                this.isOpenModalEditUserPending(item)
+                                                                           }
                                                                       >
                                                                            <i className="fas fa-pencil-alt"></i>
                                                                       </button>
                                                                       <button
                                                                            className="btn-delete"
                                                                            onClick={() =>
-                                                                                this.handleDeleteUserPending(
-                                                                                     item.className,
-                                                                                )
+                                                                                this.handleDeleteUserPending(item.id)
                                                                            }
                                                                       >
                                                                            <i className="fas fa-trash"></i>

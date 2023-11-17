@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../AdminManagement.scss';
 import ModalManageTransition from '../AdminModal/ModalManageTransition';
-import { getAllTransitions, deleteTransitionById } from '../../.././../services/userService';
+import { deleteTransitionById } from '../../.././../services/adminService';
 import { toast } from 'react-toastify';
+import * as actions from '../../../../store/actions/index';
 class ManagementTransition extends Component {
      constructor(props) {
           super(props);
@@ -13,15 +14,21 @@ class ManagementTransition extends Component {
           };
      }
      async componentDidMount() {
-          let res = await getAllTransitions();
-          console.log('check transition :', res);
-          if (res && res.errCode === 0) {
+          this.props.getAllTransitions();
+     }
+     componentDidUpdate(prevProps, prevState, snapshot) {
+          if (prevProps.arrTransitions !== this.props.arrTransitions) {
                this.setState({
-                    arrTransitions: res.data,
+                    arrTransitions: this.props.arrTransitions,
+               });
+          }
+          if (prevProps.arrUsersPending !== this.props.arrUsersPending) {
+               this.setState({
+                    arrUsersPending: this.props.arrUsersPending,
                });
           }
      }
-     directorCreateParcel = () => {
+     isOpenModalCreateTransition = () => {
           this.setState({
                isOpenModal: true,
           });
@@ -47,44 +54,49 @@ class ManagementTransition extends Component {
 
           return (
                <>
-                    <div className="admin-container container">
+                    <div className="admin-container">
                          <ModalManageTransition isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
-                         <div className="title-admin text-center my-4">Management Transition</div>
-                         <div className="admin-content">
+
+                         <div className="title-admin text-center my-4">Create Account</div>
+                         <div className="admin-content container">
                               <div className="btn-director-add-new-user-container">
                                    <div className="btn-create-new-user-container">
                                         <button
-                                             className="btn-create-new-user"
-                                             onClick={() => this.directorCreateParcel()}
+                                             // className="btn-create-new-user"
+                                             className="btn btn-primary"
+                                             onClick={() => this.isOpenModalCreateTransition()}
                                         >
                                              <i className="fas fa-plus"></i>
-                                             <span>Add new transition</span>
+                                             <span>Add New User</span>
                                         </button>
                                    </div>
                               </div>
-                              <div className="table-user-content mt-2 px-5 mb-3 ">
-                                   <table className="customers table">
-                                        <thead>
-                                             {/* status: '', status: '', senderName: '', senderPhone: '', from: '',
-                                             receiverName: '', receiverPhone: '', toAddress: '', type: '',
-                                             senderZipCode: '', receiverZipCode: '', cost: '', */}
+                              <div className="table-user-content mt-2 mb-3 ">
+                                   <table className="table table-hover customers">
+                                        <thead className="text-center">
                                              <tr>
-                                                  <th>Admin ID</th>
+                                                  <th className="STT">#</th>
+                                                  <th>Admin Transaction's Name</th>
+                                                  <th>Zip code</th>
                                                   <th>Name</th>
                                                   <th>Collection zip code</th>
                                                   <th>Address</th>
                                                   <th>Actions</th>
                                              </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody className="text-center">
                                              {arrTransitions &&
                                                   arrTransitions.map((item, index) => {
                                                        return (
                                                             <tr>
-                                                                 <td>{item.zip_code}</td>
-                                                                 <td>{item.name}</td>
-                                                                 <td>{item.collection_zip_code}</td>
-                                                                 <td>{item.address}</td>
+                                                                 <td>{index}</td>
+                                                                 <td className="break-word">{item.admin_id}</td>
+                                                                 <td className="break-word">{item.zip_code}</td>
+                                                                 <td className="break-word">{item.name}</td>
+                                                                 <td className="break-word">
+                                                                      {item.collection_zip_code}
+                                                                 </td>
+                                                                 <td className="break-word">{item.address}</td>
                                                                  <td>
                                                                       <button
                                                                            className="btn-edit"
@@ -118,13 +130,13 @@ class ManagementTransition extends Component {
 
 const mapStateToProps = (state) => {
      return {
-          language: state.app.language,
+          arrTransitions: state.admin.arrTransitions,
      };
 };
 
 const mapDispatchToProps = (dispatch) => {
      return {
-          // userDefaultClassSuccess: (userInfo) => dispatch(actions.userDefaultClassSuccess(userInfo)),
+          getAllTransitions: () => dispatch(actions.getAllTransitionsAction()),
      };
 };
 

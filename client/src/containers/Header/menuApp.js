@@ -23,7 +23,7 @@ export const adminMenu = [
           ],
      },
      {
-          name: 'Statistic',
+          name: 'Statistic parcel',
           menus: [
                {
                     name: 'Statistic',

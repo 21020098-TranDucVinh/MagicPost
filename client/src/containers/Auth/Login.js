@@ -4,7 +4,7 @@ import { push } from 'connected-react-router';
 import * as actions from '../../store/actions';
 import { toast } from 'react-toastify';
 import './Login.scss';
-import { handleLoginAPI } from '../../services/userService';
+import { handleLoginAPI } from '../../services/adminService';
 
 class Login extends Component {
      constructor(props) {

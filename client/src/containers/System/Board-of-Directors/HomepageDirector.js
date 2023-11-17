@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 // import * as actions from '../../store/actions';
 import './HomepageDirector.scss';
 
-// import { handleDefaultClassAPI } from '../../services/userService';
+// import { handleDefaultClassAPI } from '../../services/adminService';
 
 class HomepageDirector extends Component {
      constructor(props) {
