@@ -207,7 +207,7 @@ class AdminModalAddNewUser extends Component {
                               <div className="modal-admin-footer">
                                    <button
                                         // className="btn-add-new-user-confirm btn-edit-user"
-                                        className={isEditUser === true ? 'btn-edit-user' : 'btn-add-new-user-confirm'}
+                                        className={isEditUser === true ? 'btn-editr' : 'btn-add-new-user-confirm'}
                                         onClick={() => this.handleOnClick()}
                                    >
                                         <span>

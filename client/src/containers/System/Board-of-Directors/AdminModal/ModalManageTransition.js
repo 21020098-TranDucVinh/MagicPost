@@ -17,10 +17,12 @@ class ModalManageTransition extends Component {
                address: '',
                arrUsersPending: '',
                arrCollections: [],
-               selectedAdmin: {},
-               selectedCollection: {},
+               selectedAdmin: '',
+               selectedCollection: '',
                optionSelectionAdmins: [],
                optionSelectionCollections: [],
+               transactionEdit: '',
+               isEditTransaction: false,
           };
      }
      async componentDidMount() {
@@ -40,7 +42,32 @@ class ModalManageTransition extends Component {
                     optionSelectionCollections: this.buildOptionSelectCollections(this.props.arrCollections),
                });
           }
+          if (prevProps.transactionEdit !== this.props.transactionEdit) {
+               console.log('tran : ', this.props.transactionEdit);
+               this.setState({
+                    // transactionEdit: this.props.transactionEdit,
+                    isEditTransaction: true,
+                    selectedAdmin: this.buildSelectionAdmin(
+                         this.props.transactionEdit.admin_id,
+                         this.props.arrUsersPending,
+                    ),
+                    selectedCollection: '',
+                    address: this.props.transactionEdit.address,
+                    name: this.props.transactionEdit.name,
+               });
+          }
      }
+     buildSelectionAdmin = (id, users) => {
+          let selectAdmin = {};
+          for (let i = 0; i < users.length; i++) {
+               if (id === users.id) {
+                    selectAdmin.value = users.id;
+                    selectAdmin.label = users.username;
+                    break;
+               }
+          }
+          return selectAdmin;
+     };
      buildOptionSelectAdmin = (admins) => {
           let optionAdmins = '';
           if (admins && admins.length > 0) {
@@ -98,14 +125,18 @@ class ModalManageTransition extends Component {
                collection_zip_code: selectedCollection.value,
                address: address,
           };
-          console.log('check data ; ', data);
           if (checkInputValid) {
-               console.log('OK');
                let res = await handleCreateNewTransition(data);
-               console.log('check res : ', res);
                if (res && res.errorCode === 0) {
                     toast.success(res.msg);
                     this.props.getAllTransitions();
+                    this.props.isCloseModal();
+                    this.setState({
+                         name: '',
+                         address: '',
+                         selectedAdmin: {},
+                         selectedCollection: {},
+                    });
                } else {
                     toast.error(res.msg);
                }
@@ -113,10 +144,18 @@ class ModalManageTransition extends Component {
                toast.error('Please full fill information');
           }
      };
+
      render() {
           let { isOpen, isCloseModal } = this.props;
-          let { selectedAdmin, optionSelectionAdmins, selectedCollection, optionSelectionCollections } = this.state;
-          // console.log('thach pending : ', this.state.arrUsersPending);
+          let {
+               selectedAdmin,
+               optionSelectionAdmins,
+               selectedCollection,
+               optionSelectionCollections,
+               transactionEdit,
+               isEditTransaction,
+          } = this.state;
+
           return (
                <>
                     <Modal className="modal-admin-container" isOpen={isOpen} size="lg" centered>
@@ -133,6 +172,7 @@ class ModalManageTransition extends Component {
                                              <label>Chose admin</label>
                                              <Select
                                                   value={selectedAdmin}
+                                                  placeholder={<div>Your admin</div>}
                                                   onChange={this.handleChangeSelectAmin}
                                                   options={optionSelectionAdmins}
                                              />
@@ -143,10 +183,11 @@ class ModalManageTransition extends Component {
                                                   value={selectedCollection}
                                                   onChange={this.handleChangeSelectCollection}
                                                   options={optionSelectionCollections}
+                                                  placeholder={<div>Your Collection</div>}
                                              />
                                         </div>
                                         <div className="col-6 form-group">
-                                             <label>Name</label>
+                                             <label>The name of the Transaction</label>
                                              <input
                                                   type="text"
                                                   className="form-control"
@@ -156,7 +197,7 @@ class ModalManageTransition extends Component {
                                         </div>
 
                                         <div className="col-6 form-group">
-                                             <label>Address</label>
+                                             <label>The address of the Transaction</label>
                                              <input
                                                   type="text"
                                                   className="form-control"
@@ -168,10 +209,13 @@ class ModalManageTransition extends Component {
                               </div>
                               <div className="modal-admin-footer">
                                    <button
-                                        className="btn-add-new-user-confirm"
+                                        // className="btn-add-new-user-confirm "
+                                        className={
+                                             isEditTransaction === true ? 'btn-edit' : 'btn-add-new-user-confirm '
+                                        }
                                         onClick={() => this.createNewTransition()}
                                    >
-                                        Create
+                                        {isEditTransaction ? 'Save' : 'Create'}
                                    </button>
                                    <button className="btn-add-new-user-cancel" onClick={isCloseModal}>
                                         Cancel

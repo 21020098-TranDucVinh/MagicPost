@@ -33,11 +33,7 @@ const getAllCollections = () => {
 };
 
 const deleteTransitionById = (id) => {
-     return axios.delete('/delete-transaction', {
-          data: {
-               id: id,
-          },
-     });
+     return axios.delete(`/transactions/${id}`);
 };
 
 export {

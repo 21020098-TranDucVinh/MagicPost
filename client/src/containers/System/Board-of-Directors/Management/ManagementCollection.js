@@ -45,7 +45,8 @@ class ManagementCollection extends Component {
                               <div className="btn-director-add-new-user-container">
                                    <div className="btn-create-new-user-container">
                                         <button
-                                             className="btn-create-new-user"
+                                             // className="btn-create-new-user"
+                                             className="btn btn-primary"
                                              onClick={() => this.directorCreateParcel()}
                                         >
                                              <i className="fas fa-plus"></i>
@@ -53,7 +54,7 @@ class ManagementCollection extends Component {
                                         </button>
                                    </div>
                               </div>
-                              <div className="table-user-content mt-2 px-5 mb-3">
+                              <div className="table-user-content mt-2 mb-3">
                                    <table className="table table-hover customers">
                                         <thead className="text-center">
                                              <tr>

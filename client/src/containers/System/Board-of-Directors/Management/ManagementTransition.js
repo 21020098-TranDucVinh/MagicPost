@@ -11,10 +11,12 @@ class ManagementTransition extends Component {
           this.state = {
                isOpenModal: false,
                arrTransitions: [],
+               isEditTransaction: false,
+               transactionEdit: '',
           };
      }
      async componentDidMount() {
-          this.props.getAllTransitions();
+          await this.props.getAllTransitions();
      }
      componentDidUpdate(prevProps, prevState, snapshot) {
           if (prevProps.arrTransitions !== this.props.arrTransitions) {
@@ -43,19 +45,31 @@ class ManagementTransition extends Component {
      };
      handleDeleteTransition = async (id) => {
           let res = await deleteTransitionById(id);
-          if (res && res.errCode === 0) {
+          if (res && res.errorCode === 0) {
+               await this.props.getAllTransitions();
                toast.success('Delete Transition success');
           } else {
                toast.success('Delete Transition failed');
           }
      };
+     isOpenModalEditTransaction = (transaction) => {
+          this.setState({
+               isEditTransaction: true,
+               isOpenModal: true,
+               transactionEdit: transaction,
+          });
+     };
      render() {
-          let { arrTransitions } = this.state;
+          let { arrTransitions, isEditTransaction, transactionEdit } = this.state;
 
           return (
                <>
                     <div className="admin-container">
-                         <ModalManageTransition isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
+                         <ModalManageTransition
+                              isOpen={this.state.isOpenModal}
+                              isCloseModal={this.isCloseModal}
+                              transactionEdit={isEditTransaction ? transactionEdit : ''}
+                         />
 
                          <div className="title-admin text-center my-4">Create Account</div>
                          <div className="admin-content container">
@@ -76,11 +90,11 @@ class ManagementTransition extends Component {
                                         <thead className="text-center">
                                              <tr>
                                                   <th className="STT">#</th>
-                                                  <th>Admin Transaction's Name</th>
                                                   <th>Zip code</th>
                                                   <th>Name</th>
                                                   <th>Collection zip code</th>
                                                   <th>Address</th>
+                                                  <th>Admin's Name</th>
                                                   <th>Actions</th>
                                              </tr>
                                         </thead>
@@ -88,19 +102,22 @@ class ManagementTransition extends Component {
                                              {arrTransitions &&
                                                   arrTransitions.map((item, index) => {
                                                        return (
-                                                            <tr>
-                                                                 <td>{index}</td>
-                                                                 <td className="break-word">{item.admin_id}</td>
+                                                            <tr key={index}>
+                                                                 <td>{index + 1}</td>
+
                                                                  <td className="break-word">{item.zip_code}</td>
                                                                  <td className="break-word">{item.name}</td>
                                                                  <td className="break-word">
                                                                       {item.collection_zip_code}
                                                                  </td>
                                                                  <td className="break-word">{item.address}</td>
+                                                                 <td className="break-word">{item.admin_id}</td>
                                                                  <td>
                                                                       <button
                                                                            className="btn-edit"
-                                                                           onClick={() => this.handleEditUser(item)}
+                                                                           onClick={() =>
+                                                                                this.isOpenModalEditTransaction(item)
+                                                                           }
                                                                       >
                                                                            <i className="fas fa-pencil-alt"></i>
                                                                       </button>
@@ -108,7 +125,7 @@ class ManagementTransition extends Component {
                                                                            className="btn-delete"
                                                                            onClick={() =>
                                                                                 this.handleDeleteTransition(
-                                                                                     item.className,
+                                                                                     item.zip_code,
                                                                                 )
                                                                            }
                                                                       >
