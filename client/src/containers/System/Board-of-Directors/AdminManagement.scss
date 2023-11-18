@@ -1,5 +1,6 @@
 .admin-container {
      max-width: 1500px !important;
+     background-color: white;
      .title-admin {
           @media (min-width: 1490px) {
                font-size: 17px;
@@ -9,6 +10,9 @@
           }
           font-weight: 600;
           text-transform: uppercase;
+          // span {
+          //      box-shadow: 5px 10px 18px #888888;
+          // }
      }
      .admin-content {
           @media (min-width: 1490px) {
@@ -17,6 +21,7 @@
           @media (max-width: 1489px) {
                font-size: 2vw;
           }
+          min-height: 70vh;
           border: 1px solid #ddd;
           border-radius: 5px;
           box-shadow: 0 0 20px #333;

@@ -40,6 +40,7 @@ class AdminModalAddNewUser extends Component {
                });
           }
      }
+     // Handle on change input
      handleOnchangeInput = (event, id) => {
           let copyState = this.state;
           copyState[id] = event.target.value;
@@ -47,27 +48,24 @@ class AdminModalAddNewUser extends Component {
                ...copyState,
           });
      };
-     handleOnchangeSelectRole = (selectedRole) => {
-          this.setState({
-               selectedRole: selectedRole,
-          });
-     };
+     // Check password and re-enter password equals
      checkInputPasswordValid = (password, rePassword) => {
           if (password !== rePassword) {
                return false;
           }
           return true;
      };
+     // Check full fill input
      checkInputValid = () => {
           let data = ['userName', 'phone', 'password'];
           for (let i = 0; i < data.length; i++) {
                if (!this.state[data[i]]) {
                     return false;
-                    break;
                }
           }
           return true;
      };
+     // Create new potential admin
      handleCreatePotentialAdmin = async () => {
           let checkInputValid = this.checkInputValid();
           let checkInputPasswordValid = this.checkInputPasswordValid(this.state.password, this.state.rePassword);
@@ -77,7 +75,6 @@ class AdminModalAddNewUser extends Component {
                phone: this.state.phone,
           };
           if (checkInputValid && checkInputPasswordValid) {
-               // this.props.createNewUser(data);
                let res = await handleCreateNewPotentialAdmin(data);
                if (res && res.errorCode === 0) {
                     this.setState({
@@ -94,7 +91,7 @@ class AdminModalAddNewUser extends Component {
                toast.error('Your input invalid');
           }
      };
-
+     // Update potential admin
      handleUpdatePotentialAdmin = async () => {
           let checkInputValid = this.checkInputValid();
           let checkInputPasswordValid = this.checkInputPasswordValid(this.state.password, this.state.rePassword);
@@ -104,6 +101,8 @@ class AdminModalAddNewUser extends Component {
                password: this.state.password,
                phone: this.state.phone,
           };
+          console.log('check data : ', data);
+          console.log('check valid input ', checkInputValid, checkInputPasswordValid);
           let res = '';
           if (checkInputValid && checkInputPasswordValid) {
                res = await editUserPending(data);
@@ -128,6 +127,7 @@ class AdminModalAddNewUser extends Component {
                this.props.getAllUserPending();
           }
      };
+     // Onclick chose between create or update
      handleOnClick = () => {
           if (this.state.isEditUser) {
                this.handleUpdatePotentialAdmin();
@@ -135,6 +135,7 @@ class AdminModalAddNewUser extends Component {
                this.handleCreatePotentialAdmin();
           }
      };
+     // Close modal
      handleCloseModal = () => {
           this.props.isCloseModal();
           this.setState({
@@ -207,7 +208,7 @@ class AdminModalAddNewUser extends Component {
                               <div className="modal-admin-footer">
                                    <button
                                         // className="btn-add-new-user-confirm btn-edit-user"
-                                        className={isEditUser === true ? 'btn-editr' : 'btn-add-new-user-confirm'}
+                                        className={isEditUser === true ? 'btn-edit' : 'btn-add-new-user-confirm'}
                                         onClick={() => this.handleOnClick()}
                                    >
                                         <span>

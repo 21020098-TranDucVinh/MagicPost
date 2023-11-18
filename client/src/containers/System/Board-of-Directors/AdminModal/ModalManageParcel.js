@@ -31,28 +31,6 @@ class AdminModalAddNewUser extends Component {
                ...copyState,
           });
      };
-
-     // handleCreateNewAccountAdminTransitionOrCollection = async () => {
-     //      let res = '';
-     //      let data = {
-     //           userName: this.state.userName,
-     //           phone: this.state.phone,
-     //           password: this.state.password,
-     //           role: this.state.selectedRole.value,
-     //      };
-     //      let checkPasswordValid = this.checkInputPasswordValid(this.state.password, this.state.rePassword);
-     //      let checkInputValid = this.checkInputValid();
-     //      if (checkPasswordValid && checkInputValid) {
-     //           res = await handleCreateNewAccountAdmin(data);
-     //      } else {
-     //           toast.error('Nhập lại mật khẩu phù hợp');
-     //      }
-     //      if (res && res.errCode === 0) {
-     //           toast.success('Taọ tài khoản thành công');
-     //      } else if (res && res.errCode !== 0) {
-     //           toast.success('Taọ tài khoản thất bại');
-     //      }
-     // };
      adminHandleCreateParcel = () => {
           console.log(this.state);
      };

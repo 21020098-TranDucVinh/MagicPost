@@ -1,13 +1,7 @@
 import actionTypes from './actionTypes';
 import { toast } from 'react-toastify';
-import {
-     getAllUserPending,
-     getAllTransitions,
-     getAllCollections,
-     handleCreateNewPotentialAdmin,
-     editUserPending,
-} from '../../services/adminService';
-
+import { getAllUserPending, getAllTransitions, getAllCollections, editUserPending } from '../../services/adminService';
+// get all user pending
 export const getAllUserPendingAction = () => {
      return async (dispatch, getState) => {
           try {
@@ -20,12 +14,12 @@ export const getAllUserPendingAction = () => {
           }
      };
 };
-
+// get all user pending success
 export const getAllUserPendingActionSuccess = (data) => ({
      type: actionTypes.GET_PENDING_USER_SUCCESS,
      data: data,
 });
-
+//get all transaction
 export const getAllTransitionsAction = () => {
      return async (dispatch, getState) => {
           try {
@@ -41,12 +35,13 @@ export const getAllTransitionsAction = () => {
           }
      };
 };
-
+// get all transaction success
 export const getAllTransitionSuccess = (data) => ({
      type: actionTypes.GET_ALL_TRANSITIONS_SUCCESS,
      data: data,
 });
 
+// get all collection
 export const getAllCollectionsAction = () => {
      return async (dispatch, getState) => {
           try {
@@ -62,19 +57,17 @@ export const getAllCollectionsAction = () => {
           }
      };
 };
-
+// get all collection success
 export const getAllCollectionsSuccess = (data) => ({
      type: actionTypes.GET_ALL_COLLECTIONS_SUCCESS,
      data: data,
 });
-
+// update user pending
 export const updateUserAction = (data) => {
      return async (dispatch, getState) => {
           try {
                let res = await editUserPending(data);
                if (res && res.errorCode === 0) {
-                    // toast.success(res.message);
-                    // // console.log('check res : ', res);
                     dispatch({
                          type: actionTypes.CREATE_UPDATE_USER_PENDING_SUCCESS,
                          data: data,
@@ -88,7 +81,7 @@ export const updateUserAction = (data) => {
           }
      };
 };
-
+// case update user failed
 export const updateUserFailed = () => ({
      type: actionTypes.CREATE_UPDATE_USER_PENDING_FAILED,
 });

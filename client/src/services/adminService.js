@@ -14,6 +14,7 @@ const getAllUserPending = () => {
 const deleteUserPending = (id) => {
      return axios.delete(`/admin/${id}`);
 };
+// edit user pending
 const editUserPending = (body) => {
      return axios.put(`/admin/${body.id}`, body);
 };
@@ -26,14 +27,21 @@ const handleCreateNewTransition = (body) => {
 const getAllTransitions = () => {
      return axios.get('/transactions');
 };
+const deleteTransitionById = (id) => {
+     return axios.delete(`/transactions/${id}`);
+};
 
 // * Collection * //
 const getAllCollections = () => {
      return axios.get('/collections');
 };
-
-const deleteTransitionById = (id) => {
-     return axios.delete(`/transactions/${id}`);
+// create new Collection
+const handleCreateNewCollection = (body) => {
+     return axios.post('/collections', body);
+};
+//delete Collection
+const deleteCollectionById = (zip_code) => {
+     return axios.delete(`/collections/${zip_code}`);
 };
 
 export {
@@ -46,4 +54,6 @@ export {
      getAllCollections,
      deleteUserPending,
      editUserPending,
+     handleCreateNewCollection,
+     deleteCollectionById,
 };

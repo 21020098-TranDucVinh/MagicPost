@@ -71,7 +71,7 @@ class ManagementTransition extends Component {
                               transactionEdit={isEditTransaction ? transactionEdit : ''}
                          />
 
-                         <div className="title-admin text-center my-4">Create Account</div>
+                         <div className="title-admin text-center my-4">Manage Transition</div>
                          <div className="admin-content container">
                               <div className="btn-director-add-new-user-container">
                                    <div className="btn-create-new-user-container">

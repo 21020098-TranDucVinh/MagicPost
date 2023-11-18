@@ -5,7 +5,6 @@ import AdminModalAddNewUser from './AdminModal/AdminModalAddNewUser';
 import * as actions from '../../../store/actions/index';
 import { deleteUserPending } from '../../../services/adminService';
 import { toast } from 'react-toastify';
-
 class AdminManagement extends Component {
      constructor(props) {
           super(props);
@@ -27,16 +26,13 @@ class AdminManagement extends Component {
                });
           }
      }
-     directorDandleCreateNewUser = () => {
-          this.setState({
-               isOpenModal: true,
-          });
-     };
+     // Close modal
      isCloseModal = () => {
           this.setState({
                isOpenModal: false,
           });
      };
+     // Delete admin pending
      handleDeleteUserPending = async (id) => {
           if (id) {
                let res = await deleteUserPending(id);
@@ -49,7 +45,8 @@ class AdminManagement extends Component {
                }
           }
      };
-     isOpenModalEditUserPending = (user) => {
+     // open modal edit admin pending
+     openModalEditUserPending = (user) => {
           this.setState({
                isOpenModal: true,
                isEditUser: true,
@@ -57,8 +54,7 @@ class AdminManagement extends Component {
           });
      };
      render() {
-          let { arrUsersPending, isEditUser, isOpenModal, userEdit } = this.state;
-          // console.log('check user : ', arrUsersPending);
+          let { arrUsersPending, isEditUser, userEdit } = this.state;
           return (
                <>
                     <div className="admin-container">
@@ -68,7 +64,9 @@ class AdminManagement extends Component {
                               userEdit={isEditUser ? userEdit : ''}
                          />
 
-                         <div className="title-admin text-center my-4">Create Account</div>
+                         <div className="title-admin text-center my-4">
+                              <span>Create Account</span>
+                         </div>
                          <div className="admin-content container">
                               <div className="btn-director-add-new-user-container">
                                    <div className="btn-create-new-user-container">
@@ -106,7 +104,7 @@ class AdminManagement extends Component {
                                                                       <button
                                                                            className="btn-edit"
                                                                            onClick={() =>
-                                                                                this.isOpenModalEditUserPending(item)
+                                                                                this.openModalEditUserPending(item)
                                                                            }
                                                                       >
                                                                            <i className="fas fa-pencil-alt"></i>

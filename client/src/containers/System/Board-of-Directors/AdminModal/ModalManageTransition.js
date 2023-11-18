@@ -15,13 +15,11 @@ class ModalManageTransition extends Component {
                name: '',
                collection_zip_code: '',
                address: '',
-               arrUsersPending: '',
                arrCollections: [],
                selectedAdmin: '',
                selectedCollection: '',
                optionSelectionAdmins: [],
                optionSelectionCollections: [],
-               transactionEdit: '',
                isEditTransaction: false,
           };
      }
@@ -57,6 +55,7 @@ class ModalManageTransition extends Component {
                });
           }
      }
+     // build to setState for selectedAdmin
      buildSelectionAdmin = (id, users) => {
           let selectAdmin = {};
           for (let i = 0; i < users.length; i++) {
@@ -68,6 +67,7 @@ class ModalManageTransition extends Component {
           }
           return selectAdmin;
      };
+     // build options select admin
      buildOptionSelectAdmin = (admins) => {
           let optionAdmins = '';
           if (admins && admins.length > 0) {
@@ -81,6 +81,7 @@ class ModalManageTransition extends Component {
 
           return optionAdmins;
      };
+     //build option select collection
      buildOptionSelectCollections = (collections) => {
           let optionCollections = '';
           if (collections && collections.length > 0) {
@@ -93,13 +94,15 @@ class ModalManageTransition extends Component {
           }
           return optionCollections;
      };
+     // On change select admin
      handleChangeSelectAmin = (selectedAdmin) => {
           this.setState({ selectedAdmin });
      };
-
+     // onchange selection collection
      handleChangeSelectCollection = (selectedCollection) => {
           this.setState({ selectedCollection: selectedCollection });
      };
+     // on change input
      handleOnchangeInput = (event, id) => {
           let copyState = this.state;
           copyState[id] = event.target.value;
@@ -107,6 +110,7 @@ class ModalManageTransition extends Component {
                ...copyState,
           });
      };
+     // check password equal re-enter password ?
      checkInputValid = () => {
           let input = ['name', 'selectedCollection', 'selectedAdmin', 'address'];
           for (let i = 0; i < input.length; i++) {
@@ -116,6 +120,7 @@ class ModalManageTransition extends Component {
           }
           return true;
      };
+     // create new transition
      createNewTransition = async () => {
           let { selectedAdmin, name, address, selectedCollection } = this.state;
           let checkInputValid = this.checkInputValid();
@@ -152,7 +157,6 @@ class ModalManageTransition extends Component {
                optionSelectionAdmins,
                selectedCollection,
                optionSelectionCollections,
-               transactionEdit,
                isEditTransaction,
           } = this.state;
 
@@ -230,7 +234,6 @@ class ModalManageTransition extends Component {
 
 const mapStateToProps = (state) => {
      return {
-          language: state.app.language,
           arrUsersPending: state.admin.arrUsersPending,
           arrCollections: state.admin.arrCollections,
      };
