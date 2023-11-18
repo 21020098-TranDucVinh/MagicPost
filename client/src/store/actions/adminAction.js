@@ -1,6 +1,5 @@
 import actionTypes from './actionTypes';
-import { toast } from 'react-toastify';
-import { getAllUserPending, getAllTransitions, getAllCollections, editUserPending } from '../../services/adminService';
+import { getAllUserPending, getAllTransactions, getAllCollections, editUserPending } from '../../services/adminService';
 // get all user pending
 export const getAllUserPendingAction = () => {
      return async (dispatch, getState) => {
@@ -20,24 +19,24 @@ export const getAllUserPendingActionSuccess = (data) => ({
      data: data,
 });
 //get all transaction
-export const getAllTransitionsAction = () => {
+export const getAllTransactionsAction = () => {
      return async (dispatch, getState) => {
           try {
-               let res = await getAllTransitions();
+               let res = await getAllTransactions();
                if (res && res.errorCode === 0) {
-                    dispatch(getAllTransitionSuccess(res.transactions));
+                    dispatch(getAllTransactionSuccess(res.transactions));
                }
           } catch (e) {
-               console.log('get all transitions success', e);
+               console.log('get all transactions success', e);
                dispatch({
-                    type: actionTypes.GET_ALL_TRANSITIONS_FAILED,
+                    type: actionTypes.GET_ALL_TRANSACTIONS_FAILED,
                });
           }
      };
 };
 // get all transaction success
-export const getAllTransitionSuccess = (data) => ({
-     type: actionTypes.GET_ALL_TRANSITIONS_SUCCESS,
+export const getAllTransactionSuccess = (data) => ({
+     type: actionTypes.GET_ALL_TRANSACTIONS_SUCCESS,
      data: data,
 });
 

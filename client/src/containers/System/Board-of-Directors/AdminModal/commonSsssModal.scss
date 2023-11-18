@@ -6,16 +6,18 @@
           .modal-admin-header {
                padding: 10px;
                border-bottom: #ddd;
-               background-color: #ddd;
+               background-color: #333;
                .left {
                     font-size: 15px;
                     font-weight: 600;
-                    color: #333;
+                    color: white;
                }
                .right {
                     float: right;
+
                     cursor: pointer;
                     i {
+                         color: white;
                          &:hover {
                               color: #6e6565;
                          }
@@ -42,13 +44,16 @@
                     margin: 8px 0;
                     cursor: pointer;
                }
-               .btn-add-new-user-confirm {
-                    color: white;
-                    min-width: 5rem;
+               // .btn-add-new-user-confirm {
+               //      color: white;
+               //      min-width: 5rem;
+               //      background-color: #0062a1;
+               //      &:hover {
+               //           background-color: rgb(50, 103, 123);
+               //      }
+               // }
+               .btn-primary {
                     background-color: #0062a1;
-                    &:hover {
-                         background-color: rgb(50, 103, 123);
-                    }
                }
                .btn-edit {
                     color: white;
@@ -58,15 +63,18 @@
                          background-color: rgb(50, 103, 123);
                     }
                }
-               .btn-add-new-user-cancel {
-                    color: white;
-                    background-color: rgb(234, 90, 90);
-                    min-width: 5rem;
-                    margin-right: 8px;
-                    &:hover {
-                         background-color: rgb(60, 33, 148);
-                         color: white;
-                    }
+               // .btn-add-new-user-cancel {
+               //      color: white;
+               //      background-color: rgb(234, 90, 90);
+               //      min-width: 5rem;
+               //      margin-right: 8px;
+               //      &:hover {
+               //           background-color: rgb(60, 33, 148);
+               //           color: white;
+               //      }
+               // }
+               .btn-danger {
+                    margin-right: 10px;
                }
           }
      }

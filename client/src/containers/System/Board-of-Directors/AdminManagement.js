@@ -53,6 +53,11 @@ class AdminManagement extends Component {
                userEdit: user,
           });
      };
+     OpenModalCrateNewAdminPending = () => {
+          this.setState({
+               isOpenModal: true,
+          });
+     };
      render() {
           let { arrUsersPending, isEditUser, userEdit } = this.state;
           return (
@@ -73,7 +78,7 @@ class AdminManagement extends Component {
                                         <button
                                              // className="btn-create-new-user"
                                              className="btn btn-primary"
-                                             onClick={() => this.directorDandleCreateNewUser()}
+                                             onClick={() => this.OpenModalCrateNewAdminPending()}
                                         >
                                              <i className="fas fa-plus"></i>
                                              <span>Add New User</span>

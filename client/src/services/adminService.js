@@ -19,15 +19,15 @@ const editUserPending = (body) => {
      return axios.put(`/admin/${body.id}`, body);
 };
 
-// Create new Transition
-const handleCreateNewTransition = (body) => {
+// Create new Transaction
+const handleCreateNewTransaction = (body) => {
      return axios.post('/transactions', body);
 };
-// get all transitions
-const getAllTransitions = () => {
+// get all transactions
+const getAllTransactions = () => {
      return axios.get('/transactions');
 };
-const deleteTransitionById = (id) => {
+const deleteTransactionById = (id) => {
      return axios.delete(`/transactions/${id}`);
 };
 
@@ -48,9 +48,9 @@ export {
      handleLoginAPI,
      getAllUserPending,
      handleCreateNewPotentialAdmin,
-     handleCreateNewTransition,
-     getAllTransitions,
-     deleteTransitionById,
+     handleCreateNewTransaction,
+     getAllTransactions,
+     deleteTransactionById,
      getAllCollections,
      deleteUserPending,
      editUserPending,

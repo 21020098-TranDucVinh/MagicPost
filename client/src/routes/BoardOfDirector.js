@@ -6,7 +6,7 @@ import AdminManagement from '../containers/System/Board-of-Directors/AdminManage
 import HomepageDirector from '../containers/System/Board-of-Directors/HomepageDirector';
 import ManageParcel from '../containers/System/Board-of-Directors/Management/ManageParcel';
 import './BoardOfDirector.scss';
-import ManagementTransition from '../containers/System/Board-of-Directors/Management/ManagementTransition';
+import ManageTransaction from '../containers/System/Board-of-Directors/Management/ManageTransaction';
 import ManagementCollection from '../containers/System/Board-of-Directors/Management/ManagementCollection';
 import HomeFooter from '../containers/HomePage/HomeFooter';
 
@@ -25,7 +25,7 @@ class BoardOfDirector extends Component {
                                         <Route exact path="/system/director" component={HomepageDirector} />
                                         <Route
                                              exact
-                                             path="/system/director/create/account/admin-transition-or-collection"
+                                             path="/system/director/create/account/admin-transaction-or-collection"
                                              component={AdminManagement}
                                         />
                                         <Route
@@ -35,8 +35,8 @@ class BoardOfDirector extends Component {
                                         />
                                         <Route
                                              exact
-                                             path="/system/admin/management-transition"
-                                             component={ManagementTransition}
+                                             path="/system/admin/management-transaction"
+                                             component={ManageTransaction}
                                         />
                                         <Route
                                              exact

@@ -21,6 +21,7 @@ class AdminModalAddNewUser extends Component {
                senderZipCode: '',
                receiverZipCode: '',
                cost: '',
+               isEditParcel: false,
           };
      }
      componentDidMount() {}
@@ -36,6 +37,7 @@ class AdminModalAddNewUser extends Component {
      };
      render() {
           let { isOpen, isCloseModal } = this.props;
+          let { isEditParcel } = this.state;
           return (
                <>
                     <Modal className="modal-admin-container" isOpen={isOpen} size="lg" centered>
@@ -164,12 +166,12 @@ class AdminModalAddNewUser extends Component {
                               </div>
                               <div className="modal-admin-footer">
                                    <button
-                                        className="btn-add-new-user-confirm"
+                                        className={isEditParcel === true ? 'btn btn-warning' : 'btn btn-primary'}
                                         onClick={() => this.adminHandleCreateParcel()}
                                    >
                                         Create
                                    </button>
-                                   <button className="btn-add-new-user-cancel" onClick={isCloseModal}>
+                                   <button className="btn btn-danger" onClick={isCloseModal}>
                                         Cancel
                                    </button>
                               </div>

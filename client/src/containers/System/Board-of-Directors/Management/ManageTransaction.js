@@ -1,27 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../AdminManagement.scss';
-import ModalManageTransition from '../AdminModal/ModalManageTransition';
-import { deleteTransitionById } from '../../.././../services/adminService';
+import ModalManageTransaction from '../AdminModal/ModalManageTransaction';
+import { deleteTransactionById } from '../../../../services/adminService';
 import { toast } from 'react-toastify';
 import * as actions from '../../../../store/actions/index';
-class ManagementTransition extends Component {
+class ManageTransaction extends Component {
      constructor(props) {
           super(props);
           this.state = {
                isOpenModal: false,
-               arrTransitions: [],
+               arrTransactions: [],
                isEditTransaction: false,
                transactionEdit: '',
           };
      }
      async componentDidMount() {
-          await this.props.getAllTransitions();
+          let res = await this.props.getAllTransactions();
+          console.log('check res : ', res);
      }
      componentDidUpdate(prevProps, prevState, snapshot) {
-          if (prevProps.arrTransitions !== this.props.arrTransitions) {
+          console.log('check props tran : ', this.props.arrTransactions);
+          if (prevProps.arrTransactions !== this.props.arrTransactions) {
                this.setState({
-                    arrTransitions: this.props.arrTransitions,
+                    arrTransactions: this.props.arrTransactions,
                });
           }
           if (prevProps.arrUsersPending !== this.props.arrUsersPending) {
@@ -30,7 +32,7 @@ class ManagementTransition extends Component {
                });
           }
      }
-     isOpenModalCreateTransition = () => {
+     isOpenModalCreateTransaction = () => {
           this.setState({
                isOpenModal: true,
           });
@@ -43,13 +45,13 @@ class ManagementTransition extends Component {
      handleEditUser = () => {
           alert('edit');
      };
-     handleDeleteTransition = async (id) => {
-          let res = await deleteTransitionById(id);
+     handleDeleteTransaction = async (id) => {
+          let res = await deleteTransactionById(id);
           if (res && res.errorCode === 0) {
-               await this.props.getAllTransitions();
-               toast.success('Delete Transition success');
+               await this.props.getAllTransactions();
+               toast.success('Delete Transaction success');
           } else {
-               toast.success('Delete Transition failed');
+               toast.success('Delete Transaction failed');
           }
      };
      isOpenModalEditTransaction = (transaction) => {
@@ -60,25 +62,25 @@ class ManagementTransition extends Component {
           });
      };
      render() {
-          let { arrTransitions, isEditTransaction, transactionEdit } = this.state;
-
+          let { arrTransactions, isEditTransaction, transactionEdit } = this.state;
+          console.log('check transaction : ', arrTransactions);
           return (
                <>
                     <div className="admin-container">
-                         <ModalManageTransition
+                         <ModalManageTransaction
                               isOpen={this.state.isOpenModal}
                               isCloseModal={this.isCloseModal}
                               transactionEdit={isEditTransaction ? transactionEdit : ''}
                          />
 
-                         <div className="title-admin text-center my-4">Manage Transition</div>
+                         <div className="title-admin text-center my-4">Manage Transaction</div>
                          <div className="admin-content container">
                               <div className="btn-director-add-new-user-container">
                                    <div className="btn-create-new-user-container">
                                         <button
                                              // className="btn-create-new-user"
                                              className="btn btn-primary"
-                                             onClick={() => this.isOpenModalCreateTransition()}
+                                             onClick={() => this.isOpenModalCreateTransaction()}
                                         >
                                              <i className="fas fa-plus"></i>
                                              <span>Add New User</span>
@@ -99,8 +101,8 @@ class ManagementTransition extends Component {
                                              </tr>
                                         </thead>
                                         <tbody className="text-center">
-                                             {arrTransitions &&
-                                                  arrTransitions.map((item, index) => {
+                                             {arrTransactions &&
+                                                  arrTransactions.map((item, index) => {
                                                        return (
                                                             <tr key={index}>
                                                                  <td>{index + 1}</td>
@@ -124,7 +126,7 @@ class ManagementTransition extends Component {
                                                                       <button
                                                                            className="btn-delete"
                                                                            onClick={() =>
-                                                                                this.handleDeleteTransition(
+                                                                                this.handleDeleteTransaction(
                                                                                      item.zip_code,
                                                                                 )
                                                                            }
@@ -147,14 +149,14 @@ class ManagementTransition extends Component {
 
 const mapStateToProps = (state) => {
      return {
-          arrTransitions: state.admin.arrTransitions,
+          arrTransactions: state.admin.arrTransactions,
      };
 };
 
 const mapDispatchToProps = (dispatch) => {
      return {
-          getAllTransitions: () => dispatch(actions.getAllTransitionsAction()),
+          getAllTransactions: () => dispatch(actions.getAllTransactionsAction()),
      };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManagementTransition);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageTransaction);

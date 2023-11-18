@@ -2,7 +2,7 @@ import actionTypes from '../actions/actionTypes';
 
 const initialState = {
      arrUsersPending: [],
-     arrTransitions: [],
+     arrTransactions: [],
      arrCollections: [],
      resCreateUser: '',
      isEditUserSuccess: false,
@@ -22,14 +22,14 @@ const adminReducer = (state = initialState, action) => {
                     ...state,
                     started: true,
                };
-          case actionTypes.GET_ALL_TRANSITIONS_SUCCESS:
-               state.arrTransitions = action.data;
+          case actionTypes.GET_ALL_TRANSACTIONS_SUCCESS:
+               state.arrTransactions = action.data;
                return {
                     ...state,
                     started: true,
                };
-          case actionTypes.GET_ALL_TRANSITIONS_FAILED:
-               state.arrTransitions = [];
+          case actionTypes.GET_ALL_TRANSACTIONS_FAILED:
+               state.arrTransactions = [];
                return {
                     ...state,
                     started: true,

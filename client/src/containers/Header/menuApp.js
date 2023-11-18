@@ -5,20 +5,20 @@ export const adminMenu = [
           menus: [
                {
                     name: 'Create Account',
-                    link: '/system/director/create/account/admin-transition-or-collection',
+                    link: '/system/director/create/account/admin-transaction-or-collection',
                },
           ],
      },
      {
-          name: 'Manage Collection & Transition',
+          name: 'Manage Collection & Transaction',
           menus: [
                {
                     name: 'Manage Collection',
                     link: '/system/admin/management-collection',
                },
                {
-                    name: 'Manage Transition',
-                    link: '/system/admin/management-transition',
+                    name: 'Manage Transaction',
+                    link: '/system/admin/management-transaction',
                },
           ],
      },

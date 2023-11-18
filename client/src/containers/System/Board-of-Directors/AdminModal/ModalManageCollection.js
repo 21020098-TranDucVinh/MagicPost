@@ -15,6 +15,7 @@ class ModalManageCollection extends Component {
                address: '',
                selectedAdmin: '',
                optionSelectionAdmins: [],
+               isEditTransaction: false,
           };
      }
      async componentDidMount() {
@@ -100,7 +101,7 @@ class ModalManageCollection extends Component {
 
      render() {
           let { isOpen, isCloseModal } = this.props;
-          let { selectedAdmin, optionSelectionAdmins } = this.state;
+          let { selectedAdmin, optionSelectionAdmins, isEditTransaction } = this.state;
 
           return (
                <>
@@ -147,16 +148,13 @@ class ModalManageCollection extends Component {
                               </div>
                               <div className="modal-admin-footer">
                                    <button
-                                        className="btn-add-new-user-confirm "
-                                        // className={
-                                        //      isEditTransaction === true ? 'btn-edit' : 'btn-add-new-user-confirm '
-                                        // }
+                                        className={isEditTransaction === true ? 'btn btn-warning' : 'btn btn-primary '}
                                         onClick={() => this.createNewCollection()}
                                    >
                                         {/* {isEditTransaction ? 'Save' : 'Create'} */}
                                         create
                                    </button>
-                                   <button className="btn-add-new-user-cancel" onClick={isCloseModal}>
+                                   <button className="btn-danger" onClick={isCloseModal}>
                                         Cancel
                                    </button>
                               </div>

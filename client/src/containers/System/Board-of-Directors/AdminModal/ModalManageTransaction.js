@@ -6,9 +6,9 @@ import 'flatpickr/dist/themes/material_green.css';
 import { toast } from 'react-toastify';
 import * as actions from '../../../../store/actions/index';
 import Select from 'react-select';
-import { handleCreateNewTransition } from '../../../../services/adminService';
+import { handleCreateNewTransaction } from '../../../../services/adminService';
 
-class ModalManageTransition extends Component {
+class ModalManageTransaction extends Component {
      constructor(props) {
           super(props);
           this.state = {
@@ -120,8 +120,8 @@ class ModalManageTransition extends Component {
           }
           return true;
      };
-     // create new transition
-     createNewTransition = async () => {
+     // create new transaction
+     createNewTransaction = async () => {
           let { selectedAdmin, name, address, selectedCollection } = this.state;
           let checkInputValid = this.checkInputValid();
           let data = {
@@ -131,10 +131,10 @@ class ModalManageTransition extends Component {
                address: address,
           };
           if (checkInputValid) {
-               let res = await handleCreateNewTransition(data);
+               let res = await handleCreateNewTransaction(data);
                if (res && res.errorCode === 0) {
                     toast.success(res.msg);
-                    this.props.getAllTransitions();
+                    this.props.getAllTransactions();
                     this.props.isCloseModal();
                     this.setState({
                          name: '',
@@ -165,7 +165,7 @@ class ModalManageTransition extends Component {
                     <Modal className="modal-admin-container" isOpen={isOpen} size="lg" centered>
                          <div className="modal-admin-content">
                               <div className="modal-admin-header">
-                                   <span className="left">Add new transition</span>
+                                   <span className="left">Add new transaction</span>
                                    <span className="right" onClick={isCloseModal}>
                                         <i className="fa fa-times"></i>
                                    </span>
@@ -214,14 +214,12 @@ class ModalManageTransition extends Component {
                               <div className="modal-admin-footer">
                                    <button
                                         // className="btn-add-new-user-confirm "
-                                        className={
-                                             isEditTransaction === true ? 'btn-edit' : 'btn-add-new-user-confirm '
-                                        }
-                                        onClick={() => this.createNewTransition()}
+                                        className={isEditTransaction === true ? 'btn btn-warning' : 'btn btn-primary'}
+                                        onClick={() => this.createNewTransaction()}
                                    >
                                         {isEditTransaction ? 'Save' : 'Create'}
                                    </button>
-                                   <button className="btn-add-new-user-cancel" onClick={isCloseModal}>
+                                   <button className="btn-danger" onClick={isCloseModal}>
                                         Cancel
                                    </button>
                               </div>
@@ -242,9 +240,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
      return {
           getAllUserPending: () => dispatch(actions.getAllUserPendingAction()),
-          getAllTransitions: () => dispatch(actions.getAllTransitionsAction()),
+          getAllTransactions: () => dispatch(actions.getAllTransactionsAction()),
           getAllCollections: () => dispatch(actions.getAllCollectionsAction()),
      };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalManageTransition);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalManageTransaction);
