@@ -1,0 +1,41 @@
+// .section-home-footer {
+//      position: sticky;
+//      bottom: 0;
+//      background-color: #ddd;
+//      // display: flex;
+//      // flex-direction: column;
+//      // justify-content: center; /* Căn giữa theo chiều ngang */
+//      // align-items: center; /* Căn giữa theo chiều dọc */
+//      height: 100px;
+//      .icon-footer {
+//           display: flex;
+//           gap: 2rem;
+//      }
+// }
+.section-home-footer-container {
+     // height: 100px;
+     border-top: 1px solid #b4a7a7;
+     height: 6rem;
+     // background-color: #ddd;
+     background-image: url('../../../src/assets/images/—Pngtree—purple\ abstract\ paper\ cut\ background_1159903\ \(1\).png');
+     background-size: cover;
+     background-repeat: no-repeat;
+     background-position: center;
+     color: white;
+     .section-home-footer {
+          height: 100%;
+          // .icon-footer {
+          //      height: 50%;
+          //      display: flex;
+          //      justify-content: center; /* Căn giữa theo chiều ngang */
+          //      align-items: center; /* Căn giữa theo chiều dọc */
+          //      gap: 1rem;
+          // }
+          .copyright-content {
+               height: 100%;
+               display: flex;
+               justify-content: center; /* Căn giữa theo chiều ngang */
+               align-items: center; /* Căn giữa theo chiều dọc */
+          }
+     }
+}

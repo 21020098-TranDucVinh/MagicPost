@@ -1,0 +1,97 @@
+.admin-container {
+     max-width: 1500px !important;
+     background-color: white;
+     .title-admin {
+          @media (min-width: 1490px) {
+               font-size: 17px;
+          }
+          @media (max-width: 1489px) {
+               font-size: 2vw;
+          }
+          font-weight: 600;
+          text-transform: uppercase;
+          // span {
+          //      box-shadow: 5px 10px 18px #888888;
+          // }
+     }
+     .admin-content {
+          @media (min-width: 1490px) {
+               font-size: 15px;
+          }
+          @media (max-width: 1489px) {
+               font-size: 2vw;
+          }
+          min-height: 70vh;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          box-shadow: 0 0 20px #333;
+          // margin: 40px;
+
+          border-collapse: collapse;
+          overflow: hidden;
+          padding: 10px;
+          .btn-director-add-new-user-container {
+               // .btn-create-new-user {
+               //      padding: 7px 10px;
+               //      border: none;
+               //      color: white;
+               //      background-color: #0062a1;
+               //      min-width: 115px;
+               //      border-radius: 2px;
+               //      // margin-left: 3rem;
+               //      &:hover {
+               //           background-color: #3e6185;
+               //      }
+               // }
+               .btn-primary {
+                    background-color: #0062a1;
+               }
+          }
+          .customers {
+               font-family: Arial, Helvetica, sans-serif;
+               border-collapse: collapse;
+               overflow: hidden;
+               width: 100%;
+               .STT {
+                    padding: 0.3rem;
+               }
+               thead {
+                    background-color: #333;
+                    color: white;
+               }
+               th,
+               td {
+                    border: 1px solid #c9c4c4 !important;
+                    padding: 0.5rem 0;
+               }
+               .break-word {
+                    word-wrap: break-word;
+               }
+
+               .btn-edit {
+                    width: 50px;
+                    border: none;
+                    outline: none;
+                    background: transparent;
+                    color: orange;
+
+                    &:hover {
+                         background-color: transparent !important;
+                         color: orange !important;
+                    }
+               }
+               .btn-delete {
+                    width: 50px;
+                    border: none;
+                    outline: none;
+                    background: transparent;
+                    color: rgb(222, 11, 11);
+
+                    &:hover {
+                         background-color: transparent !important;
+                         color: rgb(222, 11, 11) !important;
+                    }
+               }
+          }
+     }
+}
