@@ -12,15 +12,15 @@ class ModalManageTransaction extends Component {
      constructor(props) {
           super(props);
           this.state = {
+               selectedAdmin: '',
+               selectedCollection: '',
                name: '',
                collection_zip_code: '',
                address: '',
                arrCollections: [],
-               selectedAdmin: '',
-               selectedCollection: '',
                optionSelectionAdmins: [],
                optionSelectionCollections: [],
-               // isEditTransaction: false,
+
                transaction_zip_code: '',
           };
      }
@@ -46,7 +46,7 @@ class ModalManageTransaction extends Component {
           if (prevProps.dataEditTransaction !== this.props.dataEditTransaction) {
                this.setState({
                     // isEditTransaction: true,
-                    transaction_zip_code: this.props.zip_code,
+                    transaction_zip_code: this.props.dataEditTransaction.zip_code,
                     selectedAdmin: this.buildSelectionAdmin(
                          this.props.dataEditTransaction.admin_id,
                          this.props.arrAllAdminTransaction,
@@ -163,10 +163,10 @@ class ModalManageTransaction extends Component {
                     toast.error(res.msg);
                }
           } else {
-               toast.error('Please full fill information');
+               toast.error('Please full fill information!');
           }
      };
-     // edit transaction
+     // Edit transaction
      handleEditTransaction = async () => {
           let { selectedAdmin, name, address, selectedCollection, transaction_zip_code } = this.state;
           let checkInputValid = this.checkInputValid();
@@ -184,6 +184,10 @@ class ModalManageTransaction extends Component {
                     toast.success('Update transaction success!');
                     this.props.getAllTransactions();
                     this.props.isCloseModal();
+                    this.props.getAllUserPending();
+                    this.props.getAllAdminCollections();
+                    this.props.getAllAdminTransactions();
+                    this.props.getAllCollections();
                     this.setState({
                          name: '',
                          address: '',
@@ -211,9 +215,10 @@ class ModalManageTransaction extends Component {
      };
      render() {
           let { isOpen, isEditTransaction } = this.props;
-          console.log('is edit transaction :', isEditTransaction);
-          let { selectedAdmin, optionSelectionAdmins, selectedCollection, optionSelectionCollections } = this.state;
 
+          let { selectedAdmin, optionSelectionAdmins, selectedCollection, optionSelectionCollections } = this.state;
+          console.log('check selectAdmin', selectedAdmin);
+          console.log('check selectCollection : ', selectedCollection);
           return (
                <>
                     <Modal className="modal-admin-container" isOpen={isOpen} size="lg" centered>
@@ -227,10 +232,10 @@ class ModalManageTransaction extends Component {
                               <div className="modal-admin-body">
                                    <div className="row">
                                         <div className="col-6 form-group">
-                                             <label>Chose admin</label>
+                                             <label>Chose Manager</label>
                                              <Select
                                                   value={selectedAdmin}
-                                                  placeholder={<div>Your admin</div>}
+                                                  placeholder={<div>Your Manager</div>}
                                                   onChange={this.handleChangeSelectAmin}
                                                   options={optionSelectionAdmins}
                                              />
@@ -251,6 +256,7 @@ class ModalManageTransaction extends Component {
                                                   className="form-control"
                                                   value={this.state.name}
                                                   onChange={(event) => this.handleOnchangeInput(event, 'name')}
+                                                  placeholder="Name of Transaction"
                                              ></input>
                                         </div>
 
@@ -261,6 +267,7 @@ class ModalManageTransaction extends Component {
                                                   className="form-control"
                                                   value={this.state.address}
                                                   onChange={(event) => this.handleOnchangeInput(event, 'address')}
+                                                  placeholder="Address of transaction"
                                              ></input>
                                         </div>
                                    </div>

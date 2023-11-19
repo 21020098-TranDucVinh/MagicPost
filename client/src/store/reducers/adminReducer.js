@@ -111,8 +111,7 @@ const adminReducer = (state = initialState, action) => {
                     started: true,
                };
           case actionTypes.CLEAR_DATA_EDIT_COLLECTION:
-               state.dataEditCollection = {};
-               console.log('redux : ', state.dataEditCollection);
+               state.dataEditCollection = '';
                return {
                     ...state,
                     started: true,
@@ -136,7 +135,7 @@ const adminReducer = (state = initialState, action) => {
                     started: true,
                };
           case actionTypes.CLEAR_DATA_EDIT_TRANSACTION:
-               state.dataEditTransaction = {};
+               state.dataEditTransaction = '';
 
                return {
                     ...state,
@@ -162,7 +161,7 @@ const adminReducer = (state = initialState, action) => {
                     started: true,
                };
           case actionTypes.CLEAR_DATA_EDIT_ADMIN_PENDING:
-               state.dataEditAdminPending = {};
+               state.dataEditAdminPending = '';
                return {
                     ...state,
                     started: true,

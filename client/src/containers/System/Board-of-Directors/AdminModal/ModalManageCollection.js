@@ -131,10 +131,11 @@ class ModalManageCollection extends Component {
           let checkInputValid = this.checkInputValid();
           if (checkInputValid) {
                let res = await editCollection(data);
-               console.log('check res :', res);
                if (res && res.errorCode === 0) {
                     toast.success('Update Collection success!');
                     this.props.getAllCollections();
+                    this.props.getAllAdminCollections();
+                    this.props.getAllUserPending();
                     this.setState({
                          name: '',
                          address: '',
@@ -158,7 +159,7 @@ class ModalManageCollection extends Component {
           });
      };
      handleOnClickChoseBetCreateOrUpdate = () => {
-          if (this.state.isEditTransaction) {
+          if (this.props.isEditCollection) {
                console.log('vao day');
                this.handleEditCollection();
           } else {
@@ -182,10 +183,10 @@ class ModalManageCollection extends Component {
                               <div className="modal-admin-body">
                                    <div className="row">
                                         <div className="col-6 form-group">
-                                             <label>Chose admin</label>
+                                             <label>Chose Manager</label>
                                              <Select
                                                   value={selectedAdmin}
-                                                  placeholder={<div>Your admin</div>}
+                                                  placeholder={<div>Your Manager</div>}
                                                   onChange={this.handleChangeSelectAmin}
                                                   options={optionSelectionAdmins}
                                              />
@@ -198,6 +199,7 @@ class ModalManageCollection extends Component {
                                                   className="form-control"
                                                   value={this.state.name}
                                                   onChange={(event) => this.handleOnchangeInput(event, 'name')}
+                                                  placeholder="Name of collection"
                                              ></input>
                                         </div>
 
@@ -208,6 +210,7 @@ class ModalManageCollection extends Component {
                                                   className="form-control"
                                                   value={this.state.address}
                                                   onChange={(event) => this.handleOnchangeInput(event, 'address')}
+                                                  placeholder="Address of Collection"
                                              ></input>
                                         </div>
                                    </div>
