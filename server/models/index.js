@@ -29,6 +29,10 @@ db.models.Transaction = require('./transactionModel')(sequelize, Sequelize.DataT
 db.models.Staff = require('./staffModel')(sequelize, Sequelize.DataTypes);
 db.models.Parcels = require('./parcelsModel')(sequelize, Sequelize.DataTypes);
 db.models.Tracking = require('./trackingModel')(sequelize, Sequelize.DataTypes);
+db.models.StaffTransaction = require('./staffTransactionModel')(sequelize, Sequelize.DataTypes);
+db.models.StaffCollection = require('./staffCollectionModel')(sequelize, Sequelize.DataTypes);
+
+
 
 Object.keys(db.models).forEach((modelName) => {
   if (db.models[modelName].associate) {

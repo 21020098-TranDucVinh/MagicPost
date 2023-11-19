@@ -100,6 +100,24 @@ CREATE TABLE `track_history`(
         ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE `staffcollection`(
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `from_transaction` JSON NOT NULL
+    
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `stafftransaction`(
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `from_collection` JSON NOT NULL,
+    `r_staff_id` VARCHAR(255) NULL,
+    FOREIGN KEY(`r_staff_id`) REFERENCES `staff` (`staff_id`)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
 -- TRIGGER
 DELIMITER $$
 CREATE TRIGGER `add_zip_code_transaction` BEFORE INSERT ON `transaction` FOR EACH ROW
