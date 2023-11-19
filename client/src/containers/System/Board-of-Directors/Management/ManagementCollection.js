@@ -12,7 +12,6 @@ class ManagementCollection extends Component {
                isOpenModal: false,
                arrCollections: [],
                isEditCollection: false,
-               dataCollectionEdit: '',
           };
      }
      async componentDidMount() {
@@ -27,6 +26,7 @@ class ManagementCollection extends Component {
      }
      // open modal create collection
      isOpenModalCreteCollection = () => {
+          this.props.isNotEditCollection();
           this.setState({
                isOpenModal: true,
           });
@@ -52,26 +52,21 @@ class ManagementCollection extends Component {
      isOpenModalEditCollection = (collection) => {
           this.setState({
                isOpenModal: true,
-               isEditCollection: true,
-               dataCollectionEdit: collection,
           });
+          this.props.doEditCollection();
+          this.props.fetchDataEditCollection(collection);
      };
 
      render() {
-          let { arrCollections, isEditCollection, dataCollectionEdit } = this.state;
+          let { arrCollections } = this.state;
           return (
                <div className="admin-container container">
-                    <ModalManageCollection
-                         isOpen={this.state.isOpenModal}
-                         isCloseModal={this.isCloseModal}
-                         dataCollectionEdit={isEditCollection ? dataCollectionEdit : ''}
-                    />
+                    <ModalManageCollection isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
                     <div className="title-admin text-center my-4">Management Collection</div>
                     <div className="admin-content">
                          <div className="btn-director-add-new-user-container">
                               <div className="btn-create-new-user-container">
                                    <button
-                                        // className="btn-create-new-user"
                                         className="btn btn-primary"
                                         onClick={() => this.isOpenModalCreteCollection()}
                                    >
@@ -137,12 +132,16 @@ class ManagementCollection extends Component {
 const mapStateToProps = (state) => {
      return {
           arrCollections: state.admin.arrCollections,
+          isEditCollection: state.admin.isEditCollection,
      };
 };
 
 const mapDispatchToProps = (dispatch) => {
      return {
           getAllCollections: () => dispatch(actions.getAllCollectionsAction()),
+          doEditCollection: () => dispatch(actions.isEditCollectionAction()),
+          fetchDataEditCollection: (data) => dispatch(actions.fetchDataEditCollectionAction(data)),
+          isNotEditCollection: () => dispatch(actions.isNotEditCollectionAction()),
      };
 };
 

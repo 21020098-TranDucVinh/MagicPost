@@ -11,28 +11,26 @@ class ManageTransaction extends Component {
           this.state = {
                isOpenModal: false,
                arrTransactions: [],
-               isEditTransaction: false,
-               transactionEdit: '',
           };
      }
      async componentDidMount() {
-          let res = await this.props.getAllTransactions();
-          console.log('check res : ', res);
+          await this.props.getAllTransactions();
      }
      componentDidUpdate(prevProps, prevState, snapshot) {
-          console.log('check props tran : ', this.props.arrTransactions);
           if (prevProps.arrTransactions !== this.props.arrTransactions) {
                this.setState({
                     arrTransactions: this.props.arrTransactions,
                });
           }
-          if (prevProps.arrUsersPending !== this.props.arrUsersPending) {
+          if (prevProps.arrAdminsPending !== this.props.arrAdminsPending) {
                this.setState({
-                    arrUsersPending: this.props.arrUsersPending,
+                    arrAdminsPending: this.props.arrAdminsPending,
                });
           }
      }
      isOpenModalCreateTransaction = () => {
+          this.props.isNotTransaction();
+          this.props.clearDataEditTransaction();
           this.setState({
                isOpenModal: true,
           });
@@ -42,9 +40,7 @@ class ManageTransaction extends Component {
                isOpenModal: false,
           });
      };
-     handleEditUser = () => {
-          alert('edit');
-     };
+
      handleDeleteTransaction = async (id) => {
           let res = await deleteTransactionById(id);
           if (res && res.errorCode === 0) {
@@ -55,23 +51,20 @@ class ManageTransaction extends Component {
           }
      };
      isOpenModalEditTransaction = (transaction) => {
+          this.props.isEditTransaction();
+          this.props.fetchDataEditTransaction(transaction);
           this.setState({
-               isEditTransaction: true,
                isOpenModal: true,
-               transactionEdit: transaction,
           });
      };
      render() {
-          let { arrTransactions, isEditTransaction, transactionEdit } = this.state;
-          console.log('check transaction : ', arrTransactions);
+          let { arrTransactions } = this.state;
+
+          // console.log('check transaction : ', arrTransactions);
           return (
                <>
                     <div className="admin-container">
-                         <ModalManageTransaction
-                              isOpen={this.state.isOpenModal}
-                              isCloseModal={this.isCloseModal}
-                              transactionEdit={isEditTransaction ? transactionEdit : ''}
-                         />
+                         <ModalManageTransaction isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
 
                          <div className="title-admin text-center my-4">Manage Transaction</div>
                          <div className="admin-content container">
@@ -156,6 +149,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
      return {
           getAllTransactions: () => dispatch(actions.getAllTransactionsAction()),
+          isEditTransaction: () => dispatch(actions.isEditTransactionAction()),
+          fetchDataEditTransaction: (data) => dispatch(actions.fetchDataEditTransactionAction(data)),
+          clearDataEditTransaction: () => dispatch(actions.clearDataEditTransactionAction()),
+          isNotTransaction: () => dispatch(actions.isNotTransactionAction()),
      };
 };
 

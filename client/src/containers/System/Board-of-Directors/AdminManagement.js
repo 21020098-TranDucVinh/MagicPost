@@ -10,9 +10,7 @@ class AdminManagement extends Component {
           super(props);
           this.state = {
                isOpenModal: false,
-               isEditUser: false,
-               userEdit: '',
-               arrUsersPending: [],
+               arrAdminsPending: [],
           };
      }
 
@@ -20,9 +18,9 @@ class AdminManagement extends Component {
           let res = await this.props.getAllUserPending();
      }
      componentDidUpdate(prevProps, prevState, snapshot) {
-          if (prevProps.arrUsersPending !== this.props.arrUsersPending) {
+          if (prevProps.arrAdminsPending !== this.props.arrAdminsPending) {
                this.setState({
-                    arrUsersPending: this.props.arrUsersPending,
+                    arrAdminsPending: this.props.arrAdminsPending,
                });
           }
      }
@@ -47,27 +45,25 @@ class AdminManagement extends Component {
      };
      // open modal edit admin pending
      openModalEditUserPending = (user) => {
+          this.props.fetchDataEditPendingAdmin(user);
+          this.props.isEditAdminPending();
           this.setState({
                isOpenModal: true,
                isEditUser: true,
-               userEdit: user,
           });
      };
      OpenModalCrateNewAdminPending = () => {
+          this.props.isNotEditAdminPending();
           this.setState({
                isOpenModal: true,
           });
      };
      render() {
-          let { arrUsersPending, isEditUser, userEdit } = this.state;
+          let { arrAdminsPending } = this.state;
           return (
                <>
                     <div className="admin-container">
-                         <AdminModalAddNewUser
-                              isOpen={this.state.isOpenModal}
-                              isCloseModal={this.isCloseModal}
-                              userEdit={isEditUser ? userEdit : ''}
-                         />
+                         <AdminModalAddNewUser isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
 
                          <div className="title-admin text-center my-4">
                               <span>Create Account</span>
@@ -97,8 +93,8 @@ class AdminManagement extends Component {
                                              </tr>
                                         </thead>
                                         <tbody className="text-center">
-                                             {arrUsersPending &&
-                                                  arrUsersPending.map((item, index) => {
+                                             {arrAdminsPending &&
+                                                  arrAdminsPending.map((item, index) => {
                                                        return (
                                                             <tr>
                                                                  <td>{index + 1}</td>
@@ -138,13 +134,16 @@ class AdminManagement extends Component {
 
 const mapStateToProps = (state) => {
      return {
-          arrUsersPending: state.admin.arrUsersPending,
+          arrAdminsPending: state.admin.arrAdminsPending,
      };
 };
 
 const mapDispatchToProps = (dispatch) => {
      return {
           getAllUserPending: () => dispatch(actions.getAllUserPendingAction()),
+          fetchDataEditPendingAdmin: (user) => dispatch(actions.fetchDataEditPendingAdminAction(user)),
+          isEditAdminPending: () => dispatch(actions.isEditAdminPendingAction()),
+          isNotEditAdminPending: () => dispatch(actions.isNotEditAdminPendingAction()),
      };
 };
 

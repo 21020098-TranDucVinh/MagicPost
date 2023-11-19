@@ -23,13 +23,13 @@ class AdminModalAddNewUser extends Component {
      }
      async componentDidMount() {}
      componentDidUpdate(prevProps, prevState, snapshot) {
-          if (prevProps.arrUsersPending !== this.props.arrUsersPending) {
+          if (prevProps.arrAdminsPending !== this.props.arrAdminsPending) {
                this.setState({
-                    arrUsersPending: this.props.arrUsersPending,
+                    arrAdminsPending: this.props.arrAdminsPending,
                });
           }
-          if (prevProps.userEdit !== this.props.userEdit) {
-               let data = this.props.userEdit;
+          if (prevProps.dataEditAdminPending !== this.props.dataEditAdminPending) {
+               let data = this.props.dataEditAdminPending;
                this.setState({
                     userName: data.username,
                     phone: data.phone,
@@ -129,7 +129,7 @@ class AdminModalAddNewUser extends Component {
      };
      // Onclick chose between create or update
      handleOnClick = () => {
-          if (this.state.isEditUser) {
+          if (this.props.isEditPendingAdmin) {
                this.handleUpdatePotentialAdmin();
           } else {
                this.handleCreatePotentialAdmin();
@@ -138,25 +138,18 @@ class AdminModalAddNewUser extends Component {
      // Close modal
      handleCloseModal = () => {
           this.props.isCloseModal();
-          this.setState({
-               userId: '',
-               userName: '',
-               phone: '',
-               password: '',
-               rePassword: '',
-               isEditUser: false,
-          });
+          this.props.isNotEditAdminPending();
+          this.props.clearDataEditPendingAdmin();
      };
      render() {
-          let { isOpen, isCloseModal } = this.props;
-          let { isEditUser } = this.state;
+          let { isOpen, isEditPendingAdmin } = this.props;
           return (
                <>
                     <Modal className="modal-admin-container" isOpen={isOpen} size="lg" centered>
                          <div className="modal-admin-content">
                               <div className="modal-admin-header">
                                    <span className="left">Add new potential admin </span>
-                                   <span className="right" onClick={isCloseModal}>
+                                   <span className="right" onClick={() => this.handleCloseModal()}>
                                         <i className="fa fa-times"></i>
                                    </span>
                               </div>
@@ -208,12 +201,12 @@ class AdminModalAddNewUser extends Component {
                               <div className="modal-admin-footer">
                                    <button
                                         // className="btn-add-new-user-confirm btn-edit-user"
-                                        className={isEditUser === true ? 'btn btn-warning' : 'btn btn-primary'}
+                                        className={isEditPendingAdmin === true ? 'btn btn-warning' : 'btn btn-primary'}
                                         onClick={() => this.handleOnClick()}
                                    >
                                         <span>
-                                             {isEditUser === true && 'Save'}
-                                             {isEditUser === false && 'Create'}
+                                             {isEditPendingAdmin === true && 'Save'}
+                                             {isEditPendingAdmin === false && 'Create'}
                                         </span>
                                    </button>
                                    <button className="btn btn-danger" onClick={() => this.handleCloseModal()}>
@@ -229,8 +222,10 @@ class AdminModalAddNewUser extends Component {
 
 const mapStateToProps = (state) => {
      return {
-          arrUsersPending: state.admin.arrUsersPending,
+          arrAdminsPending: state.admin.arrAdminsPending,
           isEditUserSuccess: state.admin.isEditUserSuccess,
+          dataEditAdminPending: state.admin.dataEditAdminPending,
+          isEditPendingAdmin: state.admin.isEditPendingAdmin,
      };
 };
 
@@ -238,6 +233,8 @@ const mapDispatchToProps = (dispatch) => {
      return {
           getAllUserPending: () => dispatch(actions.getAllUserPendingAction()),
           updateUser: (data) => dispatch(actions.updateUserAction(data)),
+          isNotEditAdminPending: () => dispatch(actions.isNotEditAdminPendingAction()),
+          clearDataEditPendingAdmin: () => dispatch(actions.clearDataEditPendingAdminAction()),
      };
 };
 
