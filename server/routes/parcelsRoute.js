@@ -12,7 +12,6 @@ router.get('/parcelsReturned', parcelsController.getAllParcelsReturned);
 
 router.get('/parcels/:id', parcelsController.getParcelById);
 
-router.post('/parcels', parcelsController.createParcel);
 router.put('/parcels/:parcel_id', parcelsController.updateParcel);
 
 module.exports = router;

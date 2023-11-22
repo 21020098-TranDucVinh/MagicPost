@@ -86,17 +86,17 @@ CREATE TABLE `parcels`(
 CREATE TABLE `track_history`(
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `s_staff_id` VARCHAR(255) NOT NULL,
-    `s_zip_code` VARCHAR(255) NOT NULL,
-    `s_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `r_zip_code` VARCHAR(255) NOT NULL,
-    `parcel_id` VARCHAR(255) NULL,
+    `s_zip_code` VARCHAR(255)  NULL,
+    `s_time` TIMESTAMP  NULL DEFAULT CURRENT_TIMESTAMP,
+    `r_zip_code` VARCHAR(255)  NULL,
+    `parcel_id` INT UNSIGNED  NULL,
     `status` ENUM('PENDING', 'DELIVERING', 'DELIVERED', 'RETURNED') NOT NULL DEFAULT 'PENDING',
-    `last_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `last_staff_id_update` VARCHAR(255) NOT NULL,
+    `last_update` TIMESTAMP  NULL DEFAULT CURRENT_TIMESTAMP,
+    `last_staff_id_update` JSON  NOT NULL,
     `description` TEXT NULL,
     `shipper_name` VARCHAR(255) NULL,
     `shipper_phone` INT UNSIGNED NULL,
-    FOREIGN KEY(`parcel_id`) REFERENCES `parcels`(`parcel_id`)
+    FOREIGN KEY(`parcel_id`) REFERENCES `parcels`(`id`)
         ON DELETE SET NULL
         ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -194,6 +194,8 @@ BEGIN
 
     SET NEW.parcel_id = CONCAT('P', LPAD(p_id, 5, '0'));
 END$$
+
+
 
 DELIMITER ;
 

@@ -157,52 +157,7 @@ class parcelsController {
   }
 
   // [POST] /parcels
-  async createParcel(req, res) {
-    try {
-      const { s_name, s_phone, s_district, s_city, s_address,
-        r_name, r_phone, r_district, r_city, r_address,
-        type, weight, s_zip_code, r_zip_code, cost, cod, bonus } = req.body;
-      // if (!s_name || !s_phone || !s_address || !r_name || !r_phone || !r_address ||
-      //   !type || !weight || !s_zip_code || !cost || !payment_status) {
-      //   res.status(400).json({
-      //     errorCode: 1,
-      //     message: 'Missing required field(s)'
-      //   });
-      // }
 
-      const parcel = await Parcels.create({
-        s_name, s_phone,
-        s_address: {
-          s_district: s_district,
-          s_city: s_city,
-          s_address: s_address
-        },
-        r_name, r_phone,
-        r_address: {
-          r_district: r_district,
-          r_city: r_city,
-          r_address: r_address
-        },
-        type, weight, s_zip_code, r_zip_code, cost,
-        r_cod: {
-          cod: cod,
-          bonus: bonus
-        },
-      });
-
-      res.status(201).json({
-        errorCode: 0,
-        parcel
-      });
-
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({
-        errorCode: 1,
-        message: error.message
-      });
-    }
-  }
 
   async updateParcel(req, res) {
     try {

@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Tracking.belongsTo(models.Parcels, {
-        foreignKey: 'parcels_id',
+        foreignKey: 'parcel_id',
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE'
       });
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     s_zip_code: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     s_time: {
       type: 'TIMESTAMP',
@@ -34,14 +34,14 @@ module.exports = (sequelize, DataTypes) => {
     },
     r_zip_code: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
-    parcels_id: {
+    parcel_id: {
       type: DataTypes.STRING,
       allowNull: true,
       references: {
         model: 'parcels',
-        key: 'parcels_id'
+        key: 'id'
       },
     },
     status: {
@@ -51,12 +51,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     last_update: {
       type: 'TIMESTAMP',
-      allowNull: false,
+      allowNull: true,
       defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
     },
-    last_staff_id: {
-      type: DataTypes.STRING,
-      allowNull: false
+    last_staff_id_update: {
+      type: DataTypes.JSON,
+      allowNull: true
     },
     description: {
       type: DataTypes.STRING,
@@ -64,11 +64,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     shipper_name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true
     },
     shipper_phone: {
       type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false
+      allowNull: true
     }
   }, {
     sequelize, // We need to pass the connection instance
