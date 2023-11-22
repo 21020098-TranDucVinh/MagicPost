@@ -63,11 +63,13 @@ class ModalManageTransaction extends Component {
      // build to setState for selectedAdmin
      buildSelectionAdmin = (admin_id, arrAllAdminTransaction) => {
           let selectAdmin = {};
-          for (let i = 0; i < arrAllAdminTransaction.length; i++) {
-               if (admin_id === arrAllAdminTransaction[i].id) {
-                    selectAdmin.value = admin_id;
-                    selectAdmin.label = arrAllAdminTransaction[i].username;
-                    return selectAdmin;
+          if (arrAllAdminTransaction.length > 0) {
+               for (let i = 0; i < arrAllAdminTransaction.length; i++) {
+                    if (admin_id === arrAllAdminTransaction[i].id) {
+                         selectAdmin.value = admin_id;
+                         selectAdmin.label = arrAllAdminTransaction[i].username;
+                         return selectAdmin;
+                    }
                }
           }
           return {};

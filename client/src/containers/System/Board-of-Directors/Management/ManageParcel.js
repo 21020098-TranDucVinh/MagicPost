@@ -2,13 +2,53 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../AdminManagement.scss';
 import ModalManageParcel from '../AdminModal/ModalManageParcel';
-import HomeFooter from '../../../HomePage/HomeFooter';
+import Select from 'react-select';
+import { Chart, ArcElement } from 'chart.js';
+
+import { Pie } from 'react-chartjs-2';
+Chart.register(ArcElement);
 class ManageParcel extends Component {
      constructor(props) {
           super(props);
           this.state = {
                isOpenModal: false,
                arrParcels: [],
+               optionsSelectStatistic: [
+                    { value: 'NW', label: 'Nationwide' },
+                    { value: 'TRAN', label: 'Transaction' },
+                    { value: 'COLL', label: 'Collection' },
+               ],
+               data: {
+                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    datasets: [
+                         {
+                              label: '# of Votes',
+                              data: [12, 19, 3, 5, 2, 3],
+                              backgroundColor: [
+                                   'rgba(255, 99, 132, 0.2)',
+                                   'rgba(54, 162, 235, 0.2)',
+                                   'rgba(255, 206, 86, 0.2)',
+                                   'rgba(75, 192, 192, 0.2)',
+                                   'rgba(153, 102, 255, 0.2)',
+                                   'rgba(255, 159, 64, 0.2)',
+                              ],
+                              borderColor: [
+                                   'rgba(255, 99, 132, 1)',
+                                   'rgba(54, 162, 235, 1)',
+                                   'rgba(255, 206, 86, 1)',
+                                   'rgba(75, 192, 192, 1)',
+                                   'rgba(153, 102, 255, 1)',
+                                   'rgba(255, 159, 64, 1)',
+                              ],
+                              borderWidth: 1,
+                         },
+                    ],
+               },
+               // options: {
+               //      responsive: true,
+               //      maintainAspectRatio: false,
+               //      // Các cấu hình khác bạn muốn áp dụng cho biểu đồ
+               // },
           };
      }
      directorCreateParcel = () => {
@@ -33,72 +73,71 @@ class ManageParcel extends Component {
           });
      };
      render() {
-          let { arrParcels } = this.state;
+          let { optionsSelectStatistic } = this.state;
           return (
                <>
                     <div className="admin-container">
                          <ModalManageParcel isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
 
-                         <div className="title-admin text-center my-4">Create Account</div>
+                         <div className="title-admin text-center my-4">Statistic parcel</div>
                          <div className="admin-content container">
-                              <div className="btn-director-add-new-user-container">
-                                   <div className="btn-create-new-user-container">
-                                        <button
-                                             className="btn btn-primary"
-                                             onClick={() => this.openModalCreateNewParcel()}
-                                        >
-                                             <i className="fas fa-plus"></i>
-                                             <span>Add New User</span>
-                                        </button>
+                              <div className="row select-statistic-parcel">
+                                   <div className="col-3">
+                                        <Select
+                                             // value={selectedAdmin}
+                                             placeholder={<div>Your Manager</div>}
+                                             onChange={this.handleChangeSelectAmin}
+                                             options={optionsSelectStatistic}
+                                        />
+                                   </div>
+                                   <div className="col-3">
+                                        <Select
+                                             // value={selectedAdmin}
+                                             placeholder={<div>Your Manager</div>}
+                                             onChange={this.handleChangeSelectAmin}
+                                             options={optionsSelectStatistic}
+                                             styles={{
+                                                  input: () => ({
+                                                       control: (base) => ({
+                                                            ...base,
+                                                            fontFamily: 'Times New Roman',
+                                                       }),
+                                                  }),
+                                             }}
+                                        />
                                    </div>
                               </div>
-                              <div className="table-user-content mt-2 mb-3 ">
-                                   <table className="table table-hover customers container">
-                                        <thead className="text-center">
-                                             <tr>
-                                                  <th scope="col">#</th>
-                                                  <th>senderName</th>
-                                                  <th>senderZipCode</th>
-                                                  <th>senderPhone</th>
-                                                  <th>from</th>
-                                                  <th>receiverName</th>
-                                                  <th>receiverPhone</th>
-                                                  <th>status</th>
-                                                  <th>toAddress</th>
-                                                  <th>type</th>
-                                                  <th>cost</th>
-                                             </tr>
-                                        </thead>
-                                        <tbody className="text-center">
-                                             {arrParcels &&
-                                                  arrParcels.map((item, index) => {
-                                                       return (
-                                                            <tr>
-                                                                 <td>{item.email}</td>
-                                                                 <td>{item.firstName}</td>
-                                                                 <td>{item.lastName}</td>
-                                                                 <td>{item.address}</td>
-                                                                 <td>
-                                                                      <button
-                                                                           className="btn-edit"
-                                                                           onClick={() => this.handleEditUser(item)}
-                                                                      >
-                                                                           <i className="fas fa-pencil-alt"></i>
-                                                                      </button>
-                                                                      <button
-                                                                           className="btn-delete"
-                                                                           onClick={() =>
-                                                                                this.handleDeleteUser(item.className)
-                                                                           }
-                                                                      >
-                                                                           <i className="fas fa-trash"></i>
-                                                                      </button>
-                                                                 </td>
-                                                            </tr>
-                                                       );
-                                                  })}
-                                        </tbody>
-                                   </table>
+                              <div className="statistic-container container">
+                                   <div className="statistic-content row">
+                                        <div className="col-6 chart-content">
+                                             <div className="row border-chart">
+                                                  <div className="shipment col-3">
+                                                       <i class="fas fa-shipping-fast col-4"></i>
+                                                  </div>
+                                                  <div className="data-container col-9">
+                                                       <span>40</span>
+                                                       <span className="title-chart">Number of parcels</span>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                        <div className="col-6 chart-content">
+                                             <div className="row border-chart">
+                                                  <div className="shipment col-3">
+                                                       <i class="fas fa-shipping-fast col-4"></i>
+                                                  </div>
+                                                  <div className="data-container col-9">
+                                                       <span>40</span>
+                                                       <span className="title-chart">Number of parcels</span>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                        <div className="col-6">
+                                             <Pie data={this.state.data} options={this.state.options} />
+                                        </div>
+                                        <div className="col-6">
+                                             <Pie data={this.state.data} options={this.state.options} />
+                                        </div>
+                                   </div>
                               </div>
                          </div>
                     </div>

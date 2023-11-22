@@ -10,6 +10,7 @@
           }
           font-weight: 600;
           text-transform: uppercase;
+          font-family: Montserrat, sans-serif !important;
           // span {
           //      box-shadow: 5px 10px 18px #888888;
           // }
@@ -31,20 +32,60 @@
           overflow: hidden;
           padding: 10px;
           .btn-director-add-new-user-container {
-               // .btn-create-new-user {
-               //      padding: 7px 10px;
-               //      border: none;
-               //      color: white;
-               //      background-color: #0062a1;
-               //      min-width: 115px;
-               //      border-radius: 2px;
-               //      // margin-left: 3rem;
-               //      &:hover {
-               //           background-color: #3e6185;
-               //      }
-               // }
                .btn-primary {
                     background-color: #0062a1;
+               }
+          }
+          .select-statistic-parcel {
+               border-bottom: 1px solid #ddd;
+          }
+
+          .statistic-container {
+               display: flex;
+               align-items: center;
+               justify-content: center;
+
+               .statistic-content {
+                    height: 100%;
+                    width: 70%;
+                    // min-height: 60vh;
+                    border: 1px solid;
+                    .chart-content {
+                         border: 1px solid red;
+                         display: flex;
+                         height: 8vh;
+                         .border-chart {
+                              border: 1px solid;
+                              border-radius: 100px;
+                              .shipment {
+                                   display: flex;
+                                   align-items: center;
+                                   justify-content: center;
+                                   border-radius: 100px;
+                                   border: 1px solid #ddd;
+                                   background-color: rgb(0, 30, 128);
+                                   color: white;
+                                   i {
+                                        @media (min-width: 1495px) {
+                                             font-size: 4vh;
+                                        }
+                                   }
+                              }
+                              .data-container {
+                                   @media (min-width: 1495px) {
+                                        font-size: 15px;
+                                   }
+                                   @media (max-width: 1495px) {
+                                        font-size: 6px;
+                                   }
+                                   display: flex;
+                                   flex-direction: column;
+                                   .title-chart {
+                                        font-weight: 600;
+                                   }
+                              }
+                         }
+                    }
                }
           }
           .customers {
