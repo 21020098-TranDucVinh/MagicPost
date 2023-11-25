@@ -1,46 +1,55 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './commonSsssModal.scss';
+
 import { Modal } from 'reactstrap';
 import Select from 'react-select';
 import 'flatpickr/dist/themes/material_green.css';
 import * as actions from '../../../../store/actions/index';
 import { toast } from 'react-toastify';
-import { handleCreateNewPotentialAdmin, editUserPending } from '../../../../services/adminService';
 import axios from 'axios';
+import { handleTransactionCreateNewStaff } from '../../../../services/TransactionService';
 
-class AdminModalAddNewUser extends Component {
+class ModalTransactionAddNewStaff extends Component {
      constructor(props) {
           super(props);
           this.state = {
-               userId: '',
                userName: '',
                phone: '',
                password: '',
                rePassword: '',
-               isEditUser: false,
-               editUser: '',
+               zip_code: '',
+               address: '',
+               optionSelectionTransactions: [],
+               selectTransaction: '',
           };
      }
-     async componentDidMount() {}
+     async componentDidMount() {
+          this.props.getAllTransactions();
+     }
      componentDidUpdate(prevProps, prevState, snapshot) {
-          if (prevProps.arrAdminsPending !== this.props.arrAdminsPending) {
+          if (prevProps.arrTransactions !== this.props.arrTransactions) {
                this.setState({
-                    arrAdminsPending: this.props.arrAdminsPending,
-               });
-          }
-          if (prevProps.dataEditAdminPending !== this.props.dataEditAdminPending) {
-               let data = this.props.dataEditAdminPending;
-               this.setState({
-                    userName: data.username,
-                    phone: data.phone,
-                    password: data.password,
-                    rePassword: data.password,
-                    isEditUser: true,
-                    userId: data.id,
+                    optionSelectionTransactions: this.buildOptionSelectTransactions(this.props.arrTransactions),
                });
           }
      }
+     //build option select collection
+     buildOptionSelectTransactions = (collections) => {
+          let optionTransactions = '';
+          if (collections && collections.length > 0) {
+               optionTransactions = collections.map((item, index) => {
+                    let obj = {};
+                    obj.value = item.zip_code;
+                    obj.label = item.name;
+                    return obj;
+               });
+          }
+          console.log(optionTransactions);
+          return optionTransactions;
+     };
+     handleChangeTransaction = (selectTransaction) => {
+          this.setState({ selectTransaction });
+     };
      // Handle on change input
      handleOnchangeInput = (event, id) => {
           let copyState = this.state;
@@ -66,96 +75,61 @@ class AdminModalAddNewUser extends Component {
           }
           return true;
      };
-     // Create new potential admin
-     handleCreatePotentialAdmin = async () => {
+     handleTransactionCreateNewStaff = async () => {
           let checkInputValid = this.checkInputValid();
-          let checkInputPasswordValid = this.checkInputPasswordValid(this.state.password, this.state.rePassword);
+          let checkInputPasswordValid = this.checkInputPasswordValid();
           let data = {
                username: this.state.userName,
-               password: this.state.password,
                phone: this.state.phone,
+               password: this.state.password,
+               zip_code: this.state.selectTransaction.value,
           };
+          console.log(data);
           if (checkInputValid && checkInputPasswordValid) {
-               let res = await handleCreateNewPotentialAdmin(data);
+               let res = await handleTransactionCreateNewStaff(data);
                if (res && res.errorCode === 0) {
+                    toast.success(res.message);
+                    this.props.isCloseModal();
                     this.setState({
                          userName: '',
                          phone: '',
                          password: '',
                          rePassword: '',
+                         zip_code: '',
+                         address: '',
                     });
-                    toast.success(res.msg);
-                    this.props.isCloseModal();
-                    this.props.getAllUserPending();
-               }
-          } else {
-               toast.error('Your input invalid');
-          }
-     };
-     // Update potential admin
-     handleUpdatePotentialAdmin = async () => {
-          let checkInputValid = this.checkInputValid();
-          let checkInputPasswordValid = this.checkInputPasswordValid(this.state.password, this.state.rePassword);
-          let data = {
-               id: this.state.userId,
-               username: this.state.userName,
-               password: this.state.password,
-               phone: this.state.phone,
-          };
-          console.log('check data : ', data);
-          console.log('check valid input ', checkInputValid, checkInputPasswordValid);
-          let res = '';
-          if (checkInputValid && checkInputPasswordValid) {
-               res = await editUserPending(data);
-               if (res && res.errorCode === 0) {
-                    await this.props.updateUser(data);
-                    toast.success('Update user success!');
                } else {
-                    toast.error(res.message);
+                    toast('Create new staff Failed!');
                }
-          } else {
-               toast.error('Your input invalid');
-          }
-          if (this.props.isEditUserSuccess === true) {
-               this.setState({
-                    userName: '',
-                    phone: '',
-                    password: '',
-                    rePassword: '',
-                    isEditUser: false,
-               });
-               this.props.isCloseModal();
-               this.props.getAllUserPending();
           }
      };
-     // Onclick chose between create or update
-     handleOnClick = () => {
-          if (this.props.isEditPendingAdmin) {
-               this.handleUpdatePotentialAdmin();
-          } else {
-               this.handleCreatePotentialAdmin();
-          }
-     };
-     // Close modal
      handleCloseModal = () => {
           this.props.isCloseModal();
-          this.props.isNotEditAdminPending();
-          this.props.clearDataEditPendingAdmin();
      };
      render() {
-          let { isOpen, isEditPendingAdmin } = this.props;
+          let { isOpen } = this.props;
+          let { optionSelectionTransactions, selectTransaction } = this.state;
           return (
                <>
                     <Modal className="modal-admin-container" isOpen={isOpen} size="lg" centered>
                          <div className="modal-admin-content">
                               <div className="modal-admin-header">
-                                   <span className="left">Add new potential admin </span>
+                                   <span className="left">Add new staff </span>
                                    <span className="right" onClick={() => this.handleCloseModal()}>
                                         <i className="fa fa-times"></i>
                                    </span>
                               </div>
                               <div className="modal-admin-body">
                                    <div className="row">
+                                        <div className="col-6 form-group">
+                                             <label>Chose transaction</label>
+                                             <Select
+                                                  value={selectTransaction}
+                                                  placeholder={<div>Your Manager</div>}
+                                                  onChange={this.handleChangeTransaction}
+                                                  options={optionSelectionTransactions}
+                                             />
+                                        </div>
                                         <div className="col-6 form-group">
                                              <label>User Name</label>
                                              <input
@@ -168,6 +142,16 @@ class AdminModalAddNewUser extends Component {
                                         </div>
                                         <div className="col-6 form-group">
                                              <label>Phone</label>
+                                             <input
+                                                  type="text"
+                                                  className="form-control"
+                                                  value={this.state.address}
+                                                  onChange={(event) => this.handleOnchangeInput(event, 'address')}
+                                                  placeholder="Your Phone"
+                                             ></input>
+                                        </div>
+                                        <div className="col-6 form-group">
+                                             <label>Address</label>
                                              <input
                                                   type="text"
                                                   className="form-control"
@@ -201,14 +185,14 @@ class AdminModalAddNewUser extends Component {
                               </div>
                               <div className="modal-admin-footer">
                                    <button
-                                        // className="btn-add-new-user-confirm btn-edit-user"
-                                        className={isEditPendingAdmin === true ? 'btn btn-warning' : 'btn btn-primary'}
-                                        onClick={() => this.handleOnClick()}
+                                        className={'btn btn-primary'}
+                                        onClick={() => this.handleTransactionCreateNewStaff()}
                                    >
-                                        <span>
+                                        {/* <span>
                                              {isEditPendingAdmin === true && 'Save'}
                                              {isEditPendingAdmin === false && 'Create'}
-                                        </span>
+                                        </span> */}
+                                        create
                                    </button>
                                    <button className="btn btn-danger" onClick={() => this.handleCloseModal()}>
                                         Cancel
@@ -223,20 +207,14 @@ class AdminModalAddNewUser extends Component {
 
 const mapStateToProps = (state) => {
      return {
-          arrAdminsPending: state.admin.arrAdminsPending,
-          isEditUserSuccess: state.admin.isEditUserSuccess,
-          dataEditAdminPending: state.admin.dataEditAdminPending,
-          isEditPendingAdmin: state.admin.isEditPendingAdmin,
+          arrTransactions: state.admin.arrTransactions,
      };
 };
 
 const mapDispatchToProps = (dispatch) => {
      return {
-          getAllUserPending: () => dispatch(actions.getAllUserPendingAction()),
-          updateUser: (data) => dispatch(actions.updateUserAction(data)),
-          isNotEditAdminPending: () => dispatch(actions.isNotEditAdminPendingAction()),
-          clearDataEditPendingAdmin: () => dispatch(actions.clearDataEditPendingAdminAction()),
+          getAllTransactions: () => dispatch(actions.getAllTransactionsAction()),
      };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminModalAddNewUser);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalTransactionAddNewStaff);

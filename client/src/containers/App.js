@@ -13,6 +13,7 @@ import Login from './Auth/Login';
 import BoardOfDirector from '../routes/BoardOfDirector';
 import Register from './Auth/Register';
 import ForgotPassword from './Auth/ForgotPassword';
+import RouteTransactionManager from '../routes/RouteTransactionManager.js';
 class App extends Component {
      componentDidMount() {}
      render() {
@@ -25,10 +26,12 @@ class App extends Component {
                                         <Switch>
                                              <Route path={path.HOME} exact component={Home} />
                                              <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
-                                             <Route
+                                             {/* <Route
                                                   path={path.SYSTEM}
                                                   component={userIsAuthenticated(BoardOfDirector)}
-                                             />
+                                             /> */}
+
+                                             <Route path={path.SYSTEM} component={RouteTransactionManager} />
                                              <Route path={path.HOMEPAGE} component={HomePage} />
                                              <Route exact path={path.REGISTER} component={Register} />
                                              <Route exact path={path.FORGOT_PASSWORD} component={ForgotPassword} />

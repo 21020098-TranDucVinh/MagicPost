@@ -62,7 +62,7 @@ class AdminManagement extends Component {
           let { arrAdminsPending } = this.state;
           return (
                <>
-                    <div className="admin-container">
+                    <div className="admin-container my-3">
                          <AdminModalAddNewUser isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
 
                          <div className="title-admin text-center my-4">

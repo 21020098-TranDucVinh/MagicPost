@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import Navigator from '../../components/Navigator';
-import { adminMenu } from './menuApp';
+import { adminMenu, transactionManageMenu } from './menuApp';
 import './Header.scss';
 
 import ModalPersonal from '../System/Admin/ModalPersonal';
@@ -39,7 +39,7 @@ class Header extends Component {
                     <div className="header-container">
                          <div className="header-logo"></div>
                          <div className="header-tabs-container">
-                              <Navigator menus={adminMenu} />
+                              <Navigator menus={transactionManageMenu} />
                          </div>
 
                          <div className="languages">

@@ -60,7 +60,7 @@ class ManagementCollection extends Component {
      render() {
           let { arrCollections } = this.state;
           return (
-               <div className="admin-container container">
+               <div className="admin-container container my-3">
                     <ModalManageCollection isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
                     <div className="title-admin text-center my-4">Management Collection</div>
                     <div className="admin-content">

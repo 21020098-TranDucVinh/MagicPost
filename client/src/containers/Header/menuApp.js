@@ -38,3 +38,25 @@ export const adminMenu = [
           ],
      },
 ];
+
+export const transactionManageMenu = [
+     //quan li nguoi dung
+     {
+          name: 'Manage Account',
+          menus: [
+               {
+                    name: 'Create Account',
+                    link: '/system/transaction/manager/create-account',
+               },
+          ],
+     },
+     {
+          name: 'Statistic parcel',
+          menus: [
+               {
+                    name: 'Statistic',
+                    link: '/system/transaction/manager/statistic-parcel',
+               },
+          ],
+     },
+];

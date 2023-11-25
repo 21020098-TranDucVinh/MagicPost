@@ -63,7 +63,7 @@ class ManageTransaction extends Component {
           // console.log('check transaction : ', arrTransactions);
           return (
                <>
-                    <div className="admin-container">
+                    <div className="admin-container my-3">
                          <ModalManageTransaction isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
 
                          <div className="title-admin text-center my-4">Manage Transaction</div>

@@ -3,139 +3,88 @@ import { connect } from 'react-redux';
 import '../AdminManagement.scss';
 import ModalManageParcel from '../AdminModal/ModalManageParcel';
 import Select from 'react-select';
-import { Chart, ArcElement } from 'chart.js';
-
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
-Chart.register(ArcElement);
+import Avatar from '@mui/material/Avatar';
+import OutboxTwoToneIcon from '@mui/icons-material/OutboxTwoTone';
+import MoveToInboxTwoToneIcon from '@mui/icons-material/MoveToInboxTwoTone';
+ChartJS.register(ArcElement, Tooltip, Legend);
 class ManageParcel extends Component {
      constructor(props) {
           super(props);
-          this.state = {
-               isOpenModal: false,
-               arrParcels: [],
-               optionsSelectStatistic: [
-                    { value: 'NW', label: 'Nationwide' },
-                    { value: 'TRAN', label: 'Transaction' },
-                    { value: 'COLL', label: 'Collection' },
-               ],
-               data: {
-                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                    datasets: [
-                         {
-                              label: '# of Votes',
-                              data: [12, 19, 3, 5, 2, 3],
-                              backgroundColor: [
-                                   'rgba(255, 99, 132, 0.2)',
-                                   'rgba(54, 162, 235, 0.2)',
-                                   'rgba(255, 206, 86, 0.2)',
-                                   'rgba(75, 192, 192, 0.2)',
-                                   'rgba(153, 102, 255, 0.2)',
-                                   'rgba(255, 159, 64, 0.2)',
-                              ],
-                              borderColor: [
-                                   'rgba(255, 99, 132, 1)',
-                                   'rgba(54, 162, 235, 1)',
-                                   'rgba(255, 206, 86, 1)',
-                                   'rgba(75, 192, 192, 1)',
-                                   'rgba(153, 102, 255, 1)',
-                                   'rgba(255, 159, 64, 1)',
-                              ],
-                              borderWidth: 1,
-                         },
-                    ],
-               },
-               // options: {
-               //      responsive: true,
-               //      maintainAspectRatio: false,
-               //      // Các cấu hình khác bạn muốn áp dụng cho biểu đồ
-               // },
-          };
+          this.state = {};
      }
-     directorCreateParcel = () => {
-          this.setState({
-               isOpenModal: true,
-          });
-     };
-     isCloseModal = () => {
-          this.setState({
-               isOpenModal: false,
-          });
-     };
-     handleEditUser = () => {
-          alert('edit');
-     };
-     handleDeleteUser = () => {
-          alert('delete');
-     };
-     openModalCreateNewParcel = () => {
-          this.setState({
-               isOpenModal: true,
-          });
-     };
+
      render() {
-          let { optionsSelectStatistic } = this.state;
+          // let { optionsSelectStatistic } = this.state;
+          let { optionsSelectOne, optionsSelectTwo, data, options } = this.props;
           return (
                <>
-                    <div className="admin-container">
+                    <div className="admin-container my-3">
                          <ModalManageParcel isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
 
                          <div className="title-admin text-center my-4">Statistic parcel</div>
                          <div className="admin-content container">
                               <div className="row select-statistic-parcel">
-                                   <div className="col-3">
+                                   <div className="col-3 mb-1 ">
                                         <Select
                                              // value={selectedAdmin}
                                              placeholder={<div>Your Manager</div>}
                                              onChange={this.handleChangeSelectAmin}
-                                             options={optionsSelectStatistic}
+                                             options={optionsSelectOne}
                                         />
                                    </div>
-                                   <div className="col-3">
+                                   <div className="col-3 mb-1">
                                         <Select
                                              // value={selectedAdmin}
                                              placeholder={<div>Your Manager</div>}
                                              onChange={this.handleChangeSelectAmin}
-                                             options={optionsSelectStatistic}
-                                             styles={{
-                                                  input: () => ({
-                                                       control: (base) => ({
-                                                            ...base,
-                                                            fontFamily: 'Times New Roman',
-                                                       }),
-                                                  }),
-                                             }}
+                                             options={optionsSelectTwo}
                                         />
                                    </div>
                               </div>
-                              <div className="statistic-container container">
+                              <div className="statistic-container container py-2">
                                    <div className="statistic-content row">
-                                        <div className="col-6 chart-content">
-                                             <div className="row border-chart">
-                                                  <div className="shipment col-3">
-                                                       <i class="fas fa-shipping-fast col-4"></i>
-                                                  </div>
-                                                  <div className="data-container col-9">
-                                                       <span>40</span>
-                                                       <span className="title-chart">Number of parcels</span>
-                                                  </div>
+                                        <div className="col-6 chart-content pl-5 ">
+                                             <div className=" border-chart px-1">
+                                                  <Avatar
+                                                       sx={{
+                                                            bgcolor: 'green',
+                                                       }}
+                                                  >
+                                                       <OutboxTwoToneIcon />
+                                                  </Avatar>
+                                                  <span>
+                                                       <div>40</div>
+                                                       <div>shipment</div>
+                                                  </span>
                                              </div>
                                         </div>
-                                        <div className="col-6 chart-content">
-                                             <div className="row border-chart">
-                                                  <div className="shipment col-3">
-                                                       <i class="fas fa-shipping-fast col-4"></i>
-                                                  </div>
-                                                  <div className="data-container col-9">
+                                        <div className="col-6 chart-content pl-5 ">
+                                             <div className="border-chart px-1 ">
+                                                  <Avatar
+                                                       sx={{
+                                                            bgcolor: 'orange',
+                                                       }}
+                                                  >
+                                                       <MoveToInboxTwoToneIcon />
+                                                  </Avatar>
+                                                  <span>
+                                                       <div>40</div>
+                                                       <div>good received</div>
+                                                  </span>
+                                                  {/* <TextareaAutosize>argrefgersfv</TextareaAutosize> */}
+                                                  {/* <div className="data-container col-9">
                                                        <span>40</span>
-                                                       <span className="title-chart">Number of parcels</span>
-                                                  </div>
+                                                       <span className="title-chart">shipment</span>
+                                                  </div> */}
                                              </div>
                                         </div>
-                                        <div className="col-6">
-                                             <Pie data={this.state.data} options={this.state.options} />
+                                        <div className="col-6 py-4">
+                                             <Pie data={data} options={options} />
                                         </div>
-                                        <div className="col-6">
-                                             <Pie data={this.state.data} options={this.state.options} />
+                                        <div className="col-6 py-4">
+                                             <Pie data={data} options={options} />
                                         </div>
                                    </div>
                               </div>
