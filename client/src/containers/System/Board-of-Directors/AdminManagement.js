@@ -4,7 +4,7 @@ import './AdminManagement.scss';
 import AdminModalAddNewUser from './AdminModal/AdminModalAddNewUser';
 import * as actions from '../../../store/actions/index';
 import { deleteUserPending } from '../../../services/adminService';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 class AdminManagement extends Component {
      constructor(props) {
           super(props);

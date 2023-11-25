@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import * as actions from '../../store/actions';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import './Login.scss';
 import { handleLoginAPI } from '../../services/adminService';
 

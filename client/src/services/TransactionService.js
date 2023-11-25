@@ -8,5 +8,12 @@ const handleTransactionCreateNewStaff = (body) => {
 const getTransactionById = (transactionID) => {
      return axios.get('/transaction_staff/T00012');
 };
-
-export { handleTransactionCreateNewStaff, getTransactionById };
+//delete staff by staff id
+const deleteStaffByStaffId = (staff_id) => {
+     return axios.delete(`/staff/${staff_id}`);
+};
+//edit transaction staff
+const editTransactionStaff = (body) => {
+     return axios.put(`/staff/${body.staff_id}`, body);
+};
+export { handleTransactionCreateNewStaff, getTransactionById, deleteStaffByStaffId, editTransactionStaff };

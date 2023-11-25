@@ -40,5 +40,9 @@ const actionTypes = Object.freeze({
      //==================================================================
      GET_ALL_TRANSACTION_BY_ID_SUCCESS: 'GET_ALL_TRANSACTION_BY_ID_SUCCESS',
      GET_ALL_TRANSACTION_BY_ID_FAILED: 'GET_ALL_TRANSACTION_BY_ID_FAILED',
+     FETCH_DATA_EDIT_STAFF_SUCCESS: 'FETCH_DATA_EDIT_STAFF_SUCCESS',
+     FETCH_DATA_EDIT_STAFF_FAILED: 'FETCH_DATA_EDIT_STAFF_FAILED',
+     IS_EDIT_STAFF: 'IS_EDIT_STAFF',
+     IS_NOT_EDIT_STAFF: 'IS_NOT_EDIT_STAFF',
 });
 export default actionTypes;

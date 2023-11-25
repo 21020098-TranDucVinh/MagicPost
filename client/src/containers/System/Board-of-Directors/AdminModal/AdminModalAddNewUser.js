@@ -5,7 +5,7 @@ import { Modal } from 'reactstrap';
 import Select from 'react-select';
 import 'flatpickr/dist/themes/material_green.css';
 import * as actions from '../../../../store/actions/index';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import { handleCreateNewPotentialAdmin, editUserPending } from '../../../../services/adminService';
 import axios from 'axios';
 

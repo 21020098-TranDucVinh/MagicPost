@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../AdminManagement.scss';
 import * as actions from '../../../../store/actions/index';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import ModalManageCollection from '../AdminModal/ModalManageCollection';
 import { deleteCollectionById } from '../../../../services/adminService';
 class ManagementCollection extends Component {

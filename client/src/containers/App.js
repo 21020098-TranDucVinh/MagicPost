@@ -6,6 +6,7 @@ import { history } from '../redux';
 import { ToastContainer } from 'react-toastify';
 import HomePage from './HomePage/HomePage.js';
 import { userIsAuthenticated, userIsNotAuthenticated } from '../hoc/authentication';
+import 'react-toastify/dist/ReactToastify.css';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { path } from '../utils';
 import Home from '../routes/Home';
@@ -14,6 +15,7 @@ import BoardOfDirector from '../routes/BoardOfDirector';
 import Register from './Auth/Register';
 import ForgotPassword from './Auth/ForgotPassword';
 import RouteTransactionManager from '../routes/RouteTransactionManager.js';
+import toast, { Toaster } from 'react-hot-toast';
 class App extends Component {
      componentDidMount() {}
      render() {
@@ -38,10 +40,10 @@ class App extends Component {
                                         </Switch>
                                    </Scrollbars>
                               </div>
-
-                              <ToastContainer
+                              <Toaster />
+                              {/* <ToastContainer
                                    position="top-right"
-                                   autoClose={3000}
+                                   autoClose={5000}
                                    hideProgressBar={false}
                                    newestOnTop={false}
                                    closeOnClick
@@ -50,8 +52,9 @@ class App extends Component {
                                    draggable
                                    pauseOnHover
                                    theme="light"
-                                   className="toast-content"
-                              />
+                              /> */}
+                              {/* Same as */}
+                              <ToastContainer />
                          </div>
                     </Router>
                </>

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import '../AdminManagement.scss';
 import ModalManageTransaction from '../AdminModal/ModalManageTransaction';
 import { deleteTransactionById } from '../../../../services/adminService';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import * as actions from '../../../../store/actions/index';
 class ManageTransaction extends Component {
      constructor(props) {

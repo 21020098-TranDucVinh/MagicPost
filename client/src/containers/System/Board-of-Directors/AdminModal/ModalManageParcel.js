@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import './commonSsssModal.scss';
 import { Modal } from 'reactstrap';
 import 'flatpickr/dist/themes/material_green.css';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import { handleCreateNewAccountAdmin } from '../../../../services/adminService';
 class AdminModalAddNewUser extends Component {
      constructor(props) {
