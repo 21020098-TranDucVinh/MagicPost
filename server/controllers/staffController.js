@@ -77,6 +77,27 @@ class staffController {
       });
     }
   }
+  // [GET] /collection_staff/:collection_zip_code
+  async getCollectionStaff(req, res) {
+    try {
+      const collection_zip_code = req.params.collection_zip_code;
+      const staff = await Staff.findAndCountAll({
+        where: {
+          collection_zip_code,
+        },
+      });
+      return res.status(200).json({
+        errorCode: 0,
+        staff: staff.rows,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        errorCode: 1,
+        message: "Error find a collection staff!",
+      });
+    }
+  }
 
   // [PUT] /staff/:staff_id
   async updateStaff(req, res) {

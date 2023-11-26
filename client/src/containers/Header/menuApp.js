@@ -46,7 +46,7 @@ export const transactionManageMenu = [
           menus: [
                {
                     name: 'Create Account',
-                    link: '/system/transaction/manager/create-account',
+                    link: '/transaction-admin/manager/create-account',
                },
           ],
      },
@@ -55,7 +55,28 @@ export const transactionManageMenu = [
           menus: [
                {
                     name: 'Statistic',
-                    link: '/system/transaction/manager/statistic-parcel',
+                    link: '/transaction-admin/manager/statistic-parcel',
+               },
+          ],
+     },
+];
+export const collectionManageMenu = [
+     //quan li nguoi dung
+     {
+          name: 'Manage Account',
+          menus: [
+               {
+                    name: 'Create Account',
+                    link: '/collection-admin/manager/create-account',
+               },
+          ],
+     },
+     {
+          name: 'Statistic parcel',
+          menus: [
+               {
+                    name: 'Statistic',
+                    link: '/collection-admin/manager/statistic-parcel',
                },
           ],
      },

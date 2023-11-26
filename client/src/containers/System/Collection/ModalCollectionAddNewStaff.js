@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import * as services from '../../../services/index';
 import { Modal } from 'reactstrap';
 import Select from 'react-select';
 import 'flatpickr/dist/themes/material_green.css';
-import * as actions from '../../../../store/actions/index';
-import { handleTransactionCreateNewStaff, editTransactionStaff } from '../../../../services/TransactionService';
 import toast from 'react-hot-toast';
-
-class ModalTransactionAddNewStaff extends Component {
+import * as actions from '../../../store/actions/index';
+class ModalCollectionAddNewStaff extends Component {
      constructor(props) {
           super(props);
           this.state = {
@@ -18,17 +16,17 @@ class ModalTransactionAddNewStaff extends Component {
                rePassword: '',
                zip_code: '',
                address: '',
-               optionSelectionTransactions: [],
-               selectTransaction: '',
+               optionSelectionCollections: [],
+               selectedCollection: '',
           };
      }
      async componentDidMount() {
-          this.props.getAllTransactions();
+          this.props.getAllCollections();
      }
      componentDidUpdate(prevProps, prevState, snapshot) {
-          if (prevProps.arrTransactions !== this.props.arrTransactions) {
+          if (prevProps.arrCollections !== this.props.arrCollections) {
                this.setState({
-                    optionSelectionTransactions: this.buildOptionSelectTransactions(this.props.arrTransactions),
+                    optionSelectionCollections: this.buildOptionSelectCollections(this.props.arrCollections),
                });
           }
           if (prevProps.dataEditStaff !== this.props.dataEditStaff) {
@@ -42,21 +40,20 @@ class ModalTransactionAddNewStaff extends Component {
           }
      }
      //build option select collection
-     buildOptionSelectTransactions = (collections) => {
-          let optionTransactions = '';
+     buildOptionSelectCollections = (collections) => {
+          let optionCollections = '';
           if (collections && collections.length > 0) {
-               optionTransactions = collections.map((item, index) => {
+               optionCollections = collections.map((item, index) => {
                     let obj = {};
                     obj.value = item.zip_code;
                     obj.label = item.name;
                     return obj;
                });
           }
-          console.log(optionTransactions);
-          return optionTransactions;
+          return optionCollections;
      };
-     handleChangeTransaction = (selectTransaction) => {
-          this.setState({ selectTransaction });
+     handleChangeTransaction = (selectedCollection) => {
+          this.setState({ selectedCollection });
      };
      // Handle on change input
      handleOnchangeInput = (event, id) => {
@@ -73,32 +70,20 @@ class ModalTransactionAddNewStaff extends Component {
           }
           return true;
      };
-     // Check full fill input
-     checkInputValid = () => {
-          let data = ['userName', 'phone', 'password'];
-          for (let i = 0; i < data.length; i++) {
-               if (!this.state[data[i]]) {
-                    return false;
-               }
-          }
-          return true;
-     };
      // create new transaction staff
-     handleTransactionCreateNewStaff = async () => {
-          let checkInputValid = this.checkInputValid();
+     handleCollectionCreateNewStaff = async () => {
           let checkInputPasswordValid = this.checkInputPasswordValid();
           let data = {
                username: this.state.userName,
                phone: this.state.phone,
                password: this.state.password,
-               zip_code: this.state.selectTransaction.value,
+               zip_code: this.state.selectedCollection.value,
           };
-          console.log(data);
-          if (checkInputValid && checkInputPasswordValid) {
-               let res = await handleTransactionCreateNewStaff(data);
+          if (checkInputPasswordValid) {
+               let res = await services.handleCollectionCreateNewStaff(data);
                if (res && res.errorCode === 0) {
-                    toast.success('Create new staff success!', { duration: 4000, position: 'bottom-center' });
-                    this.props.getTransactionStaffById();
+                    toast.success('Create new staff success!');
+                    this.props.getCollectionStaffById();
                     this.props.isCloseModal();
                     this.setState({
                          userName: '',
@@ -117,23 +102,23 @@ class ModalTransactionAddNewStaff extends Component {
      handleCloseModal = () => {
           this.props.isCloseModal();
      };
-     // edit staff
-     handleTransactionEditStaff = async () => {
-          let { password, phone, selectTransaction, userName } = this.state;
+     // edit collection staff
+     handleCollectionEditStaff = async () => {
+          let { password, phone, selectedCollection, userName } = this.state;
           let data = {
                username: userName,
                staff_id: this.props.dataEditStaff.staff_id,
                password: password,
                phone: phone.toString(),
-               transaction_zip_code: selectTransaction.value,
-               collection_zip_code: null,
+               transaction_zip_code: null,
+               collection_zip_code: selectedCollection.value,
           };
-          console.log('check data :', data);
-          if (data.staff_id && data.password && data.phone && data.transaction_zip_code) {
-               let res = await editTransactionStaff(data);
+          // console.log('check data :', data);
+          if (data.staff_id && data.password && data.phone && data.collection_zip_code) {
+               let res = await services.editTransactionStaff(data);
                if (res && res.errorCode === 0) {
                     toast.success(res.message);
-                    this.props.getTransactionStaffById();
+                    this.props.getCollectionStaffById();
                     this.props.isCloseModal();
                }
           }
@@ -141,14 +126,14 @@ class ModalTransactionAddNewStaff extends Component {
      // chose between function create or edit
      handleChoseBetweenCreateOrUpdate = () => {
           if (this.props.isEditStaff) {
-               this.handleTransactionEditStaff();
+               this.handleCollectionEditStaff();
           } else {
-               this.handleTransactionCreateNewStaff();
+               this.handleCollectionCreateNewStaff();
           }
      };
      render() {
           let { isOpen, isEditStaff } = this.props;
-          let { optionSelectionTransactions, selectTransaction } = this.state;
+          let { optionSelectionCollections, selectedCollection } = this.state;
           return (
                <>
                     <Modal className="modal-admin-container" isOpen={isOpen} size="lg" centered>
@@ -162,12 +147,12 @@ class ModalTransactionAddNewStaff extends Component {
                               <div className="modal-admin-body">
                                    <div className="row">
                                         <div className="col-6 form-group">
-                                             <label>Chose transaction</label>
+                                             <label>Chose Collection</label>
                                              <Select
-                                                  value={selectTransaction}
+                                                  value={selectedCollection}
                                                   placeholder={<div>Your Manager</div>}
                                                   onChange={this.handleChangeTransaction}
-                                                  options={optionSelectionTransactions}
+                                                  options={optionSelectionCollections}
                                              />
                                         </div>
                                         <div className="col-6 form-group">
@@ -237,17 +222,17 @@ class ModalTransactionAddNewStaff extends Component {
 
 const mapStateToProps = (state) => {
      return {
-          arrTransactions: state.admin.arrTransactions,
           dataEditStaff: state.adminTransaction.dataEditStaff,
           isEditStaff: state.adminTransaction.isEditStaff,
+          arrCollections: state.admin.arrCollections,
      };
 };
 
 const mapDispatchToProps = (dispatch) => {
      return {
-          getAllTransactions: () => dispatch(actions.getAllTransactionsAction()),
-          getTransactionStaffById: () => dispatch(actions.getTransactionStaffByIdAction()),
+          getCollectionStaffById: () => dispatch(actions.getCollectionStaffByIdAction()),
+          getAllCollections: () => dispatch(actions.getAllCollectionsAction()),
      };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalTransactionAddNewStaff);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalCollectionAddNewStaff);

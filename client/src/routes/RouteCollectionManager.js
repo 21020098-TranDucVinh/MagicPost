@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
-import ManageStaffTransaction from '../containers/System/Transaction/ManageTransaction/ManageStaffTransaction';
 import Header from '../containers/Header/Header';
 import HomeFooter from '../containers/HomePage/HomeFooter';
-import TransactionManageParcel from '../containers/System/Transaction/ManageTransaction/TransactionManageParcel';
+import ManageCollectionStaff from '../containers/System/Collection/ManageCollectionStaff';
+import CollectionStatisticParcel from '../containers/System/Collection/CollectionStatisticParcel';
 class RouteTransactionManager extends Component {
      render() {
           const { isLoggedIn } = this.props;
@@ -18,12 +18,12 @@ class RouteTransactionManager extends Component {
                               <div className="system-list container">
                                    <Switch>
                                         <Route
-                                             path="/transaction-admin/manager/create-account"
-                                             component={ManageStaffTransaction}
+                                             path="/collection-admin/manager/create-account"
+                                             component={ManageCollectionStaff}
                                         />
                                         <Route
-                                             path="/transaction-admin/manager/statistic-parcel"
-                                             component={TransactionManageParcel}
+                                             path="/collection-admin/manager/statistic-parcel"
+                                             component={CollectionStatisticParcel}
                                         />
                                    </Switch>
                               </div>

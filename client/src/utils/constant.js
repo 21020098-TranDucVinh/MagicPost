@@ -6,6 +6,8 @@ export const path = {
      HOMEPAGE: '/home',
      REGISTER: '/register',
      FORGOT_PASSWORD: '/forget-password',
+     TRANSACTION_ADMIN: '/transaction-admin/',
+     COLLECTION_ADMIN: '/collection-admin/',
 };
 
 export const manageActions = {
@@ -17,12 +19,4 @@ export const manageActions = {
 
 export const dateFormat = {
      SEND_TO_SERVER: 'DD/MM/YYYY',
-};
-
-export const YesNoObj = {
-     YES: 'Y',
-     NO: 'N',
-};
-export const USERS_ROLE = {
-     ADMIN: 'R1',
 };

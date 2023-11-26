@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import * as actions from '../../store/actions';
 
-import ManageParcel from '../../Board-of-Directors/Management/ManageParcel';
+import ManageParcel from '../Board-of-Directors/Management/ManageParcel';
 // import { handleDefaultClassAPI } from '../../services/adminService';
 
-class TransactionManageParcel extends Component {
+class CollectionStatisticParcel extends Component {
      constructor(props) {
           super(props);
           this.state = {
@@ -75,4 +75,4 @@ const mapDispatchToProps = (dispatch) => {
      };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TransactionManageParcel);
+export default connect(mapStateToProps, mapDispatchToProps)(CollectionStatisticParcel);
