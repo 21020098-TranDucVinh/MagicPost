@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   class Parcels extends Model {
     static associate(models) {
       // define association here
-      Parcels.hasMany(models.Tracking, { foreignKey: 'parcels_id' });
+      Parcels.hasMany(models.Tracking, { foreignKey: 'parcel_id' });
     }
   };
 
