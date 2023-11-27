@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 const {
   models: { Staff },
 } = require('../models');
@@ -142,3 +143,7 @@ class staffController {
 }
 
 module.exports = new staffController();
+
+
+
+
