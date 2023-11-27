@@ -7,7 +7,8 @@ CREATE TABLE `admin`(
     `role` ENUM('ADMIN', 'TRANSACTION_ADMIN', 'COLLECTION_ADMIN', 'PENDING') NOT NULL DEFAULT 'PENDING',
     `username` VARCHAR(255) NOT NULL,
     `password` VARCHAR(255) NOT NULL,
-    `phone` INT UNSIGNED NOT NULL
+    `phone` INT UNSIGNED NOT NULL,
+    UNIQUE(`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `collection`(
@@ -201,13 +202,13 @@ DELIMITER ;
 START TRANSACTION;
 
 INSERT INTO `admin`(`role`, `username`, `password`, `phone`) VALUES
-('ADMIN', 'admin', 'admin', 123456789),
-('TRANSACTION_ADMIN', 'transaction_admin', 'transaction_admin', 123456789),
-('COLLECTION_ADMIN', 'collection_admin', 'collection_admin', 123456789),
-('TRANSACTION_ADMIN', 'transaction_admin2', 'transaction_admin2', 123456789),
-('COLLECTION_ADMIN', 'collection_admin2', 'collection_admin2', 123456789),
-('TRANSACTION_ADMIN', 'transaction_admin3', 'transaction_admin3', 123456789),
-('COLLECTION_ADMIN', 'collection_admin3', 'collection_admin3', 123456789),
+('ADMIN', 'admin', '$2y$10$aQp0IqtCNuos5Dzke6lgkuKSPAHI609VWYh5yNYZoruBLNw0AaIey', 123456789), -- password: admin
+('TRANSACTION_ADMIN', 'transaction_admin', '$2y$10$VS3CrOvpfpoAY15cM4oDPOoy/2x6TqWj1kus4HefkBkqXQiuZ.Tjy', 123456789), -- password: transaction_admin
+('COLLECTION_ADMIN', 'collection_admin', '$2y$10$YTnZW46IqMlLfGV5UcG7u.UTIQOOhYWorKBmFyiSLdRAx4Tj/5F8C', 123456789), -- password: collection_admin
+('TRANSACTION_ADMIN', 'transaction_admin2', '$2y$10$VS3CrOvpfpoAY15cM4oDPOoy/2x6TqWj1kus4HefkBkqXQiuZ.Tjy', 123456789), -- password: transaction_admin
+('COLLECTION_ADMIN', 'collection_admin2', '$2y$10$YTnZW46IqMlLfGV5UcG7u.UTIQOOhYWorKBmFyiSLdRAx4Tj/5F8C', 123456789), -- password: collection_admin
+('TRANSACTION_ADMIN', 'transaction_admin3', '$2y$10$VS3CrOvpfpoAY15cM4oDPOoy/2x6TqWj1kus4HefkBkqXQiuZ.Tjy', 123456789), -- password: transaction_admin
+('COLLECTION_ADMIN', 'collection_admin3', '$2y$10$YTnZW46IqMlLfGV5UcG7u.UTIQOOhYWorKBmFyiSLdRAx4Tj/5F8C', 123456789), -- password: collection_admin
 ('PENDING', 'pending', 'pending', 123456789),
 ('PENDING', 'pending2', 'pending2', 123456789),
 ('PENDING', 'pending3', 'pending3', 123456789);

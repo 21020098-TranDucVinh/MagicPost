@@ -7,17 +7,17 @@ class transactionController {
   async getAllTransactions(req, res) {
     try {
       const transactions = await Transaction.findAll({
-        attribute: { exclude: ['id'] }
+        attribute: { exclude: ['id'] },
       });
       res.status(200).json({
         errorCode: 0,
-        transactions
+        transactions,
       });
     } catch (error) {
       console.log(error);
       res.status(500).json({
         errorCode: 1,
-        message: 'Something went wrong with server'
+        msg: 'Server' + error.message,
       });
     }
   }
@@ -28,24 +28,24 @@ class transactionController {
       const zip_code = req.params.zip_code;
       const transactions = await Transaction.findAll({
         where: { zip_code },
-        attributes: { exclude: ['id'] }
+        attributes: { exclude: ['id'] },
       });
       if (transactions.length === 0) {
         res.status(404).json({
           errorCode: 1,
-          message: 'No transaction found with zip code = ' + zip_code
-        })
+          msg: 'No transaction found with zip code = ' + zip_code,
+        });
       } else {
         res.status(200).json({
           errorCode: 0,
-          transactions
+          transactions,
         });
       }
     } catch (error) {
       console.log(error);
       res.status(500).json({
         errorCode: 1,
-        message: 'Something went wrong with server'
+        msg: 'Server' + error.message,
       });
     }
   }
@@ -57,7 +57,7 @@ class transactionController {
       if (!name || !collection_zip_code || !admin_id || !address) {
         res.status(400).json({
           errorCode: 1,
-          message: 'Missing required field(s)'
+          msg: 'Missing required field(s)',
         });
       }
 
@@ -66,21 +66,26 @@ class transactionController {
         collection_zip_code,
         admin_id,
         address,
-      }).then((transaction) => {
-        console.log(transaction);
-        return res.status(201).json({
-          errorCode: 0,
-          msg: 'Transaction created successfully',
-          transaction,
-        });
-      }).catch((error) => {
-        console.log(error);
-        return res.status(500).json({
-          msg: 'Something went wrong with server',
-        });
+      });
+      res.status(201).json({
+        errorCode: 0,
+        msg: 'Transaction created successfully',
       });
     } catch (error) {
       console.log(error);
+      // catch error from unique constraint
+      if (error.name === 'SequelizeUniqueConstraintError') {
+        res.status(400).json({
+          errorCode: 1,
+          msg: error.errors[0].message,
+        });
+      }
+      if (error.name === 'SequelizeForeignKeyConstraintError') {
+        res.status(400).json({
+          errorCode: 1,
+          msg: 'Invalid admin_id or collection_zip_code',
+        });
+      }
     }
   }
 
@@ -92,35 +97,37 @@ class transactionController {
       if (!name || !collection_zip_code || !admin_id || !address) {
         res.status(400).json({
           errorCode: 1,
-          message: 'Missing required field(s)'
+          msg: 'Missing required field(s)',
         });
       }
-      const transaction = await Transaction.update({
-        name,
-        collection_zip_code,
-        admin_id,
-        address,
-      }, {
-        where: { zip_code }
-      });
+      const transaction = await Transaction.update(
+        {
+          name,
+          collection_zip_code,
+          admin_id,
+          address,
+        },
+        {
+          where: { zip_code },
+        },
+      );
       res.status(200).json({
         errorCode: 0,
-        transaction
+        transaction,
       });
     } catch (error) {
       console.log(error);
-      if (error.name === 'SequelizeUniqueConstraintError'
-      ) {
+      if (error.name === 'SequelizeUniqueConstraintError') {
         res.status(400).json({
           errorCode: 1,
-          message: error.errors[0].message
+          msg: error.errors[0].message,
         });
       }
 
       if (error.name === 'SequelizeForeignKeyConstraintError') {
         res.status(400).json({
           errorCode: 1,
-          message: 'Invalid admin_id or collection_zip_code'
+          msg: 'Invalid admin_id or collection_zip_code',
         });
       }
     }
@@ -131,24 +138,24 @@ class transactionController {
     try {
       const zip_code = req.params.zip_code;
       const transaction = await Transaction.destroy({
-        where: { zip_code }
+        where: { zip_code },
       });
       if (transaction === 0) {
         res.status(404).json({
           errorCode: 1,
-          message: 'No transaction found with zip code = ' + zip_code
-        })
+          msg: 'No transaction found with zip code = ' + zip_code,
+        });
       } else {
         res.status(200).json({
           errorCode: 0,
-          message: 'Transaction deleted successfully'
+          msg: 'Transaction deleted successfully',
         });
       }
     } catch (error) {
       console.log(error);
       res.status(500).json({
         errorCode: 1,
-        message: 'Something went wrong with server'
+        msg: 'Server' + error.message,
       });
     }
   }
