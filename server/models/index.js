@@ -24,8 +24,14 @@ db.sequelize = sequelize;
 db.models = {};
 
 db.models.Admin = require('./adminModel')(sequelize, Sequelize.DataTypes);
-db.models.Collection = require('./collectionModel')(sequelize, Sequelize.DataTypes);
-db.models.Transaction = require('./transactionModel')(sequelize, Sequelize.DataTypes);
+db.models.Collection = require('./collectionModel')(
+  sequelize,
+  Sequelize.DataTypes,
+);
+db.models.Transaction = require('./transactionModel')(
+  sequelize,
+  Sequelize.DataTypes,
+);
 db.models.Staff = require('./staffModel')(sequelize, Sequelize.DataTypes);
 db.models.Parcels = require('./parcelsModel')(sequelize, Sequelize.DataTypes);
 db.models.Tracking = require('./trackingModel')(sequelize, Sequelize.DataTypes);

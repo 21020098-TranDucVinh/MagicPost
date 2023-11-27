@@ -7,7 +7,7 @@ class parcelsController {
   async getAllParcels(req, res) {
     try {
       const parcels = await Parcels.findAndCountAll({
-        attribute: { exclude: ['id'] }
+        attribute: { exclude: ['id'] },
       });
       res.status(200).json({
         errorCode: 0,
@@ -18,7 +18,7 @@ class parcelsController {
       console.log(error);
       res.status(500).json({
         errorCode: 1,
-        message: error.message
+        msg: 'Server' + error.message,
       });
     }
   }
@@ -34,7 +34,7 @@ class parcelsController {
       if (parcel.length === 0) {
         res.status(404).json({
           errorCode: 1,
-          message: 'No parcel found with id = ' + id,
+          msg: 'No parcel found with id = ' + id,
         });
       } else {
         res.status(200).json({
@@ -46,7 +46,7 @@ class parcelsController {
       console.log(error);
       res.status(500).json({
         errorCode: 1,
-        message: error.message
+        msg: 'Server' + error.message,
       });
     }
   }
@@ -56,7 +56,7 @@ class parcelsController {
     try {
       const parcels = await Parcels.findAndCountAll({
         where: { status: 'PENDING' },
-        attribute: { exclude: ['id'] }
+        attribute: { exclude: ['id'] },
       });
       res.status(200).json({
         errorCode: 0,
@@ -67,7 +67,7 @@ class parcelsController {
       console.log(error);
       res.status(500).json({
         errorCode: 1,
-        message: error.message
+        msg: 'Server' + error.message,
       });
     }
   }
@@ -77,7 +77,7 @@ class parcelsController {
     try {
       const parcels = await Parcels.findAndCountAll({
         where: { status: 'SHIPPING' },
-        attribute: { exclude: ['id'] }
+        attribute: { exclude: ['id'] },
       });
       res.status(200).json({
         errorCode: 0,
@@ -88,7 +88,7 @@ class parcelsController {
       console.log(error);
       res.status(500).json({
         errorCode: 1,
-        message: error.message
+        msg: 'Server' + error.message,
       });
     }
   }
@@ -98,7 +98,7 @@ class parcelsController {
     try {
       const parcels = await Parcels.findAndCountAll({
         where: { status: 'DELIVERING' },
-        attribute: { exclude: ['id'] }
+        attribute: { exclude: ['id'] },
       });
       res.status(200).json({
         errorCode: 0,
@@ -109,7 +109,7 @@ class parcelsController {
       console.log(error);
       res.status(500).json({
         errorCode: 1,
-        message: error.message
+        msg: 'Server' + error.message,
       });
     }
   }
@@ -119,7 +119,7 @@ class parcelsController {
     try {
       const parcels = await Parcels.findAndCountAll({
         where: { status: 'DELIVERED' },
-        attribute: { exclude: ['id'] }
+        attribute: { exclude: ['id'] },
       });
       res.status(200).json({
         errorCode: 0,
@@ -130,7 +130,7 @@ class parcelsController {
       console.log(error);
       res.status(500).json({
         errorCode: 1,
-        message: error.message
+        msg: 'Server' + error.message,
       });
     }
   }
@@ -140,7 +140,7 @@ class parcelsController {
     try {
       const parcels = await Parcels.findAndCountAll({
         where: { status: 'RETURNED' },
-        attribute: { exclude: ['id'] }
+        attribute: { exclude: ['id'] },
       });
       res.status(200).json({
         errorCode: 0,
@@ -151,7 +151,7 @@ class parcelsController {
       console.log(error);
       res.status(500).json({
         errorCode: 1,
-        message: error.message
+        msg: 'Server' + error.message,
       });
     }
   }
@@ -159,9 +159,25 @@ class parcelsController {
   // [POST] /parcels
   async createParcel(req, res) {
     try {
-      const { s_name, s_phone, s_district, s_city, s_address,
-        r_name, r_phone, r_district, r_city, r_address,
-        type, weight, s_zip_code, r_zip_code, cost, cod, bonus } = req.body;
+      const {
+        s_name,
+        s_phone,
+        s_district,
+        s_city,
+        s_address,
+        r_name,
+        r_phone,
+        r_district,
+        r_city,
+        r_address,
+        type,
+        weight,
+        s_zip_code,
+        r_zip_code,
+        cost,
+        cod,
+        bonus,
+      } = req.body;
       // if (!s_name || !s_phone || !s_address || !r_name || !r_phone || !r_address ||
       //   !type || !weight || !s_zip_code || !cost || !payment_status) {
       //   res.status(400).json({
@@ -170,36 +186,41 @@ class parcelsController {
       //   });
       // }
 
-      const parcel = await Parcels.create({
-        s_name, s_phone,
+      await Parcels.create({
+        s_name,
+        s_phone,
         s_address: {
           s_district: s_district,
           s_city: s_city,
-          s_address: s_address
+          s_address: s_address,
         },
-        r_name, r_phone,
+        r_name,
+        r_phone,
         r_address: {
           r_district: r_district,
           r_city: r_city,
-          r_address: r_address
+          r_address: r_address,
         },
-        type, weight, s_zip_code, r_zip_code, cost,
+        type,
+        weight,
+        s_zip_code,
+        r_zip_code,
+        cost,
         r_cod: {
           cod: cod,
-          bonus: bonus
+          bonus: bonus,
         },
       });
 
       res.status(201).json({
         errorCode: 0,
-        parcel
+        msg: 'New parcel created successfully',
       });
-
     } catch (error) {
       console.log(error);
       res.status(500).json({
         errorCode: 1,
-        message: error.message
+        msg: 'Server' + error.message,
       });
     }
   }
@@ -209,36 +230,39 @@ class parcelsController {
       const parcel_id = req.params.parcel_id;
       const { status } = req.body;
 
-      await Parcels.update({
-        status
-      }, {
-        where: { parcel_id },
-        returning: true, // to return the object
-        plain: true // return the object itself and not the other messy meta data that might not be useful.
-      }).then((parcel) => {
-        console.log(parcel);
-        return res.status(201).json({
-          errorCode: 0,
-          parcel
+      await Parcels.update(
+        {
+          status,
+        },
+        {
+          where: { parcel_id },
+          returning: true, // to return the object
+          plain: true, // return the object itself and not the other messy meta data that might not be useful.
+        },
+      )
+        .then((parcel) => {
+          console.log(parcel);
+          return res.status(201).json({
+            errorCode: 0,
+            parcel,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          // catch error from unique constraint
+          res.status(400).json({
+            errorCode: 1,
+            msg: error.errors[0].message,
+          });
         });
-      }).catch((error) => {
-        console.log(error);
-        // catch error from unique constraint
-        res.status(400).json({
-          errorCode: 1,
-          message: error.errors[0].message
-        });
-      });
     } catch (error) {
       console.log(error);
       res.status(500).json({
         errorCode: 1,
-        message: 'Something went wrong with server'
+        msg: 'Server' + error.message,
       });
     }
   }
-
-
 }
 
 module.exports = new parcelsController();

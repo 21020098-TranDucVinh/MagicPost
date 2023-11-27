@@ -7,18 +7,17 @@ class collectionController {
   async getAllCollections(req, res) {
     try {
       const collections = await Collection.findAll({
-        attributes: { exclude: ['id'] }
+        attributes: { exclude: ['id'] },
       });
       res.status(200).json({
         errorCode: 0,
-        collections
-      }
-      );
+        collections,
+      });
     } catch (error) {
       console.log(error);
       res.status(500).json({
         errorCode: 1,
-        message: 'Something went wrong with server'
+        msg: 'Server' + error.message,
       });
     }
   }
@@ -29,23 +28,23 @@ class collectionController {
       const zip_code = req.params.zip_code;
       const collections = await Collection.findAll({
         where: { zip_code },
-        attributes: { exclude: ['id'] }
+        attributes: { exclude: ['id'] },
       });
       if (collections.length === 0) {
         return res.status(404).json({
           errorCode: 1,
-          message: 'Collection not found with this zip_code'
+          msg: 'Collection not found with this zip_code',
         });
       }
       res.status(200).json({
         errorCode: 0,
-        collections
+        collections,
       });
     } catch (error) {
       console.log(error);
       res.status(500).json({
         errorCode: 1,
-        message: 'Something went wrong with server'
+        msg: 'Server' + error.message,
       });
     }
   }
@@ -56,17 +55,17 @@ class collectionController {
       const zip_code = req.params.zip_code;
       const transactions = await Transaction.findAll({
         where: { collection_zip_code: zip_code },
-        attributes: { exclude: ['id'] }
+        attributes: { exclude: ['id'] },
       });
       res.status(200).json({
         errorCode: 0,
-        transactions
+        transactions,
       });
     } catch (error) {
       console.log(error);
       res.status(500).json({
         errorCode: 1,
-        message: 'Something went wrong with server'
+        msg: 'Server' + error.message,
       });
     }
   }
@@ -78,15 +77,17 @@ class collectionController {
       if (!name || !admin_id || !address) {
         res.status(400).json({
           errorCode: 1,
-          message: 'Missing required field(s)'
+          msg: 'Missing required field(s)',
         });
       }
-      const collection = await Collection.create({
-        name, admin_id, address
+      await Collection.create({
+        name,
+        admin_id,
+        address,
       });
       res.status(201).json({
         errorCode: 0,
-        collection
+        msg: 'New collection created successfully',
       });
     } catch (error) {
       console.log(error);
@@ -94,13 +95,13 @@ class collectionController {
       if (error.name === 'SequelizeUniqueConstraintError') {
         res.status(400).json({
           errorCode: 1,
-          message: error.errors[0].message
+          msg: error.errors[0].message,
         });
       }
       if (error.name === 'SequelizeForeignKeyConstraintError') {
         res.status(400).json({
           errorCode: 1,
-          message: 'Invalid admin_id'
+          msg: 'Invalid admin_id',
         });
       }
     }
@@ -114,35 +115,42 @@ class collectionController {
       if (!name || !admin_id || !address) {
         res.status(400).json({
           errorCode: 1,
-          message: 'Missing required field(s)'
+          msg: 'Missing required field(s)',
         });
       }
 
-      await Collection.update({
-        name, admin_id, address
-      }, {
-        where: { zip_code },
-        returning: true, // to return the object
-        plain: true // return the object itself and not the other messy meta data that might not be useful.
-      }).then((collection) => {
-        console.log(collection);
-        return res.status(201).json({
-          errorCode: 0,
-          collection
+      await Collection.update(
+        {
+          name,
+          admin_id,
+          address,
+        },
+        {
+          where: { zip_code },
+          returning: true, // to return the object
+          plain: true, // return the object itself and not the other messy meta data that might not be useful.
+        },
+      )
+        .then((collection) => {
+          console.log(collection);
+          return res.status(201).json({
+            errorCode: 0,
+            collection,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          // catch error from unique constraint
+          res.status(400).json({
+            errorCode: 1,
+            msg: error.errors[0].message,
+          });
         });
-      }).catch((error) => {
-        console.log(error);
-        // catch error from unique constraint
-        res.status(400).json({
-          errorCode: 1,
-          message: error.errors[0].message
-        });
-      });
     } catch (error) {
       console.log(error);
       res.status(500).json({
         errorCode: 1,
-        message: 'Something went wrong with server'
+        msg: 'Server' + error.message,
       });
     }
   }
@@ -152,27 +160,26 @@ class collectionController {
     try {
       const zip_code = req.params.zip_code;
       const collection = await Collection.destroy({
-        where: { zip_code }
+        where: { zip_code },
       });
       if (collection === 0) {
         return res.status(404).json({
           errorCode: 1,
-          message: 'Collection not found with this zip_code'
+          msg: 'Collection not found with this zip_code',
         });
       }
       res.status(200).json({
         errorCode: 0,
-        message: 'Delete collection successfully'
+        msg: 'Delete collection successfully',
       });
     } catch (error) {
       console.log(error);
       res.status(500).json({
         errorCode: 1,
-        message: 'Something went wrong with server'
+        msg: 'Server' + error.message,
       });
     }
   }
-
 }
 
 module.exports = new collectionController();
