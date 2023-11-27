@@ -12,23 +12,8 @@
      // line-height: 55px;
      border-bottom: 1px solid #ddd;
      width: 100vw;
-     // position: fixed;
-     .btn-logout {
-          // color: $common-text-color;
-          color: black;
-          height: 100%;
-          padding: 20px;
-          // margin-right: 30px;
-          &:hover {
-               background-color: darken($colormain, 5);
-               color: white;
-          }
-          i {
-               font-size: $base-size + 1px;
-          }
-     }
+
      .header-logo {
-          // background-image: url('https://giaohangtietkiem.vn/wp-content/themes/giaohangtk/images/logo-header.png');
           background: url('../../assets/images/logo2.jpg');
           height: 60px;
           width: 100px;
@@ -36,10 +21,5 @@
           background-repeat: no-repeat;
           background-position: center;
           margin-left: 25px;
-     }
-     .languages {
-          .welcome {
-               margin-right: 10px;
-          }
      }
 }

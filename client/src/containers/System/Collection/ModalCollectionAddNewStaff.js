@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import * as services from '../../../services/index';
 import { Modal } from 'reactstrap';
 import Select from 'react-select';
-import 'flatpickr/dist/themes/material_green.css';
 import toast from 'react-hot-toast';
 import * as actions from '../../../store/actions/index';
 class ModalCollectionAddNewStaff extends Component {

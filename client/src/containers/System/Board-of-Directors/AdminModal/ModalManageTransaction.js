@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './commonSsssModal.scss';
 import { Modal } from 'reactstrap';
-import 'flatpickr/dist/themes/material_green.css';
+// import 'flatpickr/dist/themes/material_green.css';
 import toast from 'react-hot-toast';
 import * as actions from '../../../../store/actions/index';
 import Select from 'react-select';

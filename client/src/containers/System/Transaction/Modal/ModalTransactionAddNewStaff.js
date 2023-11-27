@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { Modal } from 'reactstrap';
 import Select from 'react-select';
-import 'flatpickr/dist/themes/material_green.css';
+
 import * as actions from '../../../../store/actions/index';
 import { handleTransactionCreateNewStaff, editTransactionStaff } from '../../../../services/TransactionService';
 import toast from 'react-hot-toast';

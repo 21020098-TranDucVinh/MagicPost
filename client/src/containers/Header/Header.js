@@ -4,8 +4,8 @@ import * as actions from '../../store/actions';
 import Navigator from '../../components/Navigator';
 import { adminMenu, transactionManageMenu, collectionManageMenu } from './menuApp';
 import './Header.scss';
-
-import ModalPersonal from '../System/Admin/ModalPersonal';
+import ExitToAppTwoToneIcon from '@mui/icons-material/ExitToAppTwoTone';
+import { TbLogin } from 'react-icons/tb';
 class Header extends Component {
      constructor(props) {
           super(props);
@@ -32,10 +32,6 @@ class Header extends Component {
           const { processLogout, userInfo } = this.props;
           return (
                <>
-                    <ModalPersonal
-                         isOpenModalPersonal={this.state.isOpenModalPersonal}
-                         isCloseModalPersonal={this.closeModalPersonal}
-                    />
                     <div className="header-container">
                          <div className="header-logo"></div>
                          <div className="header-tabs-container">
@@ -52,8 +48,10 @@ class Header extends Component {
                                    onClick={() => this.handleOpenModalPersonal()}
                                    title="Log out"
                               >
-                                   {/* <i className="fas fa-sign-out-alt"></i> */}
-                                   <i className="	fas fa-bars"></i>
+                                   <button className="btn btn-primary btn-lg">
+                                        <TbLogin />
+                                        <span>Login</span>
+                                   </button>
                               </div>
                          </div>
                     </div>
