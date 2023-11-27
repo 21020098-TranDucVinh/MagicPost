@@ -3,6 +3,54 @@
           height: inherit;
           width: inherit;
      }
+
+     .homepage-banner-container {
+          border: 1px solid;
+          height: 150vh;
+          width: 100vw;
+          background-image: url('../../assets/images/banner5.jfif');
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center center;
+          .company-info {
+               .info {
+                    display: flex;
+                    align-items: center;
+                    // justify-content: center;
+                    // flex-direction: column;
+               }
+               border: 1px solid red;
+               .info-top {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    height: 40%;
+                    border: 1px solid;
+               }
+               .info-middle {
+                    height: 30%;
+                    border: 1px solid;
+               }
+               .info-bottom {
+                    height: 29%;
+                    border: 1px solid;
+               }
+          }
+     }
+     .welcome-magicpost-info-container {
+          height: 30vh;
+          width: 100vw;
+          border: 1px solid;
+          .welcome-magicpost-info-content {
+               height: 100%;
+               .left-content-info {
+                    border: 1px solid red;
+               }
+               .left-content-info {
+                    border: 1px solid green;
+               }
+          }
+     }
 }
 .modal-header {
      span {

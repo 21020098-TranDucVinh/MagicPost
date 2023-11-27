@@ -39,7 +39,7 @@ class Header extends Component {
                     <div className="header-container">
                          <div className="header-logo"></div>
                          <div className="header-tabs-container">
-                              <Navigator menus={collectionManageMenu} />
+                              <Navigator menus={transactionManageMenu} />
                          </div>
 
                          <div className="languages">

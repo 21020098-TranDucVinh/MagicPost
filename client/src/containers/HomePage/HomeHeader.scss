@@ -1,8 +1,44 @@
 .homepage-header-container {
-     height: 65px;
+     height: 8vh;
+     padding-right: 0;
+     // background-color: rgba(0, 0, 0, 0);
+     @media (min-width: 1490px) {
+          font-size: 15px;
+     }
+     @media (max-width: 1489px) {
+          font-size: 2vw;
+     }
      border: 1px solid red;
+     display: flex;
+     justify-content: space-between;
      .header-content-left {
+          // border: 1px solid;
+          .logo-magic-post {
+               height: 100%;
+               background-image: url('../../assets/images/logo2.jpg');
+               background-size: contain;
+               background-repeat: no-repeat;
+               background-position: center;
+          }
      }
      .header-content-right {
+          // border: 1px solid;
+          margin-right: 0px !important;
+          .menu-list-header {
+               font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               // border: 1px solid green;
+          }
+          .login-logout-container {
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               // border: 1px solid green;
+               .btn-login {
+                    font-weight: 600;
+               }
+          }
      }
 }
