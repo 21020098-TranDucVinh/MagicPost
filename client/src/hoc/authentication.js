@@ -1,12 +1,13 @@
 import locationHelperBuilder from 'redux-auth-wrapper/history4/locationHelper';
 import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect';
-
+// import Home from '../routes/Home';
 const locationHelper = locationHelperBuilder({});
 
 export const userIsAuthenticated = connectedRouterRedirect({
      authenticatedSelector: (state) => state.user.isLoggedIn,
      wrapperDisplayName: 'UserIsAuthenticated',
      redirectPath: '/login',
+     // AuthenticatingComponent: Home,
 });
 
 export const userIsNotAuthenticated = connectedRouterRedirect({

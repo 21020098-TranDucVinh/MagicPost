@@ -10,6 +10,7 @@ class Login extends Component {
      constructor(props) {
           super(props);
           this.state = {
+               roleToSendToServer: 'admin',
                username: '',
                password: '',
                isShowPassword: false,
@@ -26,24 +27,19 @@ class Login extends Component {
      };
 
      handleLogin = async () => {
-          this.setState({
-               arrMessage: '',
-          });
-          // console.log("state : ", this.state);
           try {
-               let data = await handleLoginAPI(this.state.username, this.state.password);
-               if (data && data.userData.errCode !== 0) {
-                    this.setState({
-                         arrMessage: data.userData.arrMessage,
-                    });
+               let data = {
+                    username: this.state.username,
+                    password: this.state.password,
+                    role: this.state.roleToSendToServer,
+               };
+               // console.log('check data : ', data);
+               let res = await handleLoginAPI(data);
+               if (res && res.errorCode === 0) {
+                    this.props.userLoginSuccess(res);
                }
-
-               if (data && data.userData.errCode === 0) {
-                    this.props.userLoginSuccess(data.userData.user);
-               }
-               console.log('check data: ', data.userData);
+               console.log(res);
           } catch (error) {
-               // console.log(error.response.data.message);
                if (error.response) {
                     if (error.response.data) {
                          this.setState({
@@ -72,7 +68,7 @@ class Login extends Component {
                     <div className="login-background">
                          <div className="login-container container">
                               <div className="login-content row">
-                                   {/* <div className="col-12 text-login">LOGIN</div> */}
+                                   <div className="col-12 text-login text-center  my-4">LOGIN</div>
                                    <div className="col-12 form-group login-input">
                                         <label className="text-label">Username:</label>
                                         <input
@@ -114,9 +110,9 @@ class Login extends Component {
                                    <div className="col-12" style={{ color: 'red' }}>
                                         {this.state.arrMessage}
                                    </div>
-                                   <div className="col-12">
+                                   <div className="col-12 my-5 ">
                                         <button
-                                             className="btn-login"
+                                             className="btn btn-primary w-100"
                                              onClick={() => {
                                                   this.handleLogin();
                                              }}
@@ -125,17 +121,8 @@ class Login extends Component {
                                         </button>
                                    </div>
                                    <div className="col-12 extra-login">
-                                        <span
-                                             className="forgot-password"
-                                             onClick={() => this.handleOnclickForgetPassWord()}
-                                        >
-                                             Forgot Password
-                                        </span>
-                                        {/* <span className="sign-up" onClick={() => this.handleOnclickSignUp()}>
-                                             Sign Up
-                                        </span> */}
-                                        <div className="btn-create-new-account-container">
-                                             <button className="btn-create-new-account">Create a new account</button>
+                                        <div className="btn-create-new-account-container my-3 mb-5">
+                                             <button className="btn btn-primary w-100">Create a new account</button>
                                         </div>
                                    </div>
                               </div>

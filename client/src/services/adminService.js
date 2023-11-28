@@ -1,6 +1,6 @@
 import axios from '../axios';
-const handleLoginAPI = (userEmail, userPassword) => {
-     return axios.post('/api/login', { email: userEmail, password: userPassword });
+const handleLoginAPI = (body) => {
+     return axios.post('/login', body);
 };
 // Create new potential admin
 const handleCreateNewPotentialAdmin = (body) => {
