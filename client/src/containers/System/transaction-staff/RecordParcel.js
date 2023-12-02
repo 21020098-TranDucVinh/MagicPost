@@ -8,61 +8,7 @@ import { FaPlus } from 'react-icons/fa6';
 import ModalRecordParcel from './ModalRecordParcel';
 import * as actions from '../../../store/actions/index';
 import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
-const columns = [
-     { field: 'id', headerName: 'ID', width: 90 },
-
-     {
-          field: 's_name',
-          headerName: 'Sender Name',
-          width: 150,
-          editable: false,
-     },
-     {
-          field: 's_phone',
-          headerName: 'Sender Phone',
-          type: 'text',
-          width: 200,
-          editable: false,
-     },
-     {
-          field: 's_address',
-          headerName: 'Sender address',
-          // description: 'This column has a value getter and is not sortable.',
-          sortable: true,
-          width: 160,
-     },
-     {
-          field: 'r_name',
-          headerName: 'Receiver Name',
-          sortable: true,
-          width: 160,
-     },
-     {
-          field: 'r_phone',
-          headerName: 'Receiver Phone',
-          type: 'text',
-          width: 200,
-          editable: false,
-     },
-     {
-          field: 'r_address',
-          headerName: 'Receiver address',
-          sortable: true,
-          width: 160,
-     },
-     {
-          field: 'cost',
-          headerName: 'Cost',
-          sortable: true,
-          width: 160,
-     },
-     {
-          field: 'payment_status',
-          headerName: 'Payment Status',
-          sortable: true,
-          width: 160,
-     },
-];
+import { options } from '../../../utils';
 
 class RecordParcel extends Component {
      constructor(props) {
@@ -186,7 +132,7 @@ class RecordParcel extends Component {
                                                   },
                                              }}
                                              rows={arrPendingParcels}
-                                             columns={columns}
+                                             columns={options.columnsParcels}
                                              pageSizeOptions={[5, 7]}
                                              autoHeight={true}
                                              checkboxSelection={true}
