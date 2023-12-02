@@ -5,6 +5,7 @@ import appReducer from './appReducer';
 import userReducer from './userReducer';
 import transactionAdminReducer from './transactionAdminReducer';
 import collectionAdminReducer from './collectionAdminReducer';
+import transactionStaffReducer from './transactionStaffReducer';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
@@ -33,4 +34,5 @@ export default (history) =>
           admin: adminReducer,
           adminTransaction: transactionAdminReducer,
           adminCollection: collectionAdminReducer,
+          staffTransaction: transactionStaffReducer,
      });

@@ -15,6 +15,7 @@ import RouteTransactionManager from '../routes/RouteTransactionManager.js';
 import { Toaster } from 'react-hot-toast';
 import RouteCollectionManager from '../routes/RouteCollectionManager.js';
 import { Redirect } from 'react-router-dom';
+import RouteTransactionStaff from '../routes/RouteTransactionStaff.js';
 class App extends Component {
      constructor(props) {
           super(props);
@@ -43,7 +44,8 @@ class App extends Component {
                                         <Switch>
                                              <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
                                              <Route path={path.HOMEPAGE} component={HomePage} />
-                                             {userInfo && userInfo.role === 'ADMIN' && (
+                                             <Route path={path.TRANSACTION_STAFF} component={RouteTransactionStaff} />
+                                             {/* {userInfo && userInfo.role === 'ADMIN' && (
                                                   <>
                                                        <Redirect to={path.SYSTEM} />
                                                        <Route
@@ -66,7 +68,7 @@ class App extends Component {
                                                        path={path.COLLECTION_ADMIN}
                                                        component={userIsAuthenticated(RouteCollectionManager)}
                                                   />
-                                             )}
+                                             )} */}
                                         </Switch>
                                    </Scrollbars>
                               </div>

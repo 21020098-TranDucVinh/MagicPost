@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import Navigator from '../../components/Navigator';
-import { adminMenu, transactionManageMenu, collectionManageMenu } from './menuApp';
+import { adminMenu, transactionManageMenu, collectionManageMenu, transactionStaffMenu } from './menuApp';
 import './Header.scss';
 import { CiLogout } from 'react-icons/ci';
 class Header extends Component {
@@ -16,27 +16,30 @@ class Header extends Component {
 
      componentDidMount() {
           let { userInfo } = this.props;
-          switch (userInfo.role) {
-               case 'ADMIN':
-                    this.setState({
-                         menuApp: adminMenu,
-                    });
-                    break;
-               case 'TRANSACTION_ADMIN':
-                    this.setState({
-                         menuApp: transactionManageMenu,
-                    });
-                    break;
-               case 'COLLECTION_ADMIN':
-                    this.setState({
-                         menuApp: collectionManageMenu,
-                    });
-                    break;
-               default:
-                    return this.setState({
-                         menuApp: [],
-                    });
-          }
+          // switch (userInfo.role) {
+          //      case 'ADMIN':
+          //           this.setState({
+          //                menuApp: adminMenu,
+          //           });
+          //           break;
+          //      case 'TRANSACTION_ADMIN':
+          //           this.setState({
+          //                menuApp: transactionManageMenu,
+          //           });
+          //           break;
+          //      case 'COLLECTION_ADMIN':
+          //           this.setState({
+          //                menuApp: collectionManageMenu,
+          //           });
+          //           break;
+          //      default:
+          //           return this.setState({
+          //                menuApp: [],
+          //           });
+          // }
+          this.setState({
+               menuApp: transactionStaffMenu,
+          });
      }
      handleLogout = () => {
           this.props.processLogout();
