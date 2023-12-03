@@ -74,8 +74,10 @@ class AdminModalAddNewUser extends Component {
                password: this.state.password,
                phone: this.state.phone,
           };
+          console.log('check data: ', data);
           if (checkInputValid && checkInputPasswordValid) {
                let res = await handleCreateNewPotentialAdmin(data);
+               console.log('check res: ', res);
                if (res && res.errorCode === 0) {
                     this.setState({
                          userName: '',

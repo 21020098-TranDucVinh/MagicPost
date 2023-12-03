@@ -2,6 +2,15 @@
      max-width: 1500px !important;
      background-color: white;
      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+     .button {
+          @media (min-width: 1490px) {
+               font-size: 17px;
+          }
+          @media (max-width: 1489px) {
+               font-size: 10px;
+          }
+     }
+
      .title-admin {
           @media (min-width: 1490px) {
                font-size: 17px;
@@ -18,10 +27,10 @@
      }
      .admin-content {
           @media (min-width: 1490px) {
-               font-size: 15px;
+               font-size: 15px !important;
           }
           @media (max-width: 1489px) {
-               font-size: 2vw;
+               font-size: 2vw !important;
           }
           min-height: 70vh;
           border: 1px solid #ddd;

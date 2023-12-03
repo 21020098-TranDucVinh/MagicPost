@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import * as actions from '../../store/actions';
 
-import ManageParcel from '../../Board-of-Directors/Management/ManageParcel';
+import ChartStatisticParcel from '../../Board-of-Directors/Management/ChartStatisticParcel';
 // import { handleDefaultClassAPI } from '../../services/adminService';
 
 class TransactionManageParcel extends Component {
@@ -52,7 +52,7 @@ class TransactionManageParcel extends Component {
           let { optionsSelectStatistic, data, options } = this.state;
           return (
                <>
-                    <ManageParcel
+                    <ChartStatisticParcel
                          optionsSelectOne={optionsSelectStatistic}
                          optionsSelectTwo={optionsSelectStatistic}
                          data={data}

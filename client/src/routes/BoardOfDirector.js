@@ -4,12 +4,12 @@ import { Route, Switch } from 'react-router-dom';
 import Header from '../containers/Header/Header';
 import AdminManagement from '../containers/System/Board-of-Directors/AdminManagement';
 import HomepageDirector from '../containers/System/Board-of-Directors/HomepageDirector';
-import ManageParcel from '../containers/System/Board-of-Directors/Management/ManageParcel';
+import ChartStatisticParcel from '../containers/System/Board-of-Directors/Management/ChartStatisticParcel';
 import './BoardOfDirector.scss';
 import ManageTransaction from '../containers/System/Board-of-Directors/Management/ManageTransaction';
 import ManagementCollection from '../containers/System/Board-of-Directors/Management/ManagementCollection';
 import HomeFooter from '../containers/HomePage/HomeFooter';
-
+import AdminStatisticParcel from '../containers/System/Board-of-Directors/Management/AdminStatisticParcel';
 class BoardOfDirector extends Component {
      render() {
           const { isLoggedIn } = this.props;
@@ -31,7 +31,7 @@ class BoardOfDirector extends Component {
                                         <Route
                                              exact
                                              path="/system/director/statistics/parcels"
-                                             component={ManageParcel}
+                                             component={AdminStatisticParcel}
                                         />
                                         <Route
                                              exact

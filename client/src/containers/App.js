@@ -44,8 +44,8 @@ class App extends Component {
                                         <Switch>
                                              <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
                                              <Route path={path.HOMEPAGE} component={HomePage} />
-                                             <Route path={path.TRANSACTION_STAFF} component={RouteTransactionStaff} />
-                                             {/* {userInfo && userInfo.role === 'ADMIN' && (
+                                             {/* <Route path={path.TRANSACTION_STAFF} component={RouteTransactionStaff} /> */}
+                                             {userInfo && userInfo.role === 'ADMIN' && (
                                                   <>
                                                        <Redirect to={path.SYSTEM} />
                                                        <Route
@@ -68,12 +68,11 @@ class App extends Component {
                                                        path={path.COLLECTION_ADMIN}
                                                        component={userIsAuthenticated(RouteCollectionManager)}
                                                   />
-                                             )} */}
+                                             )}
                                         </Switch>
                                    </Scrollbars>
                               </div>
-                              <Toaster />
-                              <ToastContainer />
+                              <Toaster position="top-right" />
                          </div>
                     </Router>
                </>

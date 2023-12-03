@@ -9,7 +9,7 @@ import Avatar from '@mui/material/Avatar';
 import OutboxTwoToneIcon from '@mui/icons-material/OutboxTwoTone';
 import MoveToInboxTwoToneIcon from '@mui/icons-material/MoveToInboxTwoTone';
 ChartJS.register(ArcElement, Tooltip, Legend);
-class ManageParcel extends Component {
+class ChartStatisticParcel extends Component {
      constructor(props) {
           super(props);
           this.state = {};
@@ -107,4 +107,4 @@ const mapDispatchToProps = (dispatch) => {
      };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageParcel);
+export default connect(mapStateToProps, mapDispatchToProps)(ChartStatisticParcel);

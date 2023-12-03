@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import * as actions from '../../store/actions';
-
-import ChartStatisticParcel from '../Board-of-Directors/Management/ChartStatisticParcel';
-// import { handleDefaultClassAPI } from '../../services/adminService';
-
-class CollectionStatisticParcel extends Component {
+import ChartStatisticParcel from './ChartStatisticParcel';
+class AdminStatisticParcel extends Component {
      constructor(props) {
           super(props);
           this.state = {
@@ -51,14 +47,12 @@ class CollectionStatisticParcel extends Component {
      render() {
           let { optionsSelectStatistic, data, options } = this.state;
           return (
-               <>
-                    <ChartStatisticParcel
-                         optionsSelectOne={optionsSelectStatistic}
-                         optionsSelectTwo={optionsSelectStatistic}
-                         data={data}
-                         options={options}
-                    />
-               </>
+               <ChartStatisticParcel
+                    optionsSelectOne={optionsSelectStatistic}
+                    optionsSelectTwo={optionsSelectStatistic}
+                    data={data}
+                    options={options}
+               />
           );
      }
 }
@@ -75,4 +69,4 @@ const mapDispatchToProps = (dispatch) => {
      };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CollectionStatisticParcel);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminStatisticParcel);

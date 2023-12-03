@@ -94,4 +94,27 @@ export const options = {
                width: 160,
           },
      ],
+     columnsPotentialCandidate: [
+          { field: 'id', headerName: 'ID', width: 90 },
+          {
+               field: 'username',
+               headerName: 'User Name',
+               sortable: true,
+               width: 250,
+          },
+          {
+               field: 'phone',
+               headerName: 'Phone',
+               sortable: true,
+               width: 250,
+          },
+          { field: 'role', headerName: 'Role', width: 200 },
+     ],
+};
+export const roles = {
+     ADMIN: 'ADMIN',
+     TRANSACTION_ADMIN: 'TRANSACTION_ADMIN',
+     COLLECTION_ADMIN: 'COLLECTION_ADMIN',
+     COLLECTION_STAFF: 'COLLECTION_STAFF',
+     TRANSACTION_STAFF: 'TRANSACTION_STAFF',
 };

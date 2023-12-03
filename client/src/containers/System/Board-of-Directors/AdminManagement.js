@@ -5,10 +5,17 @@ import AdminModalAddNewUser from './AdminModal/AdminModalAddNewUser';
 import * as actions from '../../../store/actions/index';
 import { deleteUserPending } from '../../../services/adminService';
 import toast from 'react-hot-toast';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { options } from '../../../utils';
+import { Button } from 'reactstrap';
+import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
+import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
+import { MdPersonAddAlt1 } from 'react-icons/md';
 class AdminManagement extends Component {
      constructor(props) {
           super(props);
           this.state = {
+               rows: [{ id: 1, name: 'thach', age: '21', gender: 'NAM' }],
                isOpenModal: false,
                arrAdminsPending: [],
           };
@@ -52,6 +59,7 @@ class AdminManagement extends Component {
                isEditUser: true,
           });
      };
+     // Open modal create potential candidate
      OpenModalCrateNewAdminPending = () => {
           this.props.isNotEditAdminPending();
           this.setState({
@@ -59,7 +67,7 @@ class AdminManagement extends Component {
           });
      };
      render() {
-          let { arrAdminsPending } = this.state;
+          let { arrAdminsPending, rows } = this.state;
           return (
                <>
                     <div className="admin-container my-3">
@@ -70,18 +78,75 @@ class AdminManagement extends Component {
                          </div>
                          <div className="admin-content container">
                               <div className="btn-director-add-new-user-container">
-                                   <div className="btn-create-new-user-container">
-                                        <button
+                                   <div className="btn-create-new-user-container button">
+                                        <Button
                                              // className="btn-create-new-user"
-                                             className="btn btn-primary"
+                                             className="btn btn-primary button"
                                              onClick={() => this.OpenModalCrateNewAdminPending()}
                                         >
-                                             <i className="fas fa-plus"></i>
-                                             <span>Add New User</span>
-                                        </button>
+                                             <MdPersonAddAlt1 className="button" />
+                                             <span>Add potential candidate</span>
+                                        </Button>
+                                   </div>
+                                   <div className="btn-option-container ">
+                                        <Button
+                                             className="btn btn-warning px-4 button "
+                                             onClick={() => this.OpenModalEditStaff()}
+                                        >
+                                             <EditTwoToneIcon className="button" />
+                                             <span>Edit</span>
+                                        </Button>
+                                        <Button
+                                             className="btn btn-danger button"
+                                             onClick={() => this.handleDeleteStaffTransaction()}
+                                        >
+                                             <DeleteForeverTwoToneIcon className="button" />
+                                             <span>Delete</span>
+                                        </Button>
                                    </div>
                               </div>
                               <div className="table-user-content mt-2 mb-3 ">
+                                   <div style={{ height: 400, width: '100%' }}>
+                                        <DataGrid
+                                             sx={{
+                                                  border: 1,
+                                                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                                                  fontSize: 16,
+                                             }}
+                                             slots={{ toolbar: GridToolbar }}
+                                             slotProps={{
+                                                  toolbar: {
+                                                       showQuickFilter: true,
+                                                  },
+                                             }}
+                                             rows={arrAdminsPending}
+                                             columns={options.columnsPotentialCandidate}
+                                             pageSizeOptions={[5, 7]}
+                                             autoHeight={true}
+                                             checkboxSelection={true}
+                                             onRowSelectionModelChange={(ids) => {
+                                                  const selectedIDs = new Set(ids);
+
+                                                  let selectedRowData = [];
+                                                  arrAdminsPending.map((row) => {
+                                                       selectedIDs.has(row.id);
+                                                       if (selectedIDs.has(row.id)) {
+                                                            selectedRowData.push(row);
+                                                       }
+                                                  });
+                                                  this.setState({
+                                                       selectedTransaction: selectedRowData,
+                                                  });
+                                             }}
+                                             initialState={{
+                                                  pagination: {
+                                                       paginationModel: { page: 0, pageSize: 5 },
+                                                  },
+                                             }}
+                                        />
+                                   </div>
+                              </div>
+                              {/* <div className="table-user-content mt-2 mb-3 ">
                                    <table className="table table-hover customers">
                                         <thead className="text-center">
                                              <tr>
@@ -124,7 +189,7 @@ class AdminManagement extends Component {
                                                   })}
                                         </tbody>
                                    </table>
-                              </div>
+                              </div> */}
                          </div>
                     </div>
                </>

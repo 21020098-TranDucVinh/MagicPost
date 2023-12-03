@@ -22,4 +22,21 @@
           background-position: center;
           margin-left: 25px;
      }
+     .languages {
+          .btn-logout {
+               cursor: pointer;
+
+               .btn-lg {
+                    background-color: #0062a1;
+                    .button {
+                         @media (min-width: 1490px) {
+                              font-size: 17px;
+                         }
+                         @media (max-width: 1489px) {
+                              font-size: 10px;
+                         }
+                    }
+               }
+          }
+     }
 }
