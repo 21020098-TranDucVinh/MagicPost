@@ -5,17 +5,27 @@ import * as actions from '../../../../store/actions/index';
 import toast from 'react-hot-toast';
 import ModalManageCollection from '../AdminModal/ModalManageCollection';
 import { deleteCollectionById } from '../../../../services/adminService';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { Button } from 'reactstrap';
+import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
+import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
+import { BsFillPersonPlusFill } from 'react-icons/bs';
+
+import { options } from '../../../../utils';
 class ManagementCollection extends Component {
      constructor(props) {
           super(props);
           this.state = {
+               rows: [{ id: 1, name: 'thach', age: '21', gender: 'Name' }],
                isOpenModal: false,
                arrCollections: [],
                isEditCollection: false,
+               selectedCollections: [],
           };
      }
      async componentDidMount() {
-          await this.props.getAllCollections();
+          const token = this.props.userInfo.token;
+          await this.props.getAllCollections(token);
      }
      componentDidUpdate(prevProps, prevState, snapshot) {
           if (prevProps.arrCollections !== this.props.arrCollections) {
@@ -38,23 +48,30 @@ class ManagementCollection extends Component {
           });
      };
      // Delete Collection
-     handleDeleteCollection = async (collection) => {
-          if (collection) {
-               let res = await deleteCollectionById(collection.zip_code);
-               console.log('check res : ', res);
+     handleDeleteCollection = async () => {
+          let { selectedCollections } = this.state;
+          let collectionId = selectedCollections[0].zip_code;
+          const token = this.props.userInfo.token;
+          if (collectionId) {
+               let res = await deleteCollectionById(collectionId, { headers: { Authorization: `Bearer ${token}` } });
                if (res && res.errorCode === 0) {
-                    toast.success(res.message);
+                    toast.success(res.msg);
                     this.props.getAllCollections();
                }
           }
      };
      // open modal edit Collection
-     isOpenModalEditCollection = (collection) => {
-          this.setState({
-               isOpenModal: true,
-          });
-          this.props.doEditCollection();
-          this.props.fetchDataEditCollection(collection);
+     isOpenModalEditCollection = () => {
+          let { selectedCollections } = this.state;
+          if (selectedCollections && selectedCollections.length === 1) {
+               this.props.doEditCollection();
+               this.props.fetchDataEditCollection(selectedCollections[0]);
+               this.setState({
+                    isOpenModal: true,
+               });
+          } else {
+               toast.error('Please choose only one!');
+          }
      };
 
      render() {
@@ -70,58 +87,68 @@ class ManagementCollection extends Component {
                                         className="btn btn-primary"
                                         onClick={() => this.isOpenModalCreteCollection()}
                                    >
-                                        <i className="fas fa-plus"></i>
-                                        <span>Add new Collection</span>
+                                        <BsFillPersonPlusFill className="button mx-1" />
+                                        <span className="button">Add new Collection</span>
                                    </button>
                               </div>
+                              <div className="btn-option-container ">
+                                   <Button
+                                        className="btn btn-warning px-4 button "
+                                        onClick={() => this.isOpenModalEditCollection()}
+                                   >
+                                        <EditTwoToneIcon className="button" />
+                                        <span>Edit</span>
+                                   </Button>
+                                   <Button
+                                        className="btn btn-danger button"
+                                        onClick={() => this.handleDeleteCollection()}
+                                   >
+                                        <DeleteForeverTwoToneIcon className="button" />
+                                        <span>Delete</span>
+                                   </Button>
+                              </div>
                          </div>
-                         <div className="table-user-content mt-2 mb-3">
-                              <table className="table table-hover customers">
-                                   <thead className="text-center">
-                                        <tr>
-                                             <th scope="col">#</th>
-                                             <th scope="col">Zip Code</th>
-                                             <th scope="col">Name</th>
-                                             <th scope="col">Address</th>
-                                             <th scope="col">Admin ID</th>
-                                             <th scope="col">Actions</th>
-                                        </tr>
-                                   </thead>
-                                   <tbody className="text-center">
-                                        {arrCollections &&
-                                             arrCollections.map((item, index) => {
-                                                  return (
-                                                       <>
-                                                            <tr>
-                                                                 <th scope="row">{index + 1}</th>
-                                                                 <td>{item.zip_code}</td>
-                                                                 <td>{item.name}</td>
-                                                                 <td>{item.address}</td>
-                                                                 <td>{item.admin_id}</td>
-                                                                 <td>
-                                                                      <button
-                                                                           className="btn-edit"
-                                                                           onClick={() =>
-                                                                                this.isOpenModalEditCollection(item)
-                                                                           }
-                                                                      >
-                                                                           <i className="fas fa-pencil-alt"></i>
-                                                                      </button>
-                                                                      <button
-                                                                           className="btn-delete"
-                                                                           onClick={() =>
-                                                                                this.handleDeleteCollection(item)
-                                                                           }
-                                                                      >
-                                                                           <i className="fas fa-trash"></i>
-                                                                      </button>
-                                                                 </td>
-                                                            </tr>
-                                                       </>
-                                                  );
-                                             })}
-                                   </tbody>
-                              </table>
+
+                         <div className="table-user-content mt-2 mb-3 ">
+                              <div style={{ height: 400, width: '100%' }}>
+                                   <DataGrid
+                                        sx={{
+                                             border: 1,
+                                             fontFamily: 'Plus Jakarta Sans, sans-serif',
+                                             fontSize: 16,
+                                        }}
+                                        slots={{ toolbar: GridToolbar }}
+                                        slotProps={{
+                                             toolbar: {
+                                                  showQuickFilter: true,
+                                             },
+                                        }}
+                                        rows={arrCollections}
+                                        columns={options.columnsCollection}
+                                        pageSizeOptions={[5, 7]}
+                                        autoHeight={true}
+                                        checkboxSelection={true}
+                                        onRowSelectionModelChange={(ids) => {
+                                             const selectedIDs = new Set(ids);
+
+                                             let selectedRowData = [];
+                                             arrCollections.map((row) => {
+                                                  selectedIDs.has(row.id);
+                                                  if (selectedIDs.has(row.id)) {
+                                                       selectedRowData.push(row);
+                                                  }
+                                             });
+                                             this.setState({
+                                                  selectedCollections: selectedRowData,
+                                             });
+                                        }}
+                                        initialState={{
+                                             pagination: {
+                                                  paginationModel: { page: 0, pageSize: 5 },
+                                             },
+                                        }}
+                                   />
+                              </div>
                          </div>
                     </div>
                </div>
@@ -133,12 +160,13 @@ const mapStateToProps = (state) => {
      return {
           arrCollections: state.admin.arrCollections,
           isEditCollection: state.admin.isEditCollection,
+          userInfo: state.user.userInfo,
      };
 };
 
 const mapDispatchToProps = (dispatch) => {
      return {
-          getAllCollections: () => dispatch(actions.getAllCollectionsAction()),
+          getAllCollections: (token) => dispatch(actions.getAllCollectionsAction(token)),
           doEditCollection: () => dispatch(actions.isEditCollectionAction()),
           fetchDataEditCollection: (data) => dispatch(actions.fetchDataEditCollectionAction(data)),
           isNotEditCollection: () => dispatch(actions.isNotEditCollectionAction()),

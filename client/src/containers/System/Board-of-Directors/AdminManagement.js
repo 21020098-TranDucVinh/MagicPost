@@ -5,8 +5,9 @@ import AdminModalAddNewUser from './AdminModal/AdminModalAddNewUser';
 import * as actions from '../../../store/actions/index';
 import { deleteUserPending } from '../../../services/adminService';
 import toast from 'react-hot-toast';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+
 import { options } from '../../../utils';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { Button } from 'reactstrap';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
@@ -18,11 +19,12 @@ class AdminManagement extends Component {
                rows: [{ id: 1, name: 'thach', age: '21', gender: 'NAM' }],
                isOpenModal: false,
                arrAdminsPending: [],
+               selectedPendingAdmins: '',
           };
      }
 
      async componentDidMount() {
-          let res = await this.props.getAllUserPending();
+          let res = await this.props.getAllUserPending(this.props.userInfo.token);
      }
      componentDidUpdate(prevProps, prevState, snapshot) {
           if (prevProps.arrAdminsPending !== this.props.arrAdminsPending) {
@@ -38,26 +40,40 @@ class AdminManagement extends Component {
           });
      };
      // Delete admin pending
-     handleDeleteUserPending = async (id) => {
-          if (id) {
-               let res = await deleteUserPending(id);
-               console.log(res);
-               if (res && res.errorCode === 0) {
-                    toast.success(res.message);
-                    await this.props.getAllUserPending();
-               } else {
-                    toast.error(res.message);
+     handleDeleteUserPending = async () => {
+          try {
+               let { selectedPendingAdmins } = this.state;
+               let id = selectedPendingAdmins[0].id;
+               console.log('ID  :', id);
+               if (id) {
+                    let res = await deleteUserPending(id, {
+                         headers: { Authorization: `Bearer ${this.props.userInfo.token}` },
+                    });
+                    console.log(res);
+                    if (res && res.errorCode === 0) {
+                         toast.success(res.message);
+                         await this.props.getAllUserPending();
+                    } else {
+                         toast.error(res.message);
+                    }
                }
+          } catch (e) {
+               console.log(e);
           }
      };
      // open modal edit admin pending
-     openModalEditUserPending = (user) => {
-          this.props.fetchDataEditPendingAdmin(user);
-          this.props.isEditAdminPending();
-          this.setState({
-               isOpenModal: true,
-               isEditUser: true,
-          });
+     openModalEditPendingAdmin = () => {
+          let { selectedPendingAdmins } = this.state;
+          if (selectedPendingAdmins && selectedPendingAdmins.length === 1) {
+               this.props.fetchDataEditPendingAdmin(selectedPendingAdmins[0]);
+               this.props.isEditAdminPending();
+               this.setState({
+                    isOpenModal: true,
+                    isEditUser: true,
+               });
+          } else {
+               toast.error('Please chose only one entry!');
+          }
      };
      // Open modal create potential candidate
      OpenModalCrateNewAdminPending = () => {
@@ -67,38 +83,37 @@ class AdminManagement extends Component {
           });
      };
      render() {
-          let { arrAdminsPending, rows } = this.state;
+          let { arrAdminsPending } = this.state;
           return (
                <>
                     <div className="admin-container my-3">
                          <AdminModalAddNewUser isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
 
-                         <div className="title-admin text-center my-4">
-                              <span>Create Account</span>
-                         </div>
                          <div className="admin-content container">
+                              <div className="title-admin text-center my-4">
+                                   <span>Create Account potential admin</span>
+                              </div>
                               <div className="btn-director-add-new-user-container">
                                    <div className="btn-create-new-user-container button">
                                         <Button
-                                             // className="btn-create-new-user"
                                              className="btn btn-primary button"
                                              onClick={() => this.OpenModalCrateNewAdminPending()}
                                         >
                                              <MdPersonAddAlt1 className="button" />
-                                             <span>Add potential candidate</span>
+                                             <span>Add potential admin</span>
                                         </Button>
                                    </div>
                                    <div className="btn-option-container ">
                                         <Button
                                              className="btn btn-warning px-4 button "
-                                             onClick={() => this.OpenModalEditStaff()}
+                                             onClick={() => this.openModalEditPendingAdmin()}
                                         >
                                              <EditTwoToneIcon className="button" />
                                              <span>Edit</span>
                                         </Button>
                                         <Button
                                              className="btn btn-danger button"
-                                             onClick={() => this.handleDeleteStaffTransaction()}
+                                             onClick={() => this.handleDeleteUserPending()}
                                         >
                                              <DeleteForeverTwoToneIcon className="button" />
                                              <span>Delete</span>
@@ -135,7 +150,7 @@ class AdminManagement extends Component {
                                                        }
                                                   });
                                                   this.setState({
-                                                       selectedTransaction: selectedRowData,
+                                                       selectedPendingAdmins: selectedRowData,
                                                   });
                                              }}
                                              initialState={{
@@ -146,50 +161,6 @@ class AdminManagement extends Component {
                                         />
                                    </div>
                               </div>
-                              {/* <div className="table-user-content mt-2 mb-3 ">
-                                   <table className="table table-hover customers">
-                                        <thead className="text-center">
-                                             <tr>
-                                                  <th scope="col">#</th>
-                                                  <th>userName</th>
-                                                  <th>Phone</th>
-                                                  <th>Role</th>
-                                                  <th>Actions</th>
-                                             </tr>
-                                        </thead>
-                                        <tbody className="text-center">
-                                             {arrAdminsPending &&
-                                                  arrAdminsPending.map((item, index) => {
-                                                       return (
-                                                            <tr>
-                                                                 <td>{index + 1}</td>
-                                                                 <td>{item.username}</td>
-                                                                 <td>{item.phone}</td>
-                                                                 <td>{item.role}</td>
-                                                                 <td>
-                                                                      <button
-                                                                           className="btn-edit"
-                                                                           onClick={() =>
-                                                                                this.openModalEditUserPending(item)
-                                                                           }
-                                                                      >
-                                                                           <i className="fas fa-pencil-alt"></i>
-                                                                      </button>
-                                                                      <button
-                                                                           className="btn-delete"
-                                                                           onClick={() =>
-                                                                                this.handleDeleteUserPending(item.id)
-                                                                           }
-                                                                      >
-                                                                           <i className="fas fa-trash"></i>
-                                                                      </button>
-                                                                 </td>
-                                                            </tr>
-                                                       );
-                                                  })}
-                                        </tbody>
-                                   </table>
-                              </div> */}
                          </div>
                     </div>
                </>
@@ -200,12 +171,13 @@ class AdminManagement extends Component {
 const mapStateToProps = (state) => {
      return {
           arrAdminsPending: state.admin.arrAdminsPending,
+          userInfo: state.user.userInfo,
      };
 };
 
 const mapDispatchToProps = (dispatch) => {
      return {
-          getAllUserPending: () => dispatch(actions.getAllUserPendingAction()),
+          getAllUserPending: (token) => dispatch(actions.getAllUserPendingAction(token)),
           fetchDataEditPendingAdmin: (user) => dispatch(actions.fetchDataEditPendingAdminAction(user)),
           isEditAdminPending: () => dispatch(actions.isEditAdminPendingAction()),
           isNotEditAdminPending: () => dispatch(actions.isNotEditAdminPendingAction()),

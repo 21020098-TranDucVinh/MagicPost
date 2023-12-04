@@ -67,30 +67,36 @@ class AdminModalAddNewUser extends Component {
      };
      // Create new potential admin
      handleCreatePotentialAdmin = async () => {
-          let checkInputValid = this.checkInputValid();
-          let checkInputPasswordValid = this.checkInputPasswordValid(this.state.password, this.state.rePassword);
-          let data = {
-               username: this.state.userName,
-               password: this.state.password,
-               phone: this.state.phone,
-          };
-          console.log('check data: ', data);
-          if (checkInputValid && checkInputPasswordValid) {
-               let res = await handleCreateNewPotentialAdmin(data);
-               console.log('check res: ', res);
-               if (res && res.errorCode === 0) {
-                    this.setState({
-                         userName: '',
-                         phone: '',
-                         password: '',
-                         rePassword: '',
+          try {
+               let checkInputValid = this.checkInputValid();
+               let checkInputPasswordValid = this.checkInputPasswordValid(this.state.password, this.state.rePassword);
+               let data = {
+                    username: this.state.userName,
+                    password: this.state.password,
+                    phone: this.state.phone,
+               };
+               let token = this.props.userInfo.token;
+               if (checkInputValid && checkInputPasswordValid) {
+                    let res = await handleCreateNewPotentialAdmin(data, {
+                         headers: { Authorization: `Bearer ${token}` },
                     });
-                    toast.success(res.msg);
-                    this.props.isCloseModal();
-                    this.props.getAllUserPending();
+                    console.log('check res: ', res);
+                    if (res && res.errorCode === 0) {
+                         this.setState({
+                              userName: '',
+                              phone: '',
+                              password: '',
+                              rePassword: '',
+                         });
+                         toast.success(res.msg);
+                         this.props.isCloseModal();
+                         this.props.getAllUserPending();
+                    }
+               } else {
+                    toast.error('Your input invalid');
                }
-          } else {
-               toast.error('Your input invalid');
+          } catch (e) {
+               console.log(e);
           }
      };
      // Update potential admin
@@ -228,6 +234,7 @@ const mapStateToProps = (state) => {
           isEditUserSuccess: state.admin.isEditUserSuccess,
           dataEditAdminPending: state.admin.dataEditAdminPending,
           isEditPendingAdmin: state.admin.isEditPendingAdmin,
+          userInfo: state.user.userInfo,
      };
 };
 

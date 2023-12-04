@@ -5,7 +5,7 @@ import * as actions from '../../store/actions';
 import toast from 'react-hot-toast';
 import './Login.scss';
 import { handleLoginAPI } from '../../services/adminService';
-
+import Cookies from 'js-cookie';
 class Login extends Component {
      constructor(props) {
           super(props);
@@ -38,7 +38,6 @@ class Login extends Component {
                if (res && res.errorCode === 0) {
                     this.props.userLoginSuccess(res);
                }
-               console.log(res);
           } catch (error) {
                if (error.response) {
                     if (error.response.data) {

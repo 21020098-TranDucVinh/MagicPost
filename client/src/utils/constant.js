@@ -110,6 +110,83 @@ export const options = {
           },
           { field: 'role', headerName: 'Role', width: 200 },
      ],
+     columnsTransaction: [
+          { field: 'id', headerName: 'ID', width: 50 },
+
+          {
+               field: 'zip_code',
+               headerName: 'Zip code',
+               width: 120,
+               editable: false,
+          },
+          {
+               field: 'name',
+               headerName: 'Transaction Name',
+               width: 150,
+               editable: false,
+          },
+          {
+               field: 'address',
+               headerName: 'Address',
+               width: 150,
+               editable: false,
+          },
+          {
+               field: 'admins',
+               headerName: `Manager Name`,
+               valueGetter: (params) => params.row.admin.username,
+               width: 150,
+               editable: false,
+          },
+          {
+               field: 'admin',
+               headerName: `Manager's Phone`,
+               valueGetter: (params) => params.row.admin.phone,
+               width: 150,
+               editable: false,
+          },
+          {
+               field: 'collection_zip_code',
+               headerName: 'Collection zip code',
+               width: 150,
+               editable: false,
+          },
+     ],
+     columnsCollection: [
+          { field: 'id', headerName: 'ID', width: 50 },
+          {
+               field: 'zip_code',
+               headerName: 'Zip code',
+               width: 120,
+               editable: false,
+          },
+          {
+               field: 'name',
+               headerName: 'Collection Name',
+               width: 150,
+               editable: false,
+          },
+          {
+               field: 'address',
+               headerName: 'Address',
+               width: 150,
+               editable: false,
+          },
+          {
+               field: 'admins',
+               headerName: `Manager Name`,
+               valueGetter: (params) => params.row.admin.username,
+               width: 150,
+               editable: false,
+          },
+          {
+               field: 'admin',
+               headerName: `Manager's Phone`,
+               valueGetter: (params) => params.row.admin.phone,
+               width: 150,
+               editable: false,
+          },
+     ],
 };
 export const roles = {
      ADMIN: 'ADMIN',

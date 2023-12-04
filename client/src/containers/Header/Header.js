@@ -39,6 +39,9 @@ class Header extends Component {
                          menuApp: [],
                     });
           }
+          // this.setState({
+          //      menuApp: transactionStaffMenu,
+          // });
      }
      handleLogout = () => {
           this.props.processLogout();

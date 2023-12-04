@@ -136,7 +136,6 @@ const adminReducer = (state = initialState, action) => {
                };
           case actionTypes.CLEAR_DATA_EDIT_TRANSACTION:
                state.dataEditTransaction = '';
-
                return {
                     ...state,
                     started: true,

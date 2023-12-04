@@ -8,10 +8,10 @@ import {
      getAllAdminCollections,
 } from '../../services/adminService';
 // get all user pending
-export const getAllUserPendingAction = () => {
+export const getAllUserPendingAction = (token) => {
      return async (dispatch, getState) => {
           try {
-               let res = await getAllUserPending();
+               let res = await getAllUserPending({ headers: { Authorization: `Bearer ${token}` } });
                if (res && res.errorCode === 0) {
                     dispatch(getAllUserPendingActionSuccess(res.admin));
                }
@@ -26,10 +26,10 @@ export const getAllUserPendingActionSuccess = (data) => ({
      data: data,
 });
 //get all transaction
-export const getAllTransactionsAction = () => {
+export const getAllTransactionsAction = (token) => {
      return async (dispatch, getState) => {
           try {
-               let res = await getAllTransactions();
+               let res = await getAllTransactions({ headers: { Authorization: `Bearer ${token}` } });
                if (res && res.errorCode === 0) {
                     dispatch(getAllTransactionSuccess(res.transactions));
                }
@@ -48,10 +48,10 @@ export const getAllTransactionSuccess = (data) => ({
 });
 
 // get all collection
-export const getAllCollectionsAction = () => {
+export const getAllCollectionsAction = (token) => {
      return async (dispatch, getState) => {
           try {
-               let res = await getAllCollections();
+               let res = await getAllCollections({ headers: { Authorization: `Bearer ${token}` } });
                if (res && res.errorCode === 0) {
                     dispatch(getAllCollectionsSuccess(res.collections));
                }

@@ -35,27 +35,18 @@ class ModalManageCollection extends Component {
                     zip_code: this.props.dataEditCollection.zip_code,
                     name: this.props.dataEditCollection.name,
                     address: this.props.dataEditCollection.address,
-                    selectedAdmin: this.buildSelectionAdmin(
-                         this.props.dataEditCollection.admin_id,
-                         this.props.arrAllAdminCollections,
-                    ),
+                    selectedAdmin: this.buildValueSelectedAdmin(this.props.dataEditCollection),
                });
           }
      }
-     // build to setState for selectedAdmin
-     buildSelectionAdmin = (admin_id, arrAllAdminCollections) => {
-          let selectAdmin = {};
-          if (arrAllAdminCollections.length > 0) {
-               for (let i = 0; i < arrAllAdminCollections.length; i++) {
-                    if (admin_id === arrAllAdminCollections[i].id) {
-                         selectAdmin.value = admin_id;
-                         selectAdmin.label = arrAllAdminCollections[i].username;
-
-                         return selectAdmin;
-                    }
-               }
+     // build value for select admin
+     buildValueSelectedAdmin = (data) => {
+          let res = '';
+          if (data && data.admin && data.admin.id && data.admin.username) {
+               res = { value: data.admin.id, label: data?.admin.username };
+               return res;
           }
-          return {};
+          return res;
      };
      // onchange info input
      handleOnchangeInput = (event, id) => {
@@ -94,59 +85,68 @@ class ModalManageCollection extends Component {
      };
      // Create new Collection
      createNewCollection = async () => {
-          let data = {
-               admin_id: this.state.selectedAdmin.value,
-               name: this.state.name,
-               address: this.state.address,
-          };
-          let checkInputValid = this.checkInputValid();
-          if (checkInputValid) {
-               let res = await handleCreateNewCollection(data);
-
-               if (res && res.errorCode === 0) {
-                    toast.success('Create Collection success!');
-                    this.props.getAllCollections();
-                    this.setState({
-                         name: '',
-                         address: '',
-                         selectedAdmin: '',
-                    });
-                    this.props.isCloseModal();
+          try {
+               let data = {
+                    admin_id: this.state.selectedAdmin.value,
+                    name: this.state.name,
+                    address: this.state.address,
+               };
+               let checkInputValid = this.checkInputValid();
+               if (checkInputValid) {
+                    const token = this.props.userInfo.token;
+                    let res = await handleCreateNewCollection(data, { headers: { Authorization: `Bearer ${token}` } });
+                    if (res && res.errorCode === 0) {
+                         toast.success('Create Collection success!');
+                         this.props.getAllCollections();
+                         this.props.getAllUserPending();
+                         this.setState({
+                              name: '',
+                              address: '',
+                              selectedAdmin: '',
+                         });
+                         this.props.isCloseModal();
+                    } else {
+                         toast.error('Create Collection failed!');
+                    }
                } else {
-                    toast.error('Create Collection failed!');
+                    toast.error('Please full fill your form!');
                }
-          } else {
-               toast.error('Please full fill your form!');
-          }
+          } catch (e) {}
      };
      // Create new Collection
      handleEditCollection = async () => {
-          let data = {
-               zip_code: this.state.zip_code,
-               admin_id: this.state.selectedAdmin.value,
-               name: this.state.name,
-               address: this.state.address,
-          };
-          console.log('data edit collection : ', data);
-          let checkInputValid = this.checkInputValid();
-          if (checkInputValid) {
-               let res = await editCollection(data);
-               if (res && res.errorCode === 0) {
-                    toast.success('Update Collection success!');
-                    this.props.getAllCollections();
-                    this.props.getAllAdminCollections();
-                    this.props.getAllUserPending();
-                    this.setState({
-                         name: '',
-                         address: '',
-                         selectedAdmin: '',
-                    });
-                    this.props.isCloseModal();
+          try {
+               let data = {
+                    zip_code: this.state.zip_code,
+                    admin_id: this.state.selectedAdmin.value,
+                    name: this.state.name,
+                    address: this.state.address,
+               };
+               console.log('edit :', data);
+               let checkInputValid = this.checkInputValid();
+               if (checkInputValid) {
+                    const token = this.props.userInfo;
+                    let res = await editCollection(data, { headers: { Authorization: `Bearer ${token}` } });
+                    if (res && res.errorCode === 0) {
+                         toast.success('Update Collection success!');
+                         this.props.getAllCollections();
+                         this.props.getAllAdminCollections();
+                         this.props.getAllUserPending();
+                         this.props.clearDataEditCollection();
+                         this.setState({
+                              name: '',
+                              address: '',
+                              selectedAdmin: '',
+                         });
+                         this.props.isCloseModal();
+                    } else {
+                         toast.error('Update Collection failed!');
+                    }
                } else {
-                    toast.error('Update Collection failed!');
+                    toast.error('Please full fill your form!');
                }
-          } else {
-               toast.error('Please full fill your form!');
+          } catch (e) {
+               console.log(e);
           }
      };
      handleCloseModal = () => {
@@ -160,7 +160,6 @@ class ModalManageCollection extends Component {
      };
      handleOnClickChoseBetCreateOrUpdate = () => {
           if (this.props.isEditCollection) {
-               console.log('vao day');
                this.handleEditCollection();
           } else {
                this.createNewCollection();
@@ -239,6 +238,7 @@ const mapStateToProps = (state) => {
           arrAdminsPending: state.admin.arrAdminsPending,
           isEditCollection: state.admin.isEditCollection,
           dataEditCollection: state.admin.dataEditCollection,
+          userInfo: state.user.userInfo,
      };
 };
 

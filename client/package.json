@@ -17,6 +17,7 @@
     "connected-react-router": "^6.9.1",
     "events": "^3.3.0",
     "html2canvas": "^1.4.1",
+    "js-cookie": "^3.0.5",
     "jspdf": "^2.5.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.0",
