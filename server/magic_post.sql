@@ -209,9 +209,9 @@ INSERT INTO `admin`(`role`, `username`, `password`, `phone`) VALUES
 ('COLLECTION_ADMIN', 'collection_admin2', '$2y$10$YTnZW46IqMlLfGV5UcG7u.UTIQOOhYWorKBmFyiSLdRAx4Tj/5F8C', 123456789), -- password: collection_admin
 ('TRANSACTION_ADMIN', 'transaction_admin3', '$2y$10$VS3CrOvpfpoAY15cM4oDPOoy/2x6TqWj1kus4HefkBkqXQiuZ.Tjy', 123456789), -- password: transaction_admin
 ('COLLECTION_ADMIN', 'collection_admin3', '$2y$10$YTnZW46IqMlLfGV5UcG7u.UTIQOOhYWorKBmFyiSLdRAx4Tj/5F8C', 123456789), -- password: collection_admin
-('PENDING', 'pending', 'pending', 123456789),
-('PENDING', 'pending2', 'pending2', 123456789),
-('PENDING', 'pending3', 'pending3', 123456789);
+('PENDING', 'pending', '$2a$10$iF5hFD1ln8dyDFiRmCjzBuL7.orsoohLCfkbReB7x6BjkgBrDLg1i', 123456789), -- password: 123456789
+('PENDING', 'pending2', '$2a$10$iF5hFD1ln8dyDFiRmCjzBuL7.orsoohLCfkbReB7x6BjkgBrDLg1i', 123456789), -- password: 123456789
+('PENDING', 'pending3', '$2a$10$iF5hFD1ln8dyDFiRmCjzBuL7.orsoohLCfkbReB7x6BjkgBrDLg1i', 123456789); -- password: 123456789
 
 -- DO NOT INSERT LIKE THIS BECAUSE OF TRIGGER I USED
 -- INSERT INTO `collection`(`name`, `admin_id`, `address`) VALUES

@@ -1,5 +1,5 @@
 const {
-  models: { Transaction, Staff },
+  models: { Transaction, Staff, Admin },
 } = require('../models/');
 
 class transactionController {
@@ -7,7 +7,15 @@ class transactionController {
   async getAllTransactions(req, res) {
     try {
       const transactions = await Transaction.findAll({
-        attribute: { exclude: ['id'] },
+        attribute: {
+          exclude: ['id', 'admin_id']
+        },
+        include: [
+          {
+            model: Admin,
+            attributes: { exclude: ['password'] },
+          },
+        ],
       });
       res.status(200).json({
         errorCode: 0,
@@ -28,7 +36,17 @@ class transactionController {
       const zip_code = req.params.zip_code;
       const transactions = await Transaction.findAll({
         where: { zip_code },
-        attributes: { exclude: ['id'] },
+        attributes: { exclude: ['id', 'admin_id'] },
+        include: [
+          {
+            model: Admin,
+            attributes: { exclude: ['password'] },
+          },
+          {
+            model: Staff,
+            attributes: { exclude: ['password'] },
+          }
+        ],
       });
       if (transactions.length === 0) {
         res.status(404).json({

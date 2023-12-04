@@ -1,5 +1,5 @@
 const {
-  models: { Collection, Transaction },
+  models: { Collection, Transaction, Admin },
 } = require('../models/');
 
 class collectionController {
@@ -7,7 +7,11 @@ class collectionController {
   async getAllCollections(req, res) {
     try {
       const collections = await Collection.findAll({
-        attributes: { exclude: ['id'] },
+        attributes: { exclude: ['id', 'admin_id'] },
+        include: [{
+          model: Admin,
+          attributes: { exclude: ['password'] },
+        }],
       });
       res.status(200).json({
         errorCode: 0,
