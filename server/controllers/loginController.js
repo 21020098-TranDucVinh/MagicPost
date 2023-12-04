@@ -1,8 +1,9 @@
 const {
-  models: { Admin, Staff },
+  models: { Admin, Staff, Collection, Transaction },
 } = require('../models');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { col } = require('sequelize');
 
 class loginController {
   // [POST] /login
@@ -15,15 +16,40 @@ class loginController {
         msg: 'Username or Password not present',
       });
     }
+
     try {
       let user;
       if (role === 'admin') {
-        user = await Admin.findOne({ where: { username } });
+        user = await Admin.findOne({
+          where: { username },
+        });
+        if (user) {
+          if (user.role === 'COLLECTION_ADMIN') {
+            await Collection.findOne({
+              attributes: ['zip_code'],
+              where: { admin_id: user.id },
+            }).then((collection) => {
+              user.zip_code = collection.zip_code;
+            });
+          } else if (user.role === 'TRANSACTION_ADMIN') {
+            await Transaction.findOne({
+              attributes: ['zip_code'],
+              where: { admin_id: user.id },
+            }).then((transaction) => {
+              user.zip_code = transaction.zip_code;
+            });
+          }
+        }
       } else {
         user = await Staff.findOne({ where: { username } });
-        if (!user) {
-          if (user.transaction_zip_code == null) user.role = 'COLLECTION_STAFF';
-          else user.role = 'TRANSACTION_STAFF';
+        if (user) {
+          if (user.transaction_zip_code == null) {
+            user.role = 'COLLECTION_STAFF';
+            user.zip_code = user.collection_zip_code;
+          } else {
+            user.zip_code = user.transaction_zip_code;
+            user.role = 'TRANSACTION_STAFF';
+          }
         }
       }
       if (!user) {
@@ -32,7 +58,7 @@ class loginController {
           msg: 'Username not found',
         });
       } else {
-        console.log(user, username, password);
+        console.log(user, username, password, user.role, user.zip_code);
         // comparing given password with hashed password
         bcrypt.compare(password, user.password).then(function (result) {
           if (result) {
@@ -45,13 +71,15 @@ class loginController {
               },
             );
             res.cookie('jwt', token, {
-              httpOnly: true,
+              httpOnly: false,
               maxAge: maxAge * 1000, // 3hrs in ms
             });
             res.status(200).json({
               errorCode: 0,
               msg: 'User successfully Logged in',
               role: user.role,
+              zip_code: user.zip_code,
+              token: token,
             });
           } else {
             res.status(400).json({

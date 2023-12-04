@@ -20,16 +20,16 @@ class adminController {
           username,
           password: hash,
           phone,
-        }).catch((err) => {
-          console.log(err);
-          res.status(500).json({
-            errorCode: 1,
-            msg: 'Server:' + err.message,
+        }).then(() => {
+          res.status(200).json({
+            errorCode: 0,
+            msg: 'Create admin successful',
           });
-        });
-        res.status(200).json({
-          errorCode: 0,
-          msg: 'Create admin successful',
+        }).catch((err) => {
+          res.status(400).json({
+            errorCode: 1,
+            msg: err.errors[0].message,
+          });
         });
       });
     } catch (error) {
@@ -47,6 +47,9 @@ class adminController {
   async getAdminPending(req, res) {
     try {
       const admin = await Admin.findAll({
+        attributes: {
+          exclude: ['password'],
+        },
         where: {
           role: 'PENDING',
         },
@@ -81,6 +84,9 @@ class adminController {
         });
       }
       const admin = await Admin.findOne({
+        attributes: {
+          exclude: ['password'],
+        },
         where: {
           id: collection.admin_id,
         },
@@ -115,6 +121,9 @@ class adminController {
         });
       }
       const admin = await Admin.findOne({
+        attributes: {
+          exclude: ['password'],
+        },
         where: {
           id: transaction.admin_id,
         },

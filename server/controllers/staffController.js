@@ -19,30 +19,56 @@ class staffController {
         bcrypt.hash(password, 10).then(async (hash) => {
           await Staff.create({
             username,
-            password,
+            password: hash,
             phone,
             transaction_zip_code: zip_code,
-          });
-
-          // Return a success response
-          return res.status(200).json({
-            errorCode: 0,
-            msg: 'Created a new transaction staff successfully!',
+          }).then(() => {
+            // Return a success response
+            return res.status(200).json({
+              errorCode: 0,
+              msg: 'Created a new transaction staff successfully!',
+            });
+          }).catch((err) => {
+            console.log(err);
+            if (err.name === 'SequelizeUniqueConstraintError') {
+              return res.status(400).json({
+                errorCode: 1,
+                msg: err.errors[0].message,
+              });
+            } else if (err.name === 'SequelizeForeignKeyConstraintError') {
+              return res.status(400).json({
+                errorCode: 1,
+                msg: 'Invalid zip code!',
+              });
+            }
           });
         });
       } else if (zip_code.startsWith('C')) {
         bcrypt.hash(password, 10).then(async (hash) => {
           await Staff.create({
             username,
-            password,
+            password: hash,
             phone,
             collection_zip_code: zip_code,
-          });
-
-          // Return a success response
-          return res.status(200).json({
-            errorCode: 0,
-            msg: 'Created a new collection staff successfully!',
+          }).then(() => {
+            // Return a success response
+            return res.status(200).json({
+              errorCode: 0,
+              msg: 'Created a new collection staff successfully!',
+            });
+          }).catch((err) => {
+            console.log(err);
+            if (err.name === 'SequelizeUniqueConstraintError') {
+              return res.status(400).json({
+                errorCode: 1,
+                msg: err.errors[0].message,
+              });
+            } else if (err.name === 'SequelizeForeignKeyConstraintError') {
+              return res.status(400).json({
+                errorCode: 1,
+                msg: 'Invalid zip code!',
+              });
+            }
           });
         });
       }

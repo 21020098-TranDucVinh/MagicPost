@@ -23,6 +23,8 @@ Sequelize
 - Sequelize (ORM)
 - Jsonwebtoken (JWT)
 
+# TO-DO
+
 
 
 
