@@ -18,11 +18,9 @@
                     color: white;
                     font-size: 17px;
                     cursor: pointer;
-                    i {
-                         color: white;
-                         &:hover {
-                              color: #6e6565;
-                         }
+
+                    &:hover {
+                         color: #6e6565;
                     }
                }
           }
@@ -31,6 +29,11 @@
                height: 100%;
                border-top: 1px solid #ddd;
                border-bottom: 1px solid #ddd;
+               .btn-showPassword {
+                    position: absolute;
+                    right: 19px;
+                    top: 33px;
+               }
           }
           .modal-admin-footer {
                border-top: 1px solid #ccc;

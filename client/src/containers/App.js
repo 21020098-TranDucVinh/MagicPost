@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { ConnectedRouter as Router } from 'connected-react-router';
 import { history } from '../redux';
-import { ToastContainer } from 'react-toastify';
 import HomePage from './HomePage/HomePage.js';
 import { userIsAuthenticated, userIsNotAuthenticated } from '../hoc/authentication';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,6 +15,7 @@ import { Toaster } from 'react-hot-toast';
 import RouteCollectionManager from '../routes/RouteCollectionManager.js';
 import { Redirect } from 'react-router-dom';
 import RouteTransactionStaff from '../routes/RouteTransactionStaff.js';
+import RouteCollectionStaff from '../routes/RouteCollectionStaff.js';
 class App extends Component {
      constructor(props) {
           super(props);
@@ -33,8 +33,8 @@ class App extends Component {
      }
 
      render() {
-          let { userInfo } = this.props;
-
+          let { userInfo } = this.state;
+          console.log('check userInfo : ', userInfo);
           return (
                <>
                     <Router history={history}>
@@ -43,31 +43,52 @@ class App extends Component {
                                    <Scrollbars style={{ height: '100vh', width: '100%' }}>
                                         <Switch>
                                              <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
-                                             <Route path={path.HOMEPAGE} component={HomePage} />
-                                             {/* <Route path={path.TRANSACTION_STAFF} component={RouteTransactionStaff} /> */}
+                                             {/* <Route path={path.HOMEPAGE} component={HomePage} /> */}
+
                                              {userInfo && userInfo.role === 'ADMIN' && (
                                                   <>
-                                                       <Redirect to={path.SYSTEM} />
+                                                       <Redirect to={path.ADMIN_CREATE_ACCOUNT} />
                                                        <Route
                                                             path={path.SYSTEM}
                                                             component={userIsAuthenticated(BoardOfDirector)}
                                                        />
                                                   </>
                                              )}
-                                             {userInfo && userInfo.role === 'TRANSACTION_ADMIN' && (
+                                             {userInfo && userInfo?.role === 'TRANSACTION_ADMIN' && (
                                                   <>
-                                                       <Redirect to={path.TRANSACTION_ADMIN} />
+                                                       <Redirect to={path.TRANSACTION_ADMIN_CREATE_ACCOUNT} />
                                                        <Route
                                                             path={path.TRANSACTION_ADMIN}
                                                             component={userIsAuthenticated(RouteTransactionManager)}
                                                        />
                                                   </>
                                              )}
-                                             {userInfo && userInfo.role === 'COLLECTION_ADMIN' && (
-                                                  <Route
-                                                       path={path.COLLECTION_ADMIN}
-                                                       component={userIsAuthenticated(RouteCollectionManager)}
-                                                  />
+                                             {userInfo && userInfo?.role === 'COLLECTION_ADMIN' && (
+                                                  <>
+                                                       <Redirect to={path.COLLECTION_ADMIN_CREATE_ACCOUNT} />
+                                                       <Route
+                                                            path={path.COLLECTION_ADMIN}
+                                                            component={userIsAuthenticated(RouteCollectionManager)}
+                                                       />
+                                                  </>
+                                             )}
+                                             {userInfo && userInfo?.role === 'TRANSACTION_STAFF' && (
+                                                  <>
+                                                       <Redirect to={path.TRANSACTION_STAFF_CREATE_PARCEL} />
+                                                       <Route
+                                                            path={'/transaction-staff'}
+                                                            component={userIsAuthenticated(RouteTransactionStaff)}
+                                                       />
+                                                  </>
+                                             )}
+                                             {userInfo && userInfo?.role === 'COLLECTION_STAFF' && (
+                                                  <>
+                                                       <Redirect to={path.COLLECTION_STAFF_MANAGE_PARCEL} />
+                                                       <Route
+                                                            path={'/collection-staff'}
+                                                            component={userIsAuthenticated(RouteCollectionStaff)}
+                                                       />
+                                                  </>
                                              )}
                                         </Switch>
                                    </Scrollbars>

@@ -107,3 +107,24 @@ export const transactionStaffMenu = [
           ],
      },
 ];
+export const collectionStaffMenu = [
+     //quan li nguoi dung
+     {
+          name: 'Parcel for shipment',
+          menus: [
+               {
+                    name: 'Record Parcel',
+                    link: '/collection-staff/manage/parcel',
+               },
+          ],
+     },
+     {
+          name: 'statistic parcel',
+          menus: [
+               {
+                    name: 'Orders',
+                    link: '/collection-staff/manage/create-order/send/collection',
+               },
+          ],
+     },
+];

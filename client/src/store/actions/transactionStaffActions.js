@@ -19,3 +19,19 @@ export const getAllPendingParcelsAction = () => {
           }
      };
 };
+
+export const fetchParcelsToSendColAction = (ArrParcels) => {
+     return async (dispatch, getState) => {
+          try {
+               dispatch({
+                    type: actionTypes.FETCH_PARCEL_TO_SEND_TO_COLLECTION_SUCCESS,
+                    data: ArrParcels,
+               });
+          } catch (e) {
+               console.log(e);
+               dispatch({
+                    type: actionTypes.FETCH_PARCEL_TO_SEND_TO_COLLECTION_FAILED,
+               });
+          }
+     };
+};

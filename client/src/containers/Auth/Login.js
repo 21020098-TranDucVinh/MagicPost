@@ -5,12 +5,11 @@ import * as actions from '../../store/actions';
 import toast from 'react-hot-toast';
 import './Login.scss';
 import { handleLoginAPI } from '../../services/adminService';
-import Cookies from 'js-cookie';
 class Login extends Component {
      constructor(props) {
           super(props);
           this.state = {
-               roleToSendToServer: 'admin',
+               roleToSendToServer: '',
                username: '',
                password: '',
                isShowPassword: false,

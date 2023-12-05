@@ -5,8 +5,8 @@ const handleTransactionCreateNewStaff = (body) => {
      return axios.post('/staff', body);
 };
 // get transaction by ID
-const getTransactionById = (transactionID) => {
-     return axios.get('/transaction_staff/T00012');
+const getTransactionById = (transaction_zip_code) => {
+     return axios.get(`/transaction_staff/${transaction_zip_code}`);
 };
 //delete staff by staff id
 const deleteStaffByStaffId = (staff_id) => {

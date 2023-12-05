@@ -8,7 +8,7 @@ const adminReducer = (state = initialState, action) => {
      switch (action.type) {
           case actionTypes.GET_ALL_TRANSACTION_STAFF_BY_ID_SUCCESS:
                state.arrCollectionStaff = action.data;
-               console.log('redux :', state.arrCollectionStaff);
+               // console.log('redux :', state.arrCollectionStaff);
                return {
                     ...state,
                     started: true,

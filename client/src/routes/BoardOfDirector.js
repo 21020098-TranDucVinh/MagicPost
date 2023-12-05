@@ -10,9 +10,9 @@ import ManageTransaction from '../containers/System/Board-of-Directors/Managemen
 import ManagementCollection from '../containers/System/Board-of-Directors/Management/ManagementCollection';
 import HomeFooter from '../containers/HomePage/HomeFooter';
 import AdminStatisticParcel from '../containers/System/Board-of-Directors/Management/AdminStatisticParcel';
+import { path } from '../utils';
 class BoardOfDirector extends Component {
      render() {
-          const { isLoggedIn } = this.props;
           return (
                <>
                     {/* {isLoggedIn && <Header />} */}
@@ -25,22 +25,22 @@ class BoardOfDirector extends Component {
                                         <Route exact path="/system/director" component={HomepageDirector} />
                                         <Route
                                              exact
-                                             path="/system/director/create/account/admin-transaction-or-collection"
+                                             path={path.ADMIN_MANAGE_COLLECTION_AND_TRANSACTION}
                                              component={AdminManagement}
                                         />
                                         <Route
                                              exact
-                                             path="/system/director/statistics/parcels"
+                                             path={path.ADMIN_STATISTIC_PARCEL}
                                              component={AdminStatisticParcel}
                                         />
                                         <Route
                                              exact
-                                             path="/system/admin/management-transaction"
+                                             path={path.ADMIN_MANAGE_TRANSACTION}
                                              component={ManageTransaction}
                                         />
                                         <Route
                                              exact
-                                             path="/system/admin/management-collection"
+                                             path={path.ADMIN_MANAGE_COLLECTION}
                                              component={ManagementCollection}
                                         />
                                    </Switch>

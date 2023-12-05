@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import * as actions from '../../../../store/actions/index';
 import Select from 'react-select';
 import { handleCreateNewTransaction, editTransaction } from '../../../../services/adminService';
-
+import { GiCancel } from 'react-icons/gi';
 class ModalManageTransaction extends Component {
      constructor(props) {
           super(props);
@@ -231,7 +231,7 @@ class ModalManageTransaction extends Component {
                               <div className="modal-admin-header">
                                    <span className="left">Add new transaction</span>
                                    <span className="right" onClick={() => this.handleCloseModal()}>
-                                        <i className="fa fa-times"></i>
+                                        <GiCancel onClick={this.props.isCloseModal} />
                                    </span>
                               </div>
                               <div className="modal-admin-body">

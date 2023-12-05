@@ -1,37 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import toast from 'react-hot-toast';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import * as actions from '../../../store/actions/index';
 import { Button } from 'reactstrap';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
 import ModalCollectionAddNewStaff from './ModalCollectionAddNewStaff';
 import * as services from '../../../services/index';
-const columns = [
-     { field: 'id', headerName: 'ID', width: 90 },
-
-     {
-          field: 'staff_id',
-          headerName: 'Staff ID',
-          width: 150,
-          editable: false,
-     },
-     {
-          field: 'phone',
-          headerName: 'Phone',
-          type: 'text',
-          width: 200,
-          editable: false,
-     },
-     {
-          field: 'username',
-          headerName: 'Username',
-          description: 'This column has a value getter and is not sortable.',
-          sortable: true,
-          width: 160,
-     },
-];
+import { BsFillPersonPlusFill } from 'react-icons/bs';
+import { options } from '../../.././utils';
 
 class ManageCollectionStaff extends Component {
      constructor(props) {
@@ -39,19 +17,25 @@ class ManageCollectionStaff extends Component {
           this.state = {
                isOpenModal: false,
                rowSelectedCollections: '',
-               // arrCollectionStaff: [],
-               // selectedCollection: '',
+               collection_zip_code: '',
+               accessToken: '',
+               arrCollectionStaff: [],
           };
      }
      async componentDidMount() {
-          this.props.getCollectionStaffById();
+          let { userInfo } = this.props;
+          this.setState({
+               collection_zip_code: userInfo.zip_code,
+               accessToken: userInfo.token,
+          });
+          this.props.getCollectionStaff(userInfo.zip_code, userInfo.token);
      }
      componentDidUpdate(prevProps, prevState, snapshot) {
-          // if (prevProps.arrStaffTransaction !== this.props.arrStaffTransaction) {
-          //      this.setState({
-          //           arrStaffTransaction: this.props.arrStaffTransaction,
-          //      });
-          // }
+          if (prevProps.arrCollectionStaff !== this.props.arrCollectionStaff) {
+               this.setState({
+                    arrCollectionStaff: this.props.arrCollectionStaff,
+               });
+          }
      }
      // Close modal
      isCloseModal = () => {
@@ -70,13 +54,14 @@ class ManageCollectionStaff extends Component {
      };
      // Delete transaction staff
      handleDeleteStaffCollection = async () => {
-          let { rowSelectedCollections } = this.state;
+          let { rowSelectedCollections, collection_zip_code, accessToken } = this.state;
           let staff_id = rowSelectedCollections[0].staff_id;
-          console.log('check staff Id : ', staff_id);
           if (staff_id) {
-               let res = await services.deleteStaffByStaffId(staff_id);
+               let res = await services.deleteStaffByStaffId(staff_id, {
+                    headers: { Authorization: `Bearer ${accessToken}` },
+               });
                if (res && res.errorCode === 0) {
-                    this.props.getCollectionStaffById();
+                    this.props.getCollectionStaff(collection_zip_code, accessToken);
                     toast.success('Delete staff successfully!');
                } else {
                     toast.failed('Delete staff failed!');
@@ -104,17 +89,17 @@ class ManageCollectionStaff extends Component {
                <>
                     <div className="admin-container my-3">
                          <ModalCollectionAddNewStaff isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
-                         <div className="title-admin text-center my-4">
-                              <span>Create Account Staff</span>
-                         </div>
                          <div className="admin-content container">
+                              <div className="title-admin text-center my-4">
+                                   <span>Create Account Staff</span>
+                              </div>
                               <div className="btn-director-add-new-user-container">
                                    <div className="btn-create-new-user-container">
                                         <button
                                              className="btn btn-primary"
                                              onClick={() => this.openModalCrateNewCollectionStaff()}
                                         >
-                                             <i className="fas fa-plus"></i>
+                                             <BsFillPersonPlusFill />
                                              <span>Add New User</span>
                                         </button>
                                    </div>
@@ -147,8 +132,9 @@ class ManageCollectionStaff extends Component {
                                                   fontFamily: 'Plus Jakarta Sans, sans-serif',
                                                   fontSize: 16,
                                              }}
+                                             slots={{ toolbar: GridToolbar }}
                                              rows={arrCollectionStaff}
-                                             columns={columns}
+                                             columns={options.columnsCollectionStaff}
                                              pageSizeOptions={[5, 7]}
                                              autoHeight={true}
                                              checkboxSelection={true}
@@ -165,6 +151,11 @@ class ManageCollectionStaff extends Component {
                                                   this.setState({
                                                        rowSelectedCollections: selectedRowData,
                                                   });
+                                             }}
+                                             slotProps={{
+                                                  toolbar: {
+                                                       showQuickFilter: true,
+                                                  },
                                              }}
                                              initialState={{
                                                   pagination: {
@@ -185,12 +176,14 @@ class ManageCollectionStaff extends Component {
 const mapStateToProps = (state) => {
      return {
           arrCollectionStaff: state.adminCollection.arrCollectionStaff,
+          userInfo: state.user.userInfo,
      };
 };
 
 const mapDispatchToProps = (dispatch) => {
      return {
-          getCollectionStaffById: () => dispatch(actions.getCollectionStaffByIdAction()),
+          getCollectionStaff: (collection_zip_code, accessToken) =>
+               dispatch(actions.getCollectionStaffByIdAction(collection_zip_code, accessToken)),
           doEditStaff: () => dispatch(actions.isEditStaffAction()),
           fetchDataEditStaffAction: (staff) => dispatch(actions.fetchDataEditStaffAction(staff)),
           isNotEditStaff: () => dispatch(actions.isNotEditStaffAction()),

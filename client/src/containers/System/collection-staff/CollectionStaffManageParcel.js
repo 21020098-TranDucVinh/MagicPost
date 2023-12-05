@@ -2,21 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import toast from 'react-hot-toast';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { Alert, Button } from 'reactstrap';
+import { Button } from 'reactstrap';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import { FaPlus } from 'react-icons/fa6';
-import ModalRecordParcel from './ModalRecordParcel';
 import * as actions from '../../../store/actions/index';
 import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
 import { options } from '../../../utils';
-import { Redirect } from 'react-router-dom';
-class RecordParcel extends Component {
+import { FaPlus } from 'react-icons/fa6';
+class CollectionStaffManageParcel extends Component {
      constructor(props) {
           super(props);
           this.state = {
                isOpenModal: false,
                arrPendingParcels: [],
-               selectedParcels: '',
           };
      }
      async componentDidMount() {
@@ -72,23 +69,12 @@ class RecordParcel extends Component {
      //           toast.error('You can only chose one entry!');
      //      }
      // };
-     handleUICreateInvoice = () => {
-          let { selectedParcels } = this.state;
-          if (selectedParcels && selectedParcels.length > 0) {
-               this.props.fetchParcelsToSendCol(selectedParcels);
-               this.props.history.push('/transaction-staff/manage/create-order/send/collection');
-          } else {
-               toast.error('Please select at least 1 item!');
-          }
-     };
      render() {
           let { arrPendingParcels } = this.state;
-
+          console.log(arrPendingParcels);
           return (
                <>
                     <div className="admin-container my-3">
-                         <ModalRecordParcel isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
-
                          <div className="title-admin text-center my-4">
                               <span>Manage Parcel</span>
                          </div>
@@ -109,13 +95,6 @@ class RecordParcel extends Component {
                                    <div className="btn-option-container">
                                         {arrPendingParcels.length > 0 && (
                                              <>
-                                                  <Button
-                                                       className="btn btn-primary"
-                                                       onClick={() => this.handleUICreateInvoice()}
-                                                  >
-                                                       <FaPlus />
-                                                       Create Invoice
-                                                  </Button>
                                                   <Button
                                                        className="btn btn-warning px-4"
                                                        onClick={() => this.OpenModalEditStaff()}
@@ -164,7 +143,7 @@ class RecordParcel extends Component {
                                                        }
                                                   });
                                                   this.setState({
-                                                       selectedParcels: selectedRowData,
+                                                       selectedTransaction: selectedRowData,
                                                   });
                                              }}
                                              initialState={{
@@ -192,8 +171,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
      return {
           getAllPendingParcels: () => dispatch(actions.getAllPendingParcelsAction()),
-          fetchParcelsToSendCol: (arrParcels) => dispatch(actions.fetchParcelsToSendColAction(arrParcels)),
      };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RecordParcel);
+export default connect(mapStateToProps, mapDispatchToProps)(CollectionStaffManageParcel);

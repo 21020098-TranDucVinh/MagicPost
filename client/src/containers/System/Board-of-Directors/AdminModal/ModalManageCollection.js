@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './commonSsssModal.scss';
 import { Modal } from 'reactstrap';
-
+import { GiCancel } from 'react-icons/gi';
 import toast from 'react-hot-toast';
 import Select from 'react-select';
 import * as actions from '../../../../store/actions/index';
@@ -176,7 +176,7 @@ class ModalManageCollection extends Component {
                               <div className="modal-admin-header">
                                    <span className="left">Add new Collection</span>
                                    <span className="right" onClick={() => this.handleCloseModal()}>
-                                        <i className="fa fa-times"></i>
+                                        <GiCancel onClick={this.props.isCloseModal} />
                                    </span>
                               </div>
                               <div className="modal-admin-body">

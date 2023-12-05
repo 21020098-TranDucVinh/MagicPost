@@ -1,10 +1,10 @@
 import actionTypes from './actionTypes';
 import { getTransactionById } from '../../services/TransactionService';
 
-export const getTransactionStaffByIdAction = () => {
+export const getTransactionStaffByIdAction = (zip_code, accessToken) => {
      return async (dispatch, getState) => {
           try {
-               let res = await getTransactionById();
+               let res = await getTransactionById(zip_code, { headers: { Authorization: `Bearer ${accessToken}` } });
                if (res && res.errorCode === 0) {
                     dispatch({
                          type: actionTypes.GET_ALL_TRANSACTION_BY_ID_SUCCESS,

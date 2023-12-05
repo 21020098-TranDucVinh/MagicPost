@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import Navigator from '../../components/Navigator';
-import { adminMenu, transactionManageMenu, collectionManageMenu, transactionStaffMenu } from './menuApp';
+import {
+     adminMenu,
+     transactionManageMenu,
+     collectionManageMenu,
+     transactionStaffMenu,
+     collectionStaffMenu,
+} from './menuApp';
 import './Header.scss';
 import { Button } from 'reactstrap';
 import { CiLogout } from 'react-icons/ci';
@@ -34,14 +40,21 @@ class Header extends Component {
                          menuApp: collectionManageMenu,
                     });
                     break;
+               case roles.TRANSACTION_STAFF:
+                    this.setState({
+                         menuApp: transactionStaffMenu,
+                    });
+                    break;
+               case roles.COLLECTION_STAFF:
+                    this.setState({
+                         menuApp: collectionStaffMenu,
+                    });
+                    break;
                default:
                     return this.setState({
                          menuApp: [],
                     });
           }
-          // this.setState({
-          //      menuApp: transactionStaffMenu,
-          // });
      }
      handleLogout = () => {
           this.props.processLogout();

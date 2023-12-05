@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../AdminManagement.scss';
-import ModalManageParcel from '../AdminModal/ModalManageParcel';
 import Select from 'react-select';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
@@ -21,8 +20,6 @@ class ChartStatisticParcel extends Component {
           return (
                <>
                     <div className="admin-container my-3">
-                         <ModalManageParcel isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
-
                          <div className="title-admin text-center my-4">Statistic parcel</div>
                          <div className="admin-content container">
                               <div className="row select-statistic-parcel">
@@ -73,11 +70,6 @@ class ChartStatisticParcel extends Component {
                                                        <div>40</div>
                                                        <div>good received</div>
                                                   </span>
-                                                  {/* <TextareaAutosize>argrefgersfv</TextareaAutosize> */}
-                                                  {/* <div className="data-container col-9">
-                                                       <span>40</span>
-                                                       <span className="title-chart">shipment</span>
-                                                  </div> */}
                                              </div>
                                         </div>
                                         <div className="col-6 py-4">

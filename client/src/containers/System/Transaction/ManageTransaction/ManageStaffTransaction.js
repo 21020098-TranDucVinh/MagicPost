@@ -3,36 +3,13 @@ import { connect } from 'react-redux';
 import toast from 'react-hot-toast';
 import ModalTransactionAddNewStaff from '../Modal/ModalTransactionAddNewStaff';
 import * as actions from '../../../../store/actions/index';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { Button } from 'reactstrap';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
 import { deleteStaffByStaffId } from '../../../.././services/TransactionService';
-const columns = [
-     { field: 'id', headerName: 'ID', width: 90 },
-
-     {
-          field: 'staff_id',
-          headerName: 'Staff ID',
-          width: 150,
-          editable: false,
-     },
-     {
-          field: 'phone',
-          headerName: 'Phone',
-          type: 'text',
-          width: 200,
-          editable: false,
-     },
-     {
-          field: 'username',
-          headerName: 'Username',
-          description: 'This column has a value getter and is not sortable.',
-          sortable: true,
-          width: 160,
-     },
-];
-
+import { options } from '../../../../utils';
+import { BsFillPersonPlusFill } from 'react-icons/bs';
 class ManageStaffTransaction extends Component {
      constructor(props) {
           super(props);
@@ -40,10 +17,21 @@ class ManageStaffTransaction extends Component {
                isOpenModal: false,
                arrStaffTransaction: [],
                selectedTransaction: '',
+               accessToken: '',
           };
      }
      async componentDidMount() {
-          this.props.getTransactionStaffById();
+          let { userInfo } = this.props;
+          this.setState(
+               {
+                    accessToken: userInfo.token,
+               },
+               () => {
+                    let { accessToken } = this.state;
+
+                    this.props.getTransactionStaff(userInfo?.zip_code, accessToken);
+               },
+          );
      }
      componentDidUpdate(prevProps, prevState, snapshot) {
           if (prevProps.arrStaffTransaction !== this.props.arrStaffTransaction) {
@@ -69,17 +57,22 @@ class ManageStaffTransaction extends Component {
      };
      // Delete transaction staff
      handleDeleteStaffTransaction = async () => {
-          let { selectedTransaction } = this.state;
-          let staff_id = selectedTransaction[0].staff_id;
-          // console.log('check staff Id : ', staff_id);
-          if (staff_id) {
-               let res = await deleteStaffByStaffId(staff_id);
-               if (res && res.errorCode === 0) {
-                    this.props.getTransactionStaffById();
-                    toast.success('Delete staff success!');
-               } else {
-                    toast.failed('Delete staff failed!');
+          try {
+               let { selectedTransaction, accessToken } = this.state;
+               let staff_id = selectedTransaction[0].staff_id;
+               if (staff_id) {
+                    let res = await deleteStaffByStaffId(staff_id);
+                    if (res && res.errorCode === 0) {
+                         this.props.getTransactionStaff(this.props.userInfo.zip_code, {
+                              headers: { Authorization: `Bearer ${accessToken}` },
+                         });
+                         toast.success('Delete staff success!');
+                    } else {
+                         toast.failed('Delete staff failed!');
+                    }
                }
+          } catch (e) {
+               console.log(e);
           }
      };
      //Open Modal Edit transaction staff
@@ -106,20 +99,21 @@ class ManageStaffTransaction extends Component {
                               isCloseModal={this.isCloseModal}
                          />
 
-                         <div className="title-admin text-center my-4">
-                              <span>Create Account Staff</span>
-                         </div>
                          <div className="admin-content container">
+                              <div className="title-admin text-center my-4">
+                                   <span>Create Account Staff</span>
+                              </div>
                               <div className="btn-director-add-new-user-container">
                                    <div className="btn-create-new-user-container">
                                         <button
                                              className="btn btn-primary"
                                              onClick={() => this.openModalCrateNewTransactionStaff()}
                                         >
-                                             <i className="fas fa-plus"></i>
+                                             <BsFillPersonPlusFill />
                                              <span>Add New User</span>
                                         </button>
                                    </div>
+
                                    <div className="btn-option-container">
                                         {selectedTransaction.length > 0 && (
                                              <>
@@ -149,8 +143,9 @@ class ManageStaffTransaction extends Component {
                                                   fontFamily: 'Plus Jakarta Sans, sans-serif',
                                                   fontSize: 16,
                                              }}
+                                             slots={{ toolbar: GridToolbar }}
                                              rows={arrStaffTransaction}
-                                             columns={columns}
+                                             columns={options.columnsTransactionStaff}
                                              pageSizeOptions={[5, 7]}
                                              autoHeight={true}
                                              checkboxSelection={true}
@@ -168,12 +163,16 @@ class ManageStaffTransaction extends Component {
                                                        selectedTransaction: selectedRowData,
                                                   });
                                              }}
+                                             slotProps={{
+                                                  toolbar: {
+                                                       showQuickFilter: true,
+                                                  },
+                                             }}
                                              initialState={{
                                                   pagination: {
                                                        paginationModel: { page: 0, pageSize: 5 },
                                                   },
                                              }}
-                                             {...arrStaffTransaction}
                                         />
                                    </div>
                               </div>
@@ -187,12 +186,14 @@ class ManageStaffTransaction extends Component {
 const mapStateToProps = (state) => {
      return {
           arrStaffTransaction: state.adminTransaction.arrTransactionById,
+          userInfo: state.user.userInfo,
      };
 };
 
 const mapDispatchToProps = (dispatch) => {
      return {
-          getTransactionStaffById: () => dispatch(actions.getTransactionStaffByIdAction()),
+          getTransactionStaff: (transaction_zip_code, accessToken) =>
+               dispatch(actions.getTransactionStaffByIdAction(transaction_zip_code, accessToken)),
           doEditStaff: () => dispatch(actions.isEditStaffAction()),
           fetchDataEditStaffAction: (staff) => dispatch(actions.fetchDataEditStaffAction(staff)),
           isNotEditStaff: () => dispatch(actions.isNotEditStaffAction()),

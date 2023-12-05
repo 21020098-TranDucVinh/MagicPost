@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './commonSsssModal.scss';
 import { Modal } from 'reactstrap';
-import Select from 'react-select';
 import * as actions from '../../../../store/actions/index';
 import toast from 'react-hot-toast';
 import { handleCreateNewPotentialAdmin, editUserPending } from '../../../../services/adminService';
-import axios from 'axios';
-
+import { IoEyeOff } from 'react-icons/io5';
+import { IoEye } from 'react-icons/io5';
+import { GiCancel } from 'react-icons/gi';
 class AdminModalAddNewUser extends Component {
      constructor(props) {
           super(props);
@@ -19,6 +19,8 @@ class AdminModalAddNewUser extends Component {
                rePassword: '',
                isEditUser: false,
                editUser: '',
+               isShowPassword: false,
+               isShowRepassword: false,
           };
      }
      async componentDidMount() {}
@@ -149,8 +151,21 @@ class AdminModalAddNewUser extends Component {
           this.props.isNotEditAdminPending();
           this.props.clearDataEditPendingAdmin();
      };
+     //Turn on or off password
+     handleShowPassword = () => {
+          this.setState({
+               isShowPassword: !this.state.isShowPassword,
+          });
+     };
+     //Turn on or off re-enter password
+     handleShowRepassword = () => {
+          this.setState({
+               isShowRepassword: !this.state.isShowRepassword,
+          });
+     };
      render() {
-          let { isOpen, isEditPendingAdmin } = this.props;
+          let { isOpen, isEditPendingAdmin, isEditStaff } = this.props;
+          let { isShowPassword, isShowRepassword } = this.state;
           return (
                <>
                     <Modal className="modal-admin-container" isOpen={isOpen} size="lg" centered>
@@ -158,7 +173,7 @@ class AdminModalAddNewUser extends Component {
                               <div className="modal-admin-header">
                                    <span className="left">Add new potential admin </span>
                                    <span className="right" onClick={() => this.handleCloseModal()}>
-                                        <i className="fa fa-times"></i>
+                                        <GiCancel onClick={this.props.isCloseModal} />
                                    </span>
                               </div>
                               <div className="modal-admin-body">
@@ -186,23 +201,39 @@ class AdminModalAddNewUser extends Component {
                                         <div className="col-6 form-group">
                                              <label>Password</label>
                                              <input
-                                                  type="password"
+                                                  type={isShowPassword ? 'text' : 'password'}
                                                   className="form-control"
                                                   value={this.state.password}
                                                   onChange={(event) => this.handleOnchangeInput(event, 'password')}
                                                   placeholder="Your Password"
-                                             ></input>
+                                                  disabled={isEditStaff ? true : false}
+                                             />
+                                             <span className="btn-showPassword">
+                                                  {isShowPassword ? (
+                                                       <IoEye onClick={this.handleShowPassword} />
+                                                  ) : (
+                                                       <IoEyeOff onClick={this.handleShowPassword} />
+                                                  )}
+                                             </span>
                                         </div>
 
                                         <div className="col-6 form-group">
                                              <label>Re-enter password</label>
                                              <input
-                                                  type="password"
+                                                  type={isShowRepassword ? 'text' : 'password'}
                                                   className="form-control"
                                                   value={this.state.rePassword}
                                                   onChange={(event) => this.handleOnchangeInput(event, 'rePassword')}
                                                   placeholder="Your Password"
+                                                  disabled={isEditStaff ? true : false}
                                              ></input>
+                                             <span className="btn-showPassword">
+                                                  {isShowRepassword ? (
+                                                       <IoEye onClick={this.handleShowRepassword} />
+                                                  ) : (
+                                                       <IoEyeOff onClick={this.handleShowRepassword} />
+                                                  )}
+                                             </span>
                                         </div>
                                    </div>
                               </div>
@@ -235,6 +266,7 @@ const mapStateToProps = (state) => {
           dataEditAdminPending: state.admin.dataEditAdminPending,
           isEditPendingAdmin: state.admin.isEditPendingAdmin,
           userInfo: state.user.userInfo,
+          isEditStaff: state.adminTransaction.isEditStaff,
      };
 };
 

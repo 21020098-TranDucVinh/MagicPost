@@ -1,6 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Row from 'react-bootstrap/Row';
+import { connect } from 'react-redux';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -44,8 +45,14 @@ class TransactionStaffCreateReceipt extends React.Component {
                total: '0.00',
           };
      }
-     componentDidMount(prevProps) {}
-
+     componentDidMount() {
+          this.handleCalculateValueParcels();
+     }
+     componentDidUpdate(prevProps, prevState) {
+          if (prevProps.arrParcelsToSendCol !== this.props.arrParcelsToSendCol) {
+               this.handleCalculateValueParcels();
+          }
+     }
      onCurrencyChange = (selectedOption) => {
           this.setState(selectedOption);
      };
@@ -59,11 +66,23 @@ class TransactionStaffCreateReceipt extends React.Component {
           this.setState({ isOpen: true });
      };
      closeModal = (event) => this.setState({ isOpen: false });
+     handleCalculateValueParcels = () => {
+          let { arrParcelsToSendCol } = this.props;
+          let totalCost = 0;
+          for (let i = 0; i < arrParcelsToSendCol.length; i++) {
+               totalCost += arrParcelsToSendCol[i].cost;
+          }
+          console.log('totalCost', totalCost);
+          this.setState({
+               total: totalCost,
+          });
+     };
      render() {
+          let { arrParcelsToSendCol } = this.props;
           return (
                <Form onSubmit={this.openModal}>
                     <Row>
-                         <Col md={8} lg={9}>
+                         <Col md={8} lg={10}>
                               <Card className="p-4 p-xl-5 my-3 my-xl-4">
                                    <div className="d-flex flex-row align-items-start justify-content-between mb-3">
                                         <div className="d-flex flex-column">
@@ -180,26 +199,34 @@ class TransactionStaffCreateReceipt extends React.Component {
                                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                              <TableHead>
                                                   <TableRow>
-                                                       <TableCell>Dessert (100g serving)</TableCell>
-                                                       <TableCell align="right">Calories</TableCell>
-                                                       <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                                                       <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                                                       <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                                                       <TableCell>ID</TableCell>
+                                                       <TableCell align="right">Sender Name</TableCell>
+                                                       <TableCell align="right">Sender Phone</TableCell>
+                                                       <TableCell align="right">sender Address</TableCell>
+                                                       <TableCell align="right">Receiver Name</TableCell>
+                                                       <TableCell align="right">Receiver Phone</TableCell>
+                                                       <TableCell align="right">Receiver Address</TableCell>
+                                                       <TableCell align="right">From</TableCell>
+                                                       <TableCell align="right">To </TableCell>
+                                                       <TableCell align="right">Cost($)</TableCell>
                                                   </TableRow>
                                              </TableHead>
                                              <TableBody>
-                                                  {rows.map((row) => (
+                                                  {arrParcelsToSendCol.map((row) => (
                                                        <TableRow
                                                             key={row.name}
                                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                        >
-                                                            <TableCell component="th" scope="row">
-                                                                 {row.name}
-                                                            </TableCell>
-                                                            <TableCell align="right">{row.calories}</TableCell>
-                                                            <TableCell align="right">{row.fat}</TableCell>
-                                                            <TableCell align="right">{row.carbs}</TableCell>
-                                                            <TableCell align="right">{row.protein}</TableCell>
+                                                            <TableCell align="right">{row.id}</TableCell>
+                                                            <TableCell align="right">{row.s_name}</TableCell>
+                                                            <TableCell align="right">{row.s_phone}</TableCell>
+                                                            <TableCell align="right">{row.s_address}</TableCell>
+                                                            <TableCell align="right">{row.r_name}</TableCell>
+                                                            <TableCell align="right">{row.r_phone}</TableCell>
+                                                            <TableCell align="right">{row.r_address}</TableCell>
+                                                            <TableCell align="right">{row.s_zip_code}</TableCell>
+                                                            <TableCell align="right">{row.r_zip_code}</TableCell>
+                                                            <TableCell align="right">{row.cost}</TableCell>
                                                        </TableRow>
                                                   ))}
                                              </TableBody>
@@ -215,10 +242,7 @@ class TransactionStaffCreateReceipt extends React.Component {
                                                   }}
                                              >
                                                   <span className="fw-bold">Total:</span>
-                                                  <span className="fw-bold">
-                                                       {this.state.currency}
-                                                       {this.state.total || 0}
-                                                  </span>
+                                                  <span className="fw-bold">{this.state.total}$</span>
                                              </div>
                                         </Col>
                                    </Row>
@@ -251,7 +275,7 @@ class TransactionStaffCreateReceipt extends React.Component {
                                         discountAmmount={this.state.discountAmmount}
                                         total={this.state.total}
                                    />
-                                   <Form.Group className="mb-3">
+                                   {/* <Form.Group className="mb-3">
                                         <Form.Label className="fw-bold">Currency:</Form.Label>
                                         <Form.Select
                                              onChange={(event) =>
@@ -265,7 +289,7 @@ class TransactionStaffCreateReceipt extends React.Component {
                                              <option value="¥">JPY (Japanese Yen)</option>
                                              <option value="$">CAD (Canadian Dollar)</option>
                                         </Form.Select>
-                                   </Form.Group>
+                                   </Form.Group> */}
                               </div>
                          </Col>
                     </Row>
@@ -274,4 +298,13 @@ class TransactionStaffCreateReceipt extends React.Component {
      }
 }
 
-export default TransactionStaffCreateReceipt;
+const mapStateToProps = (state) => {
+     return {
+          arrParcelsToSendCol: state.staffTransaction.arrParcelsToSendCol,
+     };
+};
+
+const mapDispatchToProps = (dispatch) => {
+     return {};
+};
+export default connect(mapStateToProps, mapDispatchToProps)(TransactionStaffCreateReceipt);

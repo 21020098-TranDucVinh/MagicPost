@@ -3,6 +3,7 @@ export const path = {
      LOGIN: '/login',
      LOG_OUT: '/logout',
      SYSTEM: '/system',
+
      HOMEPAGE: '/home',
      REGISTER: '/register',
      FORGOT_PASSWORD: '/forget-password',
@@ -10,6 +11,15 @@ export const path = {
      COLLECTION_ADMIN: '/collection-admin/',
      TRANSACTION_STAFF: '/transaction-staff',
      COLLECTION_STAFF: '/collection-staff',
+     ADMIN_CREATE_ACCOUNT: '/system/director/create/account/admin-transaction-or-collection',
+     TRANSACTION_ADMIN_CREATE_ACCOUNT: '/transaction-admin/manager/create-account',
+     COLLECTION_ADMIN_CREATE_ACCOUNT: '/collection-admin/manager/create-account',
+     ADMIN_MANAGE_COLLECTION_AND_TRANSACTION: '/system/director/create/account/admin-transaction-or-collection',
+     ADMIN_STATISTIC_PARCEL: '/system/director/statistics/parcels',
+     ADMIN_MANAGE_TRANSACTION: '/system/admin/management-transaction',
+     ADMIN_MANAGE_COLLECTION: '/system/admin/management-collection',
+     TRANSACTION_STAFF_CREATE_PARCEL: '/transaction-staff/manage/create-parcel',
+     COLLECTION_STAFF_MANAGE_PARCEL: '/collection-staff/manage/parcel',
 };
 
 export const manageActions = {
@@ -58,7 +68,7 @@ export const options = {
           {
                field: 's_address',
                headerName: 'Sender address',
-               // description: 'This column has a value getter and is not sortable.',
+               // valueGetter: (params) => params.row.s_address.s_address,
                sortable: true,
                width: 160,
           },
@@ -185,6 +195,57 @@ export const options = {
                valueGetter: (params) => params.row.admin.phone,
                width: 150,
                editable: false,
+          },
+     ],
+     columnsTransactionStaff: [
+          { field: 'id', headerName: 'ID', width: 90 },
+
+          {
+               field: 'staff_id',
+               headerName: 'Staff ID',
+               width: 300,
+          },
+          {
+               field: 'username',
+               headerName: 'Username',
+               description: 'This column has a value getter and is not sortable.',
+               sortable: true,
+               width: 300,
+          },
+          {
+               field: 'phone',
+               headerName: 'Phone',
+               type: 'text',
+               width: 300,
+          },
+          // {
+          //      field: 'transaction_zip_code',
+          //      headerName: 'Transaction Zip code',
+          //      type: 'text',
+          //      width: 200,
+          // },
+     ],
+     columnsCollectionStaff: [
+          { field: 'id', headerName: 'ID', width: 100 },
+
+          {
+               field: 'staff_id',
+               headerName: 'Staff ID',
+               width: 300,
+               editable: false,
+          },
+          {
+               field: 'phone',
+               headerName: 'Phone',
+               type: 'text',
+               width: 300,
+               editable: false,
+          },
+          {
+               field: 'username',
+               headerName: 'Username',
+               sortable: true,
+               width: 300,
           },
      ],
 };

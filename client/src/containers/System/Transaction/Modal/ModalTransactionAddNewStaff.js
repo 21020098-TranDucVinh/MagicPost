@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { Modal } from 'reactstrap';
-import Select from 'react-select';
-
+import { IoEyeOff } from 'react-icons/io5';
+import { IoEye } from 'react-icons/io5';
 import * as actions from '../../../../store/actions/index';
 import { handleTransactionCreateNewStaff, editTransactionStaff } from '../../../../services/TransactionService';
+import { GiCancel } from 'react-icons/gi';
 import toast from 'react-hot-toast';
 
 class ModalTransactionAddNewStaff extends Component {
@@ -18,19 +19,21 @@ class ModalTransactionAddNewStaff extends Component {
                rePassword: '',
                zip_code: '',
                address: '',
-               optionSelectionTransactions: [],
-               selectTransaction: '',
+               transaction_zip_code: '',
+               accessToken: '',
+               isShowPassword: false,
+               isShowRepassword: false,
           };
      }
      async componentDidMount() {
+          let { userInfo } = this.props;
+          this.setState({
+               accessToken: userInfo.token,
+               transaction_zip_code: this.props.userInfo.zip_code,
+          });
           this.props.getAllTransactions();
      }
      componentDidUpdate(prevProps, prevState, snapshot) {
-          if (prevProps.arrTransactions !== this.props.arrTransactions) {
-               this.setState({
-                    optionSelectionTransactions: this.buildOptionSelectTransactions(this.props.arrTransactions),
-               });
-          }
           if (prevProps.dataEditStaff !== this.props.dataEditStaff) {
                let data = this.props.dataEditStaff;
                this.setState({
@@ -41,23 +44,7 @@ class ModalTransactionAddNewStaff extends Component {
                });
           }
      }
-     //build option select collection
-     buildOptionSelectTransactions = (collections) => {
-          let optionTransactions = '';
-          if (collections && collections.length > 0) {
-               optionTransactions = collections.map((item, index) => {
-                    let obj = {};
-                    obj.value = item.zip_code;
-                    obj.label = item.name;
-                    return obj;
-               });
-          }
-          console.log(optionTransactions);
-          return optionTransactions;
-     };
-     handleChangeTransaction = (selectTransaction) => {
-          this.setState({ selectTransaction });
-     };
+
      // Handle on change input
      handleOnchangeInput = (event, id) => {
           let copyState = this.state;
@@ -85,32 +72,38 @@ class ModalTransactionAddNewStaff extends Component {
      };
      // create new transaction staff
      handleTransactionCreateNewStaff = async () => {
-          let checkInputValid = this.checkInputValid();
-          let checkInputPasswordValid = this.checkInputPasswordValid();
-          let data = {
-               username: this.state.userName,
-               phone: this.state.phone,
-               password: this.state.password,
-               zip_code: this.state.selectTransaction.value,
-          };
-          console.log(data);
-          if (checkInputValid && checkInputPasswordValid) {
-               let res = await handleTransactionCreateNewStaff(data);
-               if (res && res.errorCode === 0) {
-                    toast.success('Create new staff success!', { duration: 4000, position: 'bottom-center' });
-                    this.props.getTransactionStaffById();
-                    this.props.isCloseModal();
-                    this.setState({
-                         userName: '',
-                         phone: '',
-                         password: '',
-                         rePassword: '',
-                         zip_code: '',
-                         address: '',
+          try {
+               let checkInputValid = this.checkInputValid();
+               let checkInputPasswordValid = this.checkInputPasswordValid();
+               let data = {
+                    username: this.state.userName,
+                    phone: this.state.phone,
+                    password: this.state.password,
+                    zip_code: this.state.transaction_zip_code,
+               };
+               if (checkInputValid && checkInputPasswordValid) {
+                    let { accessToken } = this.state;
+                    let res = await handleTransactionCreateNewStaff(data, {
+                         headers: { Authorization: `Bearer ${accessToken}` },
                     });
-               } else {
-                    toast.error('Create new staff Failed!');
+
+                    if (res && res.errorCode === 0) {
+                         toast.success('Create new staff success!');
+                         this.props.getTransactionStaff(this.state.transaction_zip_code, accessToken);
+                         this.props.isCloseModal();
+                         this.setState({
+                              userName: '',
+                              phone: '',
+                              password: '',
+                              rePassword: '',
+                              address: '',
+                         });
+                    } else {
+                         toast.error('Create new staff Failed!');
+                    }
                }
+          } catch (e) {
+               console.log(e);
           }
      };
      // close modal
@@ -119,23 +112,28 @@ class ModalTransactionAddNewStaff extends Component {
      };
      // edit staff
      handleTransactionEditStaff = async () => {
-          let { password, phone, selectTransaction, userName } = this.state;
-          let data = {
-               username: userName,
-               staff_id: this.props.dataEditStaff.staff_id,
-               password: password,
-               phone: phone.toString(),
-               transaction_zip_code: selectTransaction.value,
-               collection_zip_code: null,
-          };
-          console.log('check data :', data);
-          if (data.staff_id && data.password && data.phone && data.transaction_zip_code) {
-               let res = await editTransactionStaff(data);
-               if (res && res.errorCode === 0) {
-                    toast.success(res.message);
-                    this.props.getTransactionStaffById();
-                    this.props.isCloseModal();
+          try {
+               let { password, phone, transaction_zip_code, userName, accessToken } = this.state;
+               let { dataEditStaff } = this.props;
+               let data = {
+                    username: userName,
+                    staff_id: dataEditStaff.staff_id,
+                    password: password,
+                    phone: phone.toString(),
+                    transaction_zip_code: transaction_zip_code,
+                    collection_zip_code: null,
+               };
+               // console.log('check data :', data);
+               if (data.staff_id && data.password && data.phone && data.transaction_zip_code) {
+                    let res = await editTransactionStaff(data, { headers: { Authorization: `Bearer ${accessToken}` } });
+                    if (res && res.errorCode === 0) {
+                         toast.success(res.msg);
+                         this.props.isCloseModal();
+                         this.props.getTransactionStaff(transaction_zip_code, accessToken);
+                    }
                }
+          } catch (e) {
+               console.log(e);
           }
      };
      // chose between function create or edit
@@ -146,9 +144,22 @@ class ModalTransactionAddNewStaff extends Component {
                this.handleTransactionCreateNewStaff();
           }
      };
+     //Turn on or off password
+     handleShowPassword = () => {
+          this.setState({
+               isShowPassword: !this.state.isShowPassword,
+          });
+     };
+     //Turn on or off re-enter password
+     handleShowRepassword = () => {
+          this.setState({
+               isShowRepassword: !this.state.isShowRepassword,
+          });
+     };
      render() {
           let { isOpen, isEditStaff } = this.props;
-          let { optionSelectionTransactions, selectTransaction } = this.state;
+          let { isShowPassword, isShowRepassword } = this.state;
+
           return (
                <>
                     <Modal className="modal-admin-container" isOpen={isOpen} size="lg" centered>
@@ -156,20 +167,11 @@ class ModalTransactionAddNewStaff extends Component {
                               <div className="modal-admin-header">
                                    <span className="left">Add new staff </span>
                                    <span className="right" onClick={() => this.handleCloseModal()}>
-                                        <i className="fa fa-times"></i>
+                                        <GiCancel onClick={this.props.isCloseModal} />
                                    </span>
                               </div>
                               <div className="modal-admin-body">
                                    <div className="row">
-                                        <div className="col-6 form-group">
-                                             <label>Chose transaction</label>
-                                             <Select
-                                                  value={selectTransaction}
-                                                  placeholder={<div>Your Manager</div>}
-                                                  onChange={this.handleChangeTransaction}
-                                                  options={optionSelectionTransactions}
-                                             />
-                                        </div>
                                         <div className="col-6 form-group">
                                              <label>User Name</label>
                                              <input
@@ -190,27 +192,42 @@ class ModalTransactionAddNewStaff extends Component {
                                                   placeholder="Your Phone"
                                              ></input>
                                         </div>
-
                                         <div className="col-6 form-group">
                                              <label>Password</label>
                                              <input
-                                                  type="password"
+                                                  type={isShowPassword ? 'text' : 'password'}
                                                   className="form-control"
                                                   value={this.state.password}
                                                   onChange={(event) => this.handleOnchangeInput(event, 'password')}
                                                   placeholder="Your Password"
-                                             ></input>
+                                                  disabled={isEditStaff ? true : false}
+                                             />
+                                             <span className="btn-showPassword">
+                                                  {isShowPassword ? (
+                                                       <IoEye onClick={this.handleShowPassword} />
+                                                  ) : (
+                                                       <IoEyeOff onClick={this.handleShowPassword} />
+                                                  )}
+                                             </span>
                                         </div>
 
                                         <div className="col-6 form-group">
                                              <label>Re-enter password</label>
                                              <input
-                                                  type="password"
+                                                  type={isShowRepassword ? 'text' : 'password'}
                                                   className="form-control"
                                                   value={this.state.rePassword}
                                                   onChange={(event) => this.handleOnchangeInput(event, 'rePassword')}
                                                   placeholder="Your Password"
+                                                  disabled={isEditStaff ? true : false}
                                              ></input>
+                                             <span className="btn-showPassword">
+                                                  {isShowRepassword ? (
+                                                       <IoEye onClick={this.handleShowRepassword} />
+                                                  ) : (
+                                                       <IoEyeOff onClick={this.handleShowRepassword} />
+                                                  )}
+                                             </span>
                                         </div>
                                    </div>
                               </div>
@@ -240,13 +257,15 @@ const mapStateToProps = (state) => {
           arrTransactions: state.admin.arrTransactions,
           dataEditStaff: state.adminTransaction.dataEditStaff,
           isEditStaff: state.adminTransaction.isEditStaff,
+          userInfo: state.user.userInfo,
      };
 };
 
 const mapDispatchToProps = (dispatch) => {
      return {
           getAllTransactions: () => dispatch(actions.getAllTransactionsAction()),
-          getTransactionStaffById: () => dispatch(actions.getTransactionStaffByIdAction()),
+          getTransactionStaff: (transaction_zip_code, accessToken) =>
+               dispatch(actions.getTransactionStaffByIdAction(transaction_zip_code, accessToken)),
      };
 };
 

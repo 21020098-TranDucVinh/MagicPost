@@ -27,7 +27,7 @@ class RouteTransactionStaff extends Component {
                                         />
                                         <Route
                                              path="/transaction-staff/create/receipt"
-                                             component={TransactionStaffCreateReceipt}
+                                             component={TransactionManageParcel}
                                         />
                                    </Switch>
                               </div>
