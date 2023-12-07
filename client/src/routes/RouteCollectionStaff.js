@@ -5,6 +5,7 @@ import Header from '../containers/Header/Header';
 import HomeFooter from '../containers/HomePage/HomeFooter';
 import CollectionStaffManageParcel from '../containers/System/collection-staff/CollectionStaffManageParcel';
 import TransactionStaffCreateReceipt from '../containers/System/transaction-staff/TransactionStaffCreateInvoice';
+import ColStaffManageArrivedInvoice from '../containers/System/collection-staff/ColStaffManageArrivedInvoice';
 class RouteCollectionStaff extends Component {
      render() {
           const { isLoggedIn } = this.props;
@@ -25,10 +26,10 @@ class RouteCollectionStaff extends Component {
                                              path="/collection-staff/manage/create-order/send/collection"
                                              component={TransactionStaffCreateReceipt}
                                         />
-                                        {/* <Route
-                                             path="/transaction-staff/create/receipt"
-                                             component={TransactionManageParcel}
-                                        /> */}
+                                        <Route
+                                             path="/collection-staff/manage/arrived-invoice"
+                                             component={ColStaffManageArrivedInvoice}
+                                        />
                                    </Switch>
                               </div>
                          </div>

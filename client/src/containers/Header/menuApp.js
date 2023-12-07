@@ -119,6 +119,15 @@ export const collectionStaffMenu = [
           ],
      },
      {
+          name: 'Arrived shipment ',
+          menus: [
+               {
+                    name: 'Invoice',
+                    link: '/collection-staff/manage/arrived-invoice',
+               },
+          ],
+     },
+     {
           name: 'statistic parcel',
           menus: [
                {

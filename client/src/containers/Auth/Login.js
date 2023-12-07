@@ -4,7 +4,10 @@ import { push } from 'connected-react-router';
 import * as actions from '../../store/actions';
 import toast from 'react-hot-toast';
 import './Login.scss';
+import { MdLockOutline } from 'react-icons/md';
 import { handleLoginAPI } from '../../services/adminService';
+import { IoEyeOff } from 'react-icons/io5';
+import { IoEye } from 'react-icons/io5';
 class Login extends Component {
      constructor(props) {
           super(props);
@@ -13,7 +16,6 @@ class Login extends Component {
                username: '',
                password: '',
                isShowPassword: false,
-               arrMessage: '',
           };
      }
 
@@ -34,17 +36,14 @@ class Login extends Component {
                };
                // console.log('check data : ', data);
                let res = await handleLoginAPI(data);
+               console.log('check res : ', res);
                if (res && res.errorCode === 0) {
                     this.props.userLoginSuccess(res);
+                    toast.success('Login success!', { position: 'top-center' });
                }
           } catch (error) {
-               if (error.response) {
-                    if (error.response.data) {
-                         this.setState({
-                              arrMessage: error.response.data.message,
-                         });
-                    }
-               }
+               console.log('check erorr : ', error);
+               toast.error('Your username or password is incorrect!', { position: 'top-center' });
           }
      };
 
@@ -53,20 +52,26 @@ class Login extends Component {
                isShowPassword: !this.state.isShowPassword,
           });
      };
-     handleOnclickSignUp = () => {
-          toast.success('OK');
-          // this.props.history.push('/register');
-     };
+
      handleOnclickForgetPassWord = () => {
           this.props.history.push('/forget-password');
      };
      render() {
+          let { isShowPassword } = this.state;
+
           return (
                <>
                     <div className="login-background">
                          <div className="login-container container">
                               <div className="login-content row">
-                                   <div className="col-12 text-login text-center  my-4">LOGIN</div>
+                                   <div className="col-12 text-login text-center  my-4">
+                                        <div>
+                                             <button className="logo-login">
+                                                  <MdLockOutline />
+                                             </button>
+                                        </div>
+                                        <div>Sign in</div>
+                                   </div>
                                    <div className="col-12 form-group login-input">
                                         <label className="text-label">Username:</label>
                                         <input
@@ -95,13 +100,11 @@ class Login extends Component {
                                                        this.handleShowHidePassword();
                                                   }}
                                              >
-                                                  <i
-                                                       className={
-                                                            !this.state.isShowPassword
-                                                                 ? 'far fa-eye-slash'
-                                                                 : 'far fa-eye'
-                                                       }
-                                                  ></i>
+                                                  {isShowPassword ? (
+                                                       <IoEye onClick={() => this.handleShowHidePassword()} />
+                                                  ) : (
+                                                       <IoEyeOff />
+                                                  )}
                                              </span>
                                         </div>
                                    </div>
@@ -110,18 +113,13 @@ class Login extends Component {
                                    </div>
                                    <div className="col-12 my-5 ">
                                         <button
-                                             className="btn btn-primary w-100"
+                                             className="btn btn-primary w-100 py-3"
                                              onClick={() => {
                                                   this.handleLogin();
                                              }}
                                         >
-                                             Login
+                                             SIGN IN
                                         </button>
-                                   </div>
-                                   <div className="col-12 extra-login">
-                                        <div className="btn-create-new-account-container my-3 mb-5">
-                                             <button className="btn btn-primary w-100">Create a new account</button>
-                                        </div>
                                    </div>
                               </div>
                          </div>
