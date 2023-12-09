@@ -12,7 +12,7 @@ class Login extends Component {
      constructor(props) {
           super(props);
           this.state = {
-               roleToSendToServer: '',
+               roleToSendToServer: 'admin',
                username: '',
                password: '',
                isShowPassword: false,
@@ -34,7 +34,7 @@ class Login extends Component {
                     password: this.state.password,
                     role: this.state.roleToSendToServer,
                };
-               // console.log('check data : ', data);
+               console.log('check data : ', data);
                let res = await handleLoginAPI(data);
                console.log('check res : ', res);
                if (res && res.errorCode === 0) {

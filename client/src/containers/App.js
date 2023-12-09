@@ -43,7 +43,7 @@ class App extends Component {
                                    <Scrollbars style={{ height: '100vh', width: '100%' }}>
                                         <Switch>
                                              <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
-                                             {/* <Route path={path.HOMEPAGE} component={HomePage} /> */}
+                                             <Route path={path.HOMEPAGE} component={HomePage} />
 
                                              {userInfo && userInfo.role === 'ADMIN' && (
                                                   <>

@@ -5,49 +5,120 @@
      }
 
      .homepage-banner-container {
-          border: 1px solid;
+          // border: 1px solid;
           height: 150vh;
-          width: 100vw;
+          display: flex;
           background-image: url('../../assets/images/banner5.jfif');
           background-size: cover;
           background-repeat: no-repeat;
           background-position: center center;
           .company-info {
+               width: 50%;
+               border: 1px solid;
                .info {
                     display: flex;
                     align-items: center;
-                    // justify-content: center;
-                    // flex-direction: column;
                }
-               border: 1px solid red;
+
                .info-top {
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
                     height: 40%;
-                    border: 1px solid;
+                    // border: 1px solid;
+                    h1,
+                    p {
+                         font-weight: 600;
+                    }
                }
                .info-middle {
                     height: 30%;
-                    border: 1px solid;
+                    // border: 1px solid;
+                    ul {
+                         font-weight: 600;
+                         font-size: large;
+                         margin-top: 0;
+                         margin-bottom: 1rem;
+                         color: black;
+                    }
                }
                .info-bottom {
                     height: 29%;
+               }
+          }
+          .search-parcel-container {
+               width: 50%;
+               border: 1px solid red;
+               .search-content {
                     border: 1px solid;
+                    height: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    .search-box {
+                         min-height: 60%;
+                         width: 95%;
+                         border: 1px solid orange;
+
+                         background-color: rgba(255, 255, 255, 0.5);
+                         border-radius: 10px;
+                         .title-search-parcel {
+                              font-size: 25px;
+                              font-weight: 600;
+                              height: 15%;
+                         }
+                         .box-search-parcel-container {
+                              height: 85%;
+                              border: 1px solid;
+                              .box-search-parcel-content {
+                                   height: 25%;
+                              }
+                              .box-search-parcel-result {
+                                   height: 75%;
+                                   .result-info {
+                                        height: 65%;
+                                        border: 1px solid;
+                                        font-size: 1.125rem;
+                                        font-weight: 400;
+                                        font-family: ui-sans-serif;
+                                        span {
+                                             font-weight: 600;
+                                        }
+                                   }
+
+                                   .result-chart {
+                                        height: 35%;
+                                        border: 1px solid;
+                                   }
+                              }
+                         }
+                    }
+               }
+               .more-info {
+                    height: 50%;
+                    border: 1px solid green;
                }
           }
      }
      .welcome-magicpost-info-container {
           height: 30vh;
           width: 100vw;
-          border: 1px solid;
+          // border: 1px solid;
           .welcome-magicpost-info-content {
                height: 100%;
                .left-content-info {
-                    border: 1px solid red;
+                    // border: 1px solid red;
+                    h1,
+                    p {
+                         font-weight: 600;
+                    }
                }
-               .left-content-info {
-                    border: 1px solid green;
+               .right-content-info {
+                    // border: 1px solid green;
+                    ul {
+                         font-weight: 600;
+                         font-size: 16px;
+                    }
                }
           }
      }
