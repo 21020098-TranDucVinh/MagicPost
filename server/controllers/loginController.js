@@ -58,7 +58,7 @@ class loginController {
           msg: 'Username not found',
         });
       } else {
-        console.log(user, username, password, user.role, user.zip_code);
+        console.log("Login: username: ", username, "password: ", password, "role: ", user.role, "zip_code: ", user.zip_code);
         // comparing given password with hashed password
         bcrypt.compare(password, user.password).then(function (result) {
           if (result) {

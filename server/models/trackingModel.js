@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      parcels_id: {
+      parcel_id: {
         type: DataTypes.STRING,
         allowNull: true,
         references: {
@@ -46,9 +46,9 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       status: {
-        type: DataTypes.ENUM('PENDING', 'DELIVERING', 'DELIVERED'),
+        type: DataTypes.ENUM('DELIVERING', 'DELIVERED', 'RETURNED'),
         allowNull: false,
-        defaultValue: 'PENDING',
+        defaultValue: 'DELIVERING',
       },
       last_update: {
         type: 'TIMESTAMP',

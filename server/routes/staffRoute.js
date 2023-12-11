@@ -9,6 +9,11 @@ router.get(
   staffController.getTransactionStaff,
 );
 
+router.get(
+  '/collection_staff/:collection_zip_code',
+  staffController.getCollectionStaff,
+);
+
 router.put('/staff/:staff_id', staffController.updateStaff);
 router.delete('/staff/:staff_id', staffController.deleteStaff);
 
