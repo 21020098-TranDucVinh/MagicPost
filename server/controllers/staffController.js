@@ -99,6 +99,7 @@ class staffController {
       const transaction_zip_code = req.params.transaction_zip_code;
 
       const staff = await Staff.findAndCountAll({
+        attributes: { exclude: ['collection_zip_code', 'password'] },
         where: {
           transaction_zip_code,
         },
@@ -113,6 +114,31 @@ class staffController {
       return res.status(500).json({
         errorCode: 1,
         msg: 'Error find a transaction staff!',
+      });
+    }
+  }
+
+  // [GET] /collection_staff/:collection_zip_code
+  async getCollectionStaff(req, res) {
+    try {
+      const collection_zip_code = req.params.collection_zip_code;
+
+      const staff = await Staff.findAndCountAll({
+        attributes: { exclude: ['transaction_zip_code', 'password'] },
+        where: {
+          collection_zip_code,
+        },
+      });
+      return res.status(200).json({
+        errorCode: 0,
+        count: staff.count,
+        staff: staff.rows,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        errorCode: 1,
+        msg: 'Error find a collection staff!',
       });
     }
   }

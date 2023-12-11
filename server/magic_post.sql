@@ -91,7 +91,7 @@ CREATE TABLE `track_history`(
     `s_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `r_zip_code` VARCHAR(255) NOT NULL,
     `parcel_id` VARCHAR(255) NULL,
-    `status` ENUM('PENDING', 'DELIVERING', 'DELIVERED', 'RETURNED') NOT NULL DEFAULT 'PENDING',
+    `status` ENUM('DELIVERING', 'DELIVERED', 'RETURNED') NOT NULL DEFAULT 'DELIVERING',
     `last_update` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `last_staff_id_update` VARCHAR(255) NOT NULL,
     `description` TEXT NULL,
@@ -240,10 +240,12 @@ INSERT INTO `parcels` (`status`, `s_name`, `s_phone`, `s_address`, `r_name`, `r_
 VALUE ('PENDING', 's_name2', 123456789, '{"address": "s_address2"}', 'r_name2', 123456789, '{"address": "r_address2"}', 'DOCUMENT', 2, 'T00002', 'C00002', 200, '{"cod": 200}');
 INSERT INTO `parcels` (`status`, `s_name`, `s_phone`, `s_address`, `r_name`, `r_phone`, `r_address`, `type`, `weight`, `s_zip_code`, `r_zip_code`, `cost`, `r_cod`)
 VALUE ('PENDING', 's_name3', 123456789, '{"address": "s_address3"}', 'r_name3', 123456789, '{"address": "r_address3"}', 'DOCUMENT', 3, 'T00003', 'C00003', 300, '{"cod": 300}');
+INSERT INTO `parcels` (`s_name`, `s_phone`, `s_address`, `r_name`, `r_phone`, `r_address`, `type`, `weight`, `s_zip_code`, `r_zip_code`, `cost`, `r_cod`)
+VALUE ('s_name4', 123456789, '{"address": "s_address4"}', 'r_name4', 123456789, '{"address": "r_address4"}', 'DOCUMENT', 4, 'T00001', 'C00001', 400, '{"cod": 400}');
 
-INSERT INTO `track_history` (`s_staff_id`, `s_zip_code`, `r_zip_code`, `parcel_id`, `last_staff_id_update`, `description`)
-VALUE ('T00001S00001', 'T00001', 'C00001', 'P00001', 'T00001S00001', 'Delivering from T00001 to C00001'); 
-INSERT INTO `track_history` (`s_staff_id`, `s_zip_code`, `r_zip_code`, `parcel_id`, `last_staff_id_update`, `description`)
-VALUE ('T00002S00001', 'T00002', 'C00002', 'P00001', 'T00002S00001', 'Delivering from T00002 to C00002');
+INSERT INTO `track_history` (`s_staff_id`, `s_zip_code`, `r_zip_code`, `parcel_id`, `status`, `last_update`, `last_staff_id_update`, `description`, `shipper_name`, `shipper_phone`)
+VALUE ('T00001S00001', 'T00001', 'C00001', 'P00001', 'DELIVERING', '2020-01-01 00:00:00', 'T00001S00001', 'description', 'shipper_name', 123456789);
+INSERT INTO `track_history` (`s_staff_id`, `s_zip_code`, `r_zip_code`, `parcel_id`, `status`, `last_update`, `last_staff_id_update`, `description`, `shipper_name`, `shipper_phone`)
+VALUE ('T00002S00002', 'T00002', 'C00002', 'P00002', 'DELIVERING', '2020-01-01 00:00:00', 'T00002S00002', 'description', 'shipper_name', 123456789);
 
 COMMIT;

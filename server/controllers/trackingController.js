@@ -4,16 +4,24 @@ const {
 } = require('../models/');
 
 class trackingController {
+
+  // [POST] /tracking/send
   async sendTracking(req, res) {
     try {
-      const { s_staff_id, parcel_id, r_zip_code, s_zip_code } = req.body;
-      await Tracking.create({
-        s_staff_id,
-        parcel_id,
+      // bulk create
+      const { staff_id, s_zip_code, r_zip_code,
+        list_parcel_id, shipper_name, shipper_phone } = req.body;
+      const list = list_parcel_id.map((parcel_id) => ({
+        s_staff_id: staff_id,
         s_zip_code,
         r_zip_code,
-        last_staff_id_update: s_staff_id,
-      });
+        parcel_id,
+        shipper_name,
+        shipper_phone,
+        last_staff_id_update: staff_id,
+      }));
+      await Tracking.bulkCreate(list);
+
       res.status(200).json({
         errorCode: 0,
         msg: 'Tracking sent successfully !',
@@ -27,19 +35,164 @@ class trackingController {
     }
   }
 
+  // [GET] /tracking/listDelivering/:s_zip_code
+  async getDeliveringTrackingFromSender(req, res) {
+    try {
+      const { s_zip_code } = req.params;
+      const list = await Tracking.findAll({
+        where: {
+          s_zip_code,
+          status: 'DELIVERING',
+        },
+      });
+      res.status(200).json({
+        errorCode: 0,
+        msg: 'Get delivering tracking successfully !',
+        data: list,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        errorCode: 1,
+        msg: 'Server' + error.message,
+      });
+    }
+  }
+
+  // [GET] /tracking/listDelivering/:r_zip_code
+  async getDeliveredTrackingFromReceiver(req, res) {
+    try {
+      const { r_zip_code } = req.params;
+      const list = await Tracking.findAll({
+        where: {
+          r_zip_code,
+          status: 'DELIVERING',
+        },
+      });
+      res.status(200).json({
+        errorCode: 0,
+        msg: 'Get delivering tracking successfully !',
+        data: list,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        errorCode: 1,
+        msg: 'Server' + error.message,
+      });
+    }
+  }
+
+  // [GET] /tracking/listReceived/:zip_code
+  async receivedTracking(req, res) {
+    try {
+      const { zip_code } = req.params;
+      const list = await Tracking.findAll({
+        where: {
+          r_zip_code: zip_code,
+          status: 'DELIVERED',
+        },
+      });
+      res.status(200).json({
+        errorCode: 0,
+        msg: 'Get received tracking successfully !',
+        data: list,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        errorCode: 1,
+        msg: 'Server' + error.message,
+      });
+    }
+  }
+
+  // [GET] /tracking/listReturned/:zip_code
+  async returnedTracking(req, res) {
+    try {
+      const { zip_code } = req.params;
+      const list = await Tracking.findAll({
+        where: {
+          r_zip_code: zip_code,
+          status: 'RETURNED',
+        },
+      });
+      res.status(200).json({
+        errorCode: 0,
+        msg: 'Get returned tracking successfully !',
+        data: list,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        errorCode: 1,
+        msg: 'Server' + error.message,
+      });
+    }
+  }
+
+  // [GET] /tracking/listSended/:zip_code
+  async sendedTracking(req, res) {
+    try {
+      const { zip_code } = req.params;
+      const list = await Tracking.findAll({
+        where: {
+          s_zip_code: zip_code,
+        },
+      });
+      res.status(200).json({
+        errorCode: 0,
+        msg: 'Get sended tracking successfully !',
+        data: list,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        errorCode: 1,
+        msg: 'Server' + error.message,
+      });
+    }
+  }
+
+  // [GET] /tracking/:parcel_id
+  async getTrackingByParcelId(req, res) {
+    try {
+      const { parcel_id } = req.params;
+      const tracking = await Tracking.findAll({
+        where: {
+          parcel_id,
+        },
+        order: [['id', 'DESC']],
+      });
+      res.status(200).json({
+        errorCode: 0,
+        msg: 'Get tracking successfully !',
+        data: tracking,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        errorCode: 1,
+        msg: 'Server' + error.message,
+      });
+    }
+  }
+
+  // [POST] /tracking/receive
   async receiveTracking(req, res) {
     try {
-      const { last_staff_id_update, parcel_id } = req.body;
-      await Tracking.update(
-        {
-          last_staff_id_update,
-        },
-        {
-          where: {
-            parcel_id,
-          },
-        },
-      );
+      const { last_staff_id_update, list_tracking_id, zip_code } = req.body;
+      const list = list_tracking_id.map((id) => ({
+        id,
+        s_staff_id: last_staff_id_update,
+        s_zip_code: 'T00001',
+        r_zip_code: zip_code,
+        status: 'DELIVERED',
+        last_staff_id_update,
+      }));
+      await Tracking.bulkCreate(list, {
+        updateOnDuplicate: ['status', 'last_staff_id_update'],
+      });
       res.status(200).json({
         errorCode: 0,
         msg: 'Tracking received successfully !',

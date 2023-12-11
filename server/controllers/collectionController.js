@@ -7,7 +7,7 @@ class collectionController {
   async getAllCollections(req, res) {
     try {
       const collections = await Collection.findAll({
-        attributes: { exclude: ['id', 'admin_id'] },
+        attributes: { exclude: ['admin_id'] },
         include: [{
           model: Admin,
           attributes: { exclude: ['password'] },
