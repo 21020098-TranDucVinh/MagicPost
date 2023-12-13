@@ -35,3 +35,17 @@ export const fetchParcelsToSendColAction = (ArrParcels) => {
           }
      };
 };
+export const clearParcelsToSendColAction = () => {
+     return async (dispatch, getState) => {
+          try {
+               dispatch({
+                    type: actionTypes.CLEAR_PARCEL_TO_SEND_TO_COLLECTION_SUCCESS,
+               });
+          } catch (e) {
+               console.log(e);
+               dispatch({
+                    type: actionTypes.CLEAR_PARCEL_TO_SEND_TO_COLLECTION_FAILED,
+               });
+          }
+     };
+};

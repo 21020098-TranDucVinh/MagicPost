@@ -98,6 +98,15 @@ export const transactionStaffMenu = [
           ],
      },
      {
+          name: 'Arrived shipment ',
+          menus: [
+               {
+                    name: 'Invoice',
+                    link: '/transaction-staff/manage/arrived-invoice',
+               },
+          ],
+     },
+     {
           name: 'Statistic parcel',
           menus: [
                {

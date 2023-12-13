@@ -34,7 +34,7 @@ class App extends Component {
 
      render() {
           let { userInfo } = this.state;
-          console.log('check userInfo : ', userInfo);
+
           return (
                <>
                     <Router history={history}>

@@ -24,13 +24,14 @@ class ManageCollectionStaff extends Component {
      }
      async componentDidMount() {
           let { userInfo } = this.props;
+          this.props.getCollectionStaff(userInfo.zip_code, userInfo.token);
           this.setState({
                collection_zip_code: userInfo.zip_code,
                accessToken: userInfo.token,
           });
-          this.props.getCollectionStaff(userInfo.zip_code, userInfo.token);
      }
      componentDidUpdate(prevProps, prevState, snapshot) {
+          console.log('çol staff : ', this.props.arrCollectionStaff);
           if (prevProps.arrCollectionStaff !== this.props.arrCollectionStaff) {
                this.setState({
                     arrCollectionStaff: this.props.arrCollectionStaff,
@@ -104,7 +105,7 @@ class ManageCollectionStaff extends Component {
                                         </button>
                                    </div>
                                    <div className="btn-option-container">
-                                        {rowSelectedCollections.length > 0 && (
+                                        {rowSelectedCollections && rowSelectedCollections.length > 0 && (
                                              <>
                                                   <Button
                                                        className="btn btn-warning px-4"
@@ -140,7 +141,6 @@ class ManageCollectionStaff extends Component {
                                              checkboxSelection={true}
                                              onRowSelectionModelChange={(ids) => {
                                                   const selectedIDs = new Set(ids);
-
                                                   let selectedRowData = [];
                                                   arrCollectionStaff.map((row) => {
                                                        selectedIDs.has(row.id);

@@ -23,14 +23,28 @@
           margin-left: 25px;
      }
      .languages {
-          .btn-logout {
+          display: flex;
+          justify-content: center;
+          align-self: center;
+          .hi-user {
+               display: flex;
+               justify-content: center;
+               align-self: center;
+               color: goldenrod;
+               @media (min-width: 1490px) {
+                    font-size: 25px;
+               }
+               @media (max-width: 1489px) {
+                    font-size: 20px;
+               }
+          }
+          .btn-logout-container {
                cursor: pointer;
-
-               .btn-lg {
+               .btn-lg-content {
                     background-color: #0062a1;
                     .button {
                          @media (min-width: 1490px) {
-                              font-size: 17px;
+                              font-size: 13px;
                          }
                          @media (max-width: 1489px) {
                               font-size: 10px;

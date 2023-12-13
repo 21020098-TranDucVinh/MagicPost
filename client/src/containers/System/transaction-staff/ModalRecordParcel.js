@@ -76,20 +76,8 @@ class ModalTransactionAddNewStaff extends Component {
      // Record parcel
      handleTransactionCreateNewStaff = async () => {
           let checkInputValid = this.checkInputValid();
-          let {
-               s_name,
-               r_name,
-               s_phone,
-
-               cost,
-               weight,
-
-               r_address,
-               s_address,
-               r_phone,
-               selectedPayment,
-               selectedType,
-          } = this.state;
+          let { s_name, r_name, s_phone, cost, weight, r_address, s_address, r_phone, selectedPayment, selectedType } =
+               this.state;
           let data = {
                s_name: s_name,
                r_name: r_name,
@@ -101,7 +89,7 @@ class ModalTransactionAddNewStaff extends Component {
                r_address: r_address,
                s_address: s_address,
                r_phone: r_phone,
-               s_zip_code: 'T00001',
+               s_zip_code: this.props.userInfo.zip_code,
           };
           console.log(data);
           if (checkInputValid) {
@@ -302,6 +290,7 @@ const mapStateToProps = (state) => {
           arrTransactions: state.admin.arrTransactions,
           dataEditStaff: state.adminTransaction.dataEditStaff,
           isEditStaff: state.adminTransaction.isEditStaff,
+          userInfo: state.user.userInfo,
      };
 };
 

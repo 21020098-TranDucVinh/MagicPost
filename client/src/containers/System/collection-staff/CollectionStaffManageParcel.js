@@ -69,30 +69,33 @@ class CollectionStaffManageParcel extends Component {
      //           toast.error('You can only chose one entry!');
      //      }
      // };
+     handleCreateOrderToSendCol = () => {
+          alert('OK');
+     };
      render() {
           let { arrPendingParcels } = this.state;
           console.log(arrPendingParcels);
           return (
                <>
                     <div className="admin-container my-3">
-                         <div className="title-admin text-center my-4">
-                              <span>Manage Parcel</span>
-                         </div>
                          <div className="admin-content container">
-                              <div className="btn-director-add-new-user-container">
+                              <div className="btn-director-add-new-user-container row container">
+                                   <div className="title-admin text-center my-4 col-12">
+                                        <span>Manage Parcel</span>
+                                   </div>
                                    <div className="btn-create-new-user-container">
                                         <button
                                              className="btn btn-primary"
-                                             onClick={() => this.openModalCrateNewTransactionStaff()}
+                                             onClick={() => this.handleCreateOrderToSendCol()}
                                         >
                                              <span className="text-white">
                                                   <FaPlus />
                                              </span>
 
-                                             <span>Record Parcel</span>
+                                             <span>Create order</span>
                                         </button>
                                    </div>
-                                   <div className="btn-option-container">
+                                   {/* <div className="btn-option-container">
                                         {arrPendingParcels.length > 0 && (
                                              <>
                                                   <Button
@@ -111,7 +114,7 @@ class CollectionStaffManageParcel extends Component {
                                                   </Button>
                                              </>
                                         )}
-                                   </div>
+                                   </div> */}
                               </div>
                               <div className="table-user-content mt-2 mb-3 ">
                                    <div style={{ height: 400, width: '100%' }}>

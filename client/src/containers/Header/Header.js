@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import Navigator from '../../components/Navigator';
+import { BiSolidBellRing } from 'react-icons/bi';
 import {
      adminMenu,
      transactionManageMenu,
@@ -70,9 +71,14 @@ class Header extends Component {
                          </div>
 
                          <div className="languages">
-                              {/* <span className="hi-user p-3">Hi Thach!</span> */}
-                              <div className="btn btn-logout" title="Log out">
-                                   <Button className="btn btn-primary btn-lg" onClick={() => this.handleLogout()}>
+                              <span className="hi-user">
+                                   <BiSolidBellRing />
+                              </span>
+                              <div className="btn-logout-container p-4" title="Log out">
+                                   <Button
+                                        className="btn btn-primary btn-lg-content "
+                                        onClick={() => this.handleLogout()}
+                                   >
                                         <CiLogout className="button" />
                                         <span className="button">Logout</span>
                                    </Button>

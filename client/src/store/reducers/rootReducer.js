@@ -9,7 +9,7 @@ import transactionStaffReducer from './transactionStaffReducer';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
-
+import colStaffReducer from './colStaffReducer';
 const persistCommonConfig = {
      storage: storage,
      stateReconciler: autoMergeLevel2,
@@ -35,4 +35,5 @@ export default (history) =>
           adminTransaction: transactionAdminReducer,
           adminCollection: collectionAdminReducer,
           staffTransaction: transactionStaffReducer,
+          colStaff: colStaffReducer,
      });

@@ -89,10 +89,10 @@ class RecordParcel extends Component {
                     <div className="admin-container my-3">
                          <ModalRecordParcel isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
 
-                         <div className="title-admin text-center my-4">
-                              <span>Manage Parcel</span>
-                         </div>
                          <div className="admin-content container">
+                              <div className="title-admin text-center my-4">
+                                   <span>Manage Parcel</span>
+                              </div>
                               <div className="btn-director-add-new-user-container">
                                    <div className="btn-create-new-user-container">
                                         <button

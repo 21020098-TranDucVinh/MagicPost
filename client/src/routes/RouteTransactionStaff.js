@@ -5,7 +5,7 @@ import Header from '../containers/Header/Header';
 import HomeFooter from '../containers/HomePage/HomeFooter';
 import TransactionManageParcel from '../containers/System/Transaction/ManageTransaction/TransactionManageParcel';
 import RecordParcel from '../containers/System/transaction-staff/RecordParcel';
-import TransactionStaffCreateReceipt from '../containers/System/transaction-staff/TransactionStaffCreateInvoice';
+import TransactionStaffCreateReceipt from '../containers/System/transaction-staff/TransactionStaffCreateOrder';
 class RouteTransactionStaff extends Component {
      render() {
           const { isLoggedIn } = this.props;

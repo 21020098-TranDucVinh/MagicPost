@@ -8,4 +8,16 @@ const handleCreateNewParcel = (body) => {
 const getAllPendingParcel = () => {
      return axios.get('/parcelsPending');
 };
-export { handleCreateNewParcel, getAllPendingParcel };
+// Create new transaction staff
+const handleSendParcelsToCol = (body, accessToken) => {
+     return axios.post('/tracking/send', body, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+     });
+};
+const handleUpdateStatusParcel = (body, accessToken) => {
+     return axios.put(`/parcels/${body?.parcel_id}`, body, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+     });
+};
+
+export { handleCreateNewParcel, getAllPendingParcel, handleSendParcelsToCol, handleUpdateStatusParcel };

@@ -95,13 +95,13 @@ export const options = {
                field: 'cost',
                headerName: 'Cost',
                sortable: true,
-               width: 160,
+               width: 100,
           },
           {
-               field: 'payment_status',
-               headerName: 'Payment Status',
+               field: 'status',
+               headerName: 'Status',
                sortable: true,
-               width: 160,
+               width: 100,
           },
      ],
      columnsPotentialCandidate: [

@@ -4,8 +4,8 @@ import { Route, Switch } from 'react-router-dom';
 import Header from '../containers/Header/Header';
 import HomeFooter from '../containers/HomePage/HomeFooter';
 import CollectionStaffManageParcel from '../containers/System/collection-staff/CollectionStaffManageParcel';
-import TransactionStaffCreateReceipt from '../containers/System/transaction-staff/TransactionStaffCreateInvoice';
-import ColStaffManageArrivedInvoice from '../containers/System/collection-staff/ColStaffManageArrivedInvoice';
+import TransactionStaffCreateReceipt from '../containers/System/transaction-staff/TransactionStaffCreateOrder';
+import ColStaffManageArrivedOrder from '../containers/System/collection-staff/ColStaffManageArrivedOrder';
 class RouteCollectionStaff extends Component {
      render() {
           const { isLoggedIn } = this.props;
@@ -28,7 +28,7 @@ class RouteCollectionStaff extends Component {
                                         />
                                         <Route
                                              path="/collection-staff/manage/arrived-invoice"
-                                             component={ColStaffManageArrivedInvoice}
+                                             component={ColStaffManageArrivedOrder}
                                         />
                                    </Switch>
                               </div>
