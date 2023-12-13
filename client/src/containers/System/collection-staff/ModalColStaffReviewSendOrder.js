@@ -17,7 +17,7 @@ import * as services from '../../../services/index';
 import toast from 'react-hot-toast';
 import CommonUtils from '../../../utils/CommonUtils';
 
-class ModalTransactionStaffPrintOrder extends React.Component {
+class ModalColStaffReviewSendOrder extends React.Component {
      constructor(props) {
           super(props);
           this.state = {};
@@ -69,7 +69,7 @@ class ModalTransactionStaffPrintOrder extends React.Component {
      render() {
           let { arrParcelsToSendCol } = this.props;
           return (
-               <div>
+               <div className="modal-order-container">
                     <Modal show={this.props.showModal} onHide={this.props.closeModal} size="xl" centered>
                          <div id="invoiceCapture">
                               <div className="d-flex flex-row justify-content-between align-items-start bg-light w-100 p-4">
@@ -88,15 +88,14 @@ class ModalTransactionStaffPrintOrder extends React.Component {
                                    <Row className="mb-4">
                                         <Col md={4}>
                                              <div className="fw-bold">Billed to:</div>
-                                             <div>{this.props.info.belongToCollection.name || ''}</div>
-                                             <div>{this.props.info.belongToCollection.address || ''}</div>
-                                             <div>{this.props.info.belongToCollection.admin?.phone || ''}</div>
+                                             <div>{this.props.info.r_colInfo.name || ''}</div>
+                                             <div>{this.props.info.r_colInfo.address || ''}</div>
                                         </Col>
                                         <Col md={4}>
                                              <div className="fw-bold">Billed From:</div>
-                                             <div>{this.props.info.billFrom || ''}</div>
-                                             <div>{this.props.info.billFromAddress || ''}</div>
-                                             <div>{this.props.info.billFromPhone || ''}</div>
+                                             <div>{this.props.info.s_colInfo.name || ''}</div>
+                                             <div>{this.props.info.s_colInfo.name || ''}</div>
+                                             <div>{this.props.info.s_colInfo.name || ''}</div>
                                         </Col>
                                         <Col md={4}>
                                              <div className="fw-bold mt-2">Date:</div>
@@ -225,4 +224,4 @@ const mapDispatchToProps = (dispatch) => {
           // clearParcelsToSendCol: () => dispatch(actions.clearParcelsToSendColAction()),
      };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(ModalTransactionStaffPrintOrder);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalColStaffReviewSendOrder);

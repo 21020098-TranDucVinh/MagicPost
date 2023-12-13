@@ -1,13 +1,13 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './UIOrder.scss';
+import '../transaction-staff/UIOrder.scss';
 import Row from 'react-bootstrap/Row';
 import { connect } from 'react-redux';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
-import ModalTransactionStaffPrintOrder from './ModalTransactionStaffPrintOrder';
+import ModalColStaffReviewSendOrder from './ModalColStaffReviewSendOrder';
 import * as actions from '../../../store/actions/index';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -16,7 +16,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Table from 'react-bootstrap/Table';
-class TransactionStaffCreateOrder extends React.Component {
+import Select from 'react-select';
+class colStaffCreateOrder extends React.Component {
      constructor(props) {
           super(props);
           this.state = {
@@ -24,7 +25,6 @@ class TransactionStaffCreateOrder extends React.Component {
                currency: '$',
                currentDate: '',
                invoiceNumber: 1,
-               belongToCollection: '',
                billFrom: '',
                billFromPhone: '',
                billFromAddress: '',
@@ -32,14 +32,18 @@ class TransactionStaffCreateOrder extends React.Component {
                total: '0.00',
                shipperName: '',
                shipperPhone: '',
+               s_colInfo: '',
+               r_colInfo: '',
+               selectedCollection: '',
+               optionSelectionCollections: [],
           };
      }
      componentDidMount() {
           this.handleCalculateValueParcels();
           this.props.getAllTransactions();
           this.props.getAllCollections();
-          this.buildDataFrom();
-          this.buildInfoCol();
+          this.buildFromColInfo();
+          this.buildOptionSelectCollections();
      }
      componentDidUpdate(prevProps, prevState) {
           if (prevProps.arrParcelsToSendCol !== this.props.arrParcelsToSendCol) {
@@ -50,25 +54,45 @@ class TransactionStaffCreateOrder extends React.Component {
      componentWillUnmount() {
           this.props.clearParcelsToSendCol();
      }
-
-     buildDataFrom = async () => {
-          let { userInfo, arrTransactions } = this.props;
-          let TranZipCode = userInfo.zip_code;
-          let data = {};
-          if (arrTransactions && arrTransactions.length > 0) {
-               for (let i = 0; i < arrTransactions.length; i++) {
-                    if (TranZipCode === arrTransactions[i]?.zip_code) {
-                         data = arrTransactions[i];
-                         break;
-                    }
-               }
-               this.setState({
-                    billFrom: data?.name,
-                    billFromPhone: '123137123',
-                    billFromAddress: data?.address,
+     //build option select collection
+     buildOptionSelectCollections = () => {
+          const { arrCollections } = this.props;
+          let optionCollections = [];
+          if (arrCollections && arrCollections.length > 0) {
+               optionCollections = arrCollections.map((item, index) => {
+                    let obj = {};
+                    obj.value = item.zip_code;
+                    obj.label = item.name;
+                    return obj;
                });
           }
+          this.setState({
+               optionSelectionCollections: optionCollections,
+          });
      };
+     // onchange selection collection
+     handleChangeSelectCollection = (selectedCollection) => {
+          this.setState({
+               selectedCollection: selectedCollection,
+          });
+          try {
+               let colZipCode = selectedCollection.value;
+               const { arrCollections } = this.props;
+               if (arrCollections && arrCollections.length > 0) {
+                    for (let i = 0; i < arrCollections.length; i++) {
+                         if (colZipCode === arrCollections[i].zip_code) {
+                              this.setState({
+                                   r_colInfo: arrCollections[i],
+                              });
+                              break;
+                         }
+                    }
+               }
+          } catch (e) {
+               console.log(e);
+          }
+     };
+
      onCurrencyChange = (selectedOption) => {
           this.setState(selectedOption);
      };
@@ -77,25 +101,16 @@ class TransactionStaffCreateOrder extends React.Component {
                [event.target.name]: event.target.value,
           });
      };
-     // build info about receive node
-     buildInfoCol = () => {
-          let { userInfo, arrTransactions, arrCollections } = this.props;
-          let tranZipCode = userInfo.zip_code;
-          let colZip_Code;
-          if (arrTransactions && arrTransactions.length > 0) {
-               for (let i = 0; i < arrTransactions.length; i++) {
-                    if (tranZipCode === arrTransactions[i].zip_code) {
-                         colZip_Code = arrTransactions[i].collection_zip_code;
-                         break;
-                    }
-               }
-          }
+     // build info about send node
+     buildFromColInfo = () => {
+          let { userInfo, arrCollections } = this.props;
+          let colZipCode = userInfo.zip_code;
+          // let colZip_Code;
           if (arrCollections && arrCollections.length > 0) {
                for (let i = 0; i < arrCollections.length; i++) {
-                    if (colZip_Code === arrCollections[i].zip_code) {
-                         colZip_Code = arrCollections[i].zip_code;
+                    if (colZipCode === arrCollections[i].zip_code) {
                          this.setState({
-                              belongToCollection: arrCollections[i],
+                              s_colInfo: arrCollections[i],
                          });
                          break;
                     }
@@ -120,8 +135,8 @@ class TransactionStaffCreateOrder extends React.Component {
      };
      render() {
           let { arrParcelsToSendCol } = this.props;
-          let { belongToCollection } = this.state;
-          // console.log('col : ', belongToCollection);
+          let { s_colInfo, r_colInfo, optionSelectionCollections, selectedCollection } = this.state;
+
           return (
                <div className="tran-staff-invoice-container">
                     <Form onSubmit={this.openModal}>
@@ -161,7 +176,7 @@ class TransactionStaffCreateOrder extends React.Component {
                                                   <Form.Control
                                                        placeholder={'Which transaction is this invoice from?'}
                                                        rows={3}
-                                                       value={this.state.billFrom}
+                                                       value={s_colInfo.name}
                                                        type="text"
                                                        name="billFrom"
                                                        className="my-2"
@@ -171,7 +186,7 @@ class TransactionStaffCreateOrder extends React.Component {
                                                   />
                                                   <Form.Control
                                                        placeholder={'Transaction phone'}
-                                                       value={this.state.billFromPhone}
+                                                       value={s_colInfo?.admin?.phone}
                                                        type="text"
                                                        name="billFromPhone"
                                                        className="my-2"
@@ -181,7 +196,7 @@ class TransactionStaffCreateOrder extends React.Component {
                                                   />
                                                   <Form.Control
                                                        placeholder={'Billing address'}
-                                                       value={this.state.billFromAddress}
+                                                       value={s_colInfo.address}
                                                        type="text"
                                                        name="billFromAddress"
                                                        className="my-2"
@@ -205,18 +220,15 @@ class TransactionStaffCreateOrder extends React.Component {
                                              <Col>
                                                   <Form.Label className="font-weight-bold">Bill to:</Form.Label>
 
-                                                  <Form.Control
-                                                       placeholder={'Which collection is this invoice to?'}
-                                                       value={belongToCollection.name || ''}
-                                                       type="text"
-                                                       className="my-2"
-                                                       onChange={(event) => this.editField(event)}
-                                                       autoComplete="email"
-                                                       required="required"
+                                                  <Select
+                                                       value={selectedCollection}
+                                                       onChange={this.handleChangeSelectCollection}
+                                                       options={optionSelectionCollections}
+                                                       placeholder={<div>Your Collection</div>}
                                                   />
                                                   <Form.Control
                                                        placeholder={'Collection phone'}
-                                                       value={belongToCollection.admin?.phone || ''}
+                                                       value={r_colInfo?.admin?.phone || ''}
                                                        type="text"
                                                        className="my-2"
                                                        onChange={(event) => this.editField(event)}
@@ -225,7 +237,7 @@ class TransactionStaffCreateOrder extends React.Component {
                                                   />
                                                   <Form.Control
                                                        placeholder={'Billing address'}
-                                                       value={belongToCollection.address}
+                                                       value={r_colInfo.address}
                                                        type="text"
                                                        className="my-2"
                                                        autoComplete="address"
@@ -333,7 +345,7 @@ class TransactionStaffCreateOrder extends React.Component {
                                         <Button variant="primary" type="submit" className="d-block w-100">
                                              Review Invoice
                                         </Button>
-                                        <ModalTransactionStaffPrintOrder
+                                        <ModalColStaffReviewSendOrder
                                              showModal={this.state.isOpen}
                                              closeModal={this.closeModal}
                                              info={this.state}
@@ -366,4 +378,4 @@ const mapDispatchToProps = (dispatch) => {
           clearParcelsToSendCol: () => dispatch(actions.clearParcelsToSendColAction()),
      };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(TransactionStaffCreateOrder);
+export default connect(mapStateToProps, mapDispatchToProps)(colStaffCreateOrder);

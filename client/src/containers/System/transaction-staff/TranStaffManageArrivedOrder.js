@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import Button from 'react-bootstrap/Button';
 import Paper from '@mui/material/Paper';
 import * as actions from '../../../store/actions/index';
-import ModalColStaffReviewReceivedOrder from './ModalColStaffReviewReceivedOrder';
+// import ModalColStaffReviewReceivedOrder from './ModalColStaffReviewReceivedOrder';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
      [`&.${tableCellClasses.head}`]: {
           backgroundColor: theme.palette.common.black,
@@ -31,7 +31,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
      },
 }));
 
-class ColStaffManageArrivedOrder extends Component {
+class TranStaffManageArrivedOrder extends Component {
      constructor(props) {
           super(props);
           this.state = {
@@ -43,20 +43,19 @@ class ColStaffManageArrivedOrder extends Component {
 
      async componentDidMount() {
           const { userInfo } = this.props;
-          let col_zip_code = userInfo.zip_code;
+          let zip_code = userInfo.zip_code;
           let accessToken = userInfo.token;
-          this.props.getAllTransactions(accessToken);
-          this.props.getParcelsFromTran(col_zip_code, accessToken);
-          this.buildInvoiceFromTran();
+          this.props.getAllCollections(accessToken);
+          this.props.getParcelsFromTranAnotherNode(zip_code, accessToken);
+          this.buildInvoiceFromAnotherNode();
           this.props.getAllParcels(accessToken);
      }
      //
-     getInfoTransaction = (zip_code) => {
-          let { arrTransactions } = this.props;
-
-          for (let i = 0; i < arrTransactions.length; i++) {
-               if (zip_code === arrTransactions[i].zip_code) {
-                    return arrTransactions[i];
+     getInfoCollection = (zip_code) => {
+          let { arrCollections } = this.props;
+          for (let i = 0; i < arrCollections.length; i++) {
+               if (zip_code === arrCollections[i].zip_code) {
+                    return arrCollections[i];
                }
           }
           return '';
@@ -73,9 +72,9 @@ class ColStaffManageArrivedOrder extends Component {
      };
 
      // build invoice list
-     buildInvoiceFromTran = () => {
+     buildInvoiceFromAnotherNode = () => {
           let { arrParcelFromAnotherNode } = this.props;
-          console.log('arrParcelFromAnotherNode : ', arrParcelFromAnotherNode);
+          // console.log('arrParcelFromTran : ', arrParcelFromAnotherNode);
           let invoiceList = [];
           const uniqueZipCodes = new Map();
 
@@ -90,12 +89,12 @@ class ColStaffManageArrivedOrder extends Component {
                });
 
                for (let i = 0; i < filteredData.length; i++) {
-                    let transaction = this.getInfoTransaction(filteredData[i]?.s_zip_code);
+                    let collection = this.getInfoCollection(filteredData[i]?.s_zip_code);
                     let obj = {};
-                    obj.from = transaction?.name;
-                    obj.zip_code = transaction?.zip_code;
-                    obj.phone = transaction.admin.phone;
-                    obj.address = transaction.address;
+                    obj.from = collection?.name;
+                    obj.zip_code = collection?.zip_code;
+                    obj.phone = collection.admin.phone;
+                    obj.address = collection.address;
                     obj.time = filteredData[i]?.s_time;
                     obj.numberItem = this.calNumberOfParcel(filteredData[i]);
                     invoiceList.push(obj);
@@ -108,7 +107,7 @@ class ColStaffManageArrivedOrder extends Component {
 
      componentDidUpdate(prevProps, prevState, snapshot) {
           if (prevProps.arrParcelFromAnotherNode !== this.props.arrParcelFromAnotherNode) {
-               this.buildInvoiceFromTran();
+               this.buildInvoiceFromAnotherNode();
           }
      }
      openModalPrintInvoice = (zip_code) => {
@@ -161,11 +160,11 @@ class ColStaffManageArrivedOrder extends Component {
                               </div>
                               <div className="btn-director-add-new-user-container"></div>
                               <div className="table-user-content mt-2 mb-3 ">
-                                   <ModalColStaffReviewReceivedOrder
+                                   {/* <ModalColStaffReviewReceivedOrder
                                         showModal={this.state.isOpen}
                                         closeModal={this.closeModal}
                                         parcelList={listParcels}
-                                   />
+                                   /> */}
                                    <TableContainer component={Paper}>
                                         <Table sx={{ minWidth: 700 }} aria-label="customized table">
                                              <TableHead>
@@ -232,19 +231,18 @@ const mapStateToProps = (state) => {
      return {
           userInfo: state.user.userInfo,
           arrParcelFromAnotherNode: state.colStaff.arrParcelFromAnotherNode,
-          arrTransactions: state.admin.arrTransactions,
+          arrCollections: state.admin.arrCollections,
           allParcels: state.colStaff.allParcels,
      };
 };
 
 const mapDispatchToProps = (dispatch) => {
      return {
-          getParcelsFromTran: (col_zip_code, accessToken) =>
+          getParcelsFromTranAnotherNode: (col_zip_code, accessToken) =>
                dispatch(actions.getParcelsFromTranAnotherNodeAction(col_zip_code, accessToken)),
-
-          getAllTransactions: (token) => dispatch(actions.getAllTransactionsAction(token)),
+          getAllCollections: (token) => dispatch(actions.getAllCollectionsAction(token)),
           getAllParcels: (token) => dispatch(actions.getAllParcelsAction(token)),
      };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ColStaffManageArrivedOrder);
+export default connect(mapStateToProps, mapDispatchToProps)(TranStaffManageArrivedOrder);

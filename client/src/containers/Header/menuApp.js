@@ -101,8 +101,12 @@ export const transactionStaffMenu = [
           name: 'Arrived shipment ',
           menus: [
                {
-                    name: 'Invoice',
+                    name: 'Orders',
                     link: '/transaction-staff/manage/arrived-invoice',
+               },
+               {
+                    name: 'Send to client',
+                    link: '/transaction-staff/create/send/parcel-to-client',
                },
           ],
      },
@@ -110,7 +114,7 @@ export const transactionStaffMenu = [
           name: 'Statistic parcel',
           menus: [
                {
-                    name: 'Orders',
+                    name: 'Statistic',
                     link: '/transaction-staff/manage/create-order/send/collection',
                },
           ],
@@ -124,6 +128,10 @@ export const collectionStaffMenu = [
                {
                     name: 'Record Parcel',
                     link: '/collection-staff/manage/parcel',
+               },
+               {
+                    name: 'Orders',
+                    link: '/collection-staff/manage/create-order/send/collection',
                },
           ],
      },

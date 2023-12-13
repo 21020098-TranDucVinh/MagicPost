@@ -1,15 +1,15 @@
 import actionTypes from '../actions/actionTypes';
 
 const initialState = {
-     arrParcelFromTran: [],
+     arrParcelFromAnotherNode: [],
      allParcels: [],
+     allParcelEachNode: [],
 };
 
 const colStaffReducer = (state = initialState, action) => {
      switch (action.type) {
-          case actionTypes.GET_ALL_PARCEL_FROM_TRAN_SUCCESS:
-               state.arrParcelFromTran = action.payload;
-               // console.log('redux parcel from tran : ', state.arrParcelFromTran);
+          case actionTypes.GET_ALL_PARCEL_FROM_ANOTHER_NODE_SUCCESS:
+               state.arrParcelFromAnotherNode = action.payload;
                return {
                     ...state,
                     started: true,
@@ -23,6 +23,13 @@ const colStaffReducer = (state = initialState, action) => {
                };
           case actionTypes.GET_ALL_PARCEL_FAILED:
                state.allParcels = [];
+               return {
+                    ...state,
+                    started: true,
+               };
+          case actionTypes.NODE_GET_ALL_PARCEL_SUCCESS:
+               state.allParcelEachNode = action.payload;
+               console.log('redux  : ', state.allParcelEachNode);
                return {
                     ...state,
                     started: true,

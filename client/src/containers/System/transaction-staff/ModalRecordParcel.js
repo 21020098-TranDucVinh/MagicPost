@@ -74,47 +74,61 @@ class ModalTransactionAddNewStaff extends Component {
           this.props.isCloseModal();
      };
      // Record parcel
-     handleTransactionCreateNewStaff = async () => {
-          let checkInputValid = this.checkInputValid();
-          let { s_name, r_name, s_phone, cost, weight, r_address, s_address, r_phone, selectedPayment, selectedType } =
-               this.state;
-          let data = {
-               s_name: s_name,
-               r_name: r_name,
-               s_phone: s_phone,
-               payment_status: selectedPayment.value,
-               cost: cost,
-               weight: weight,
-               type: selectedType.value,
-               r_address: r_address,
-               s_address: s_address,
-               r_phone: r_phone,
-               s_zip_code: this.props.userInfo.zip_code,
-          };
-          console.log(data);
-          if (checkInputValid) {
-               let res = await services.handleCreateNewParcel(data);
-               if (res && res.errorCode === 0) {
-                    toast.success('Record parcel success!');
-                    // this.props.getTransactionStaffById();
-                    this.props.isCloseModal();
-                    this.setState({
-                         s_name: '',
-                         r_name: '',
-                         s_phone: '',
-                         payment_status: '',
-                         cost: '',
-                         weight: '',
-                         type: '',
-                         r_address: '',
-                         s_address: '',
-                         r_phone: '',
-                    });
+     tranStaffCreateParcel = async () => {
+          try {
+               let checkInputValid = this.checkInputValid();
+               let {
+                    s_name,
+                    r_name,
+                    s_phone,
+                    cost,
+                    weight,
+                    r_address,
+                    s_address,
+                    r_phone,
+                    selectedPayment,
+                    selectedType,
+               } = this.state;
+               let data = {
+                    s_name: s_name,
+                    r_name: r_name,
+                    s_phone: s_phone,
+                    payment_status: selectedPayment.value,
+                    cost: cost,
+                    weight: weight,
+                    type: selectedType.value,
+                    r_address: r_address,
+                    s_address: s_address,
+                    r_phone: r_phone,
+                    s_zip_code: this.props.userInfo.zip_code,
+               };
+               // console.log(data);
+               if (checkInputValid) {
+                    let res = await services.handleCreateNewParcel(data);
+                    if (res && res.errorCode === 0) {
+                         toast.success('Record parcel success!');
+                         // this.props.getTransactionStaffById();
+                         this.props.isCloseModal();
+                         this.setState({
+                              s_name: '',
+                              r_name: '',
+                              s_phone: '',
+                              payment_status: '',
+                              cost: '',
+                              weight: '',
+                              type: '',
+                              r_address: '',
+                              s_address: '',
+                              r_phone: '',
+                         });
+                    } else {
+                         toast.error('Record Parcel Failed!');
+                    }
                } else {
-                    toast.error('Record Parcel Failed!');
+                    toast.error('Please full fill your form!');
                }
-          } else {
-               toast.error('Please full fill your form!');
+          } catch (e) {
+               console.log(e);
           }
      };
 
@@ -144,7 +158,7 @@ class ModalTransactionAddNewStaff extends Component {
      //      if (this.props.isEditStaff) {
      //           this.handleTransactionEditStaff();
      //      } else {
-     //           this.handleTransactionCreateNewStaff();
+     //           this.tranStaffCreateParcel();
      //      }
      // };
      render() {
@@ -267,7 +281,7 @@ class ModalTransactionAddNewStaff extends Component {
                               <div className="modal-admin-footer">
                                    <button
                                         className={isEditStaff === true ? 'btn btn-warning px-3' : 'btn btn-primary'}
-                                        onClick={() => this.handleTransactionCreateNewStaff()}
+                                        onClick={() => this.tranStaffCreateParcel()}
                                    >
                                         <span>
                                              {isEditStaff === true && 'Save'}

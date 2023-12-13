@@ -2,22 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import toast from 'react-hot-toast';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { FaPlus } from 'react-icons/fa6';
+import ModalRecordParcel from './ModalRecordParcel';
 import * as actions from '../../../store/actions/index';
 import { options } from '../../../utils';
-import { FaPlus } from 'react-icons/fa6';
-class CollectionStaffManageParcel extends Component {
+class TranStaffSendOrderToClient extends Component {
      constructor(props) {
           super(props);
           this.state = {
                isOpenModal: false,
-               parcelListSendCol: [],
                arrPendingParcels: [],
+               selectedParcels: '',
           };
      }
      async componentDidMount() {
-          let { userInfo } = this.props;
           this.props.getAllPendingParcels();
-          this.props.getALlReceivedParcels(userInfo.zip_code, userInfo.token);
      }
      componentDidUpdate(prevProps, prevState, snapshot) {
           if (prevProps.arrPendingParcels !== this.props.arrPendingParcels) {
@@ -32,60 +31,44 @@ class CollectionStaffManageParcel extends Component {
                isOpenModal: false,
           });
      };
-     handleCreateOrderToSendCol = () => {
-          let { parcelListSendCol } = this.state;
-          if (parcelListSendCol && parcelListSendCol.length > 0) {
-               this.props.fetchParcelsToSendCol(parcelListSendCol);
-               this.props.history.push('/collection-staff/manage/create-order/send/collection');
+
+     redirectUICreateInvoiceSendReceiver = () => {
+          alert('OK');
+     };
+     handleUICreateInvoice = () => {
+          let { selectedParcels } = this.state;
+          if (selectedParcels && selectedParcels.length > 0) {
+               this.props.fetchParcelsToSendCol(selectedParcels);
+               this.props.history.push('/transaction-staff/manage/create-order/send/collection');
           } else {
                toast.error('Please select at least 1 item!');
           }
      };
-
      render() {
           let { arrPendingParcels } = this.state;
-          const { allParcelEachNode } = this.props;
-          console.log('arrPendingParcels', allParcelEachNode);
+
           return (
                <>
                     <div className="admin-container my-3">
+                         <ModalRecordParcel isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
+
                          <div className="admin-content container">
-                              <div className="btn-director-add-new-user-container row container">
-                                   <div className="title-admin text-center my-4 col-12">
-                                        <span>Manage Parcel</span>
-                                   </div>
+                              <div className="title-admin text-center my-4">
+                                   <span>Manage Parcel</span>
+                              </div>
+                              <div className="btn-director-add-new-user-container">
                                    <div className="btn-create-new-user-container">
                                         <button
                                              className="btn btn-primary"
-                                             onClick={() => this.handleCreateOrderToSendCol()}
+                                             onClick={() => this.redirectUICreateInvoiceSendReceiver()}
                                         >
                                              <span className="text-white">
                                                   <FaPlus />
                                              </span>
 
-                                             <span>Create order</span>
+                                             <span>Create invoice</span>
                                         </button>
                                    </div>
-                                   {/* <div className="btn-option-container">
-                                        {arrPendingParcels.length > 0 && (
-                                             <>
-                                                  <Button
-                                                       className="btn btn-warning px-4"
-                                                       onClick={() => this.OpenModalEditStaff()}
-                                                  >
-                                                       <EditTwoToneIcon />
-                                                       <span>Edit</span>
-                                                  </Button>
-                                                  <Button
-                                                       className="btn btn-danger"
-                                                       onClick={() => this.handleDeleteStaffTransaction()}
-                                                  >
-                                                       <DeleteForeverTwoToneIcon />
-                                                       <span>Delete</span>
-                                                  </Button>
-                                             </>
-                                        )}
-                                   </div> */}
                               </div>
                               <div className="table-user-content mt-2 mb-3 ">
                                    <div style={{ height: 400, width: '100%' }}>
@@ -101,7 +84,7 @@ class CollectionStaffManageParcel extends Component {
                                                        showQuickFilter: true,
                                                   },
                                              }}
-                                             rows={allParcelEachNode}
+                                             rows={arrPendingParcels}
                                              columns={options.columnsParcels}
                                              pageSizeOptions={[5, 7]}
                                              autoHeight={true}
@@ -110,16 +93,14 @@ class CollectionStaffManageParcel extends Component {
                                                   const selectedIDs = new Set(ids);
 
                                                   let selectedRowData = [];
-                                                  if (allParcelEachNode && allParcelEachNode.length > 0) {
-                                                       allParcelEachNode.map((row) => {
-                                                            selectedIDs.has(row.id);
-                                                            if (selectedIDs.has(row.id)) {
-                                                                 selectedRowData.push(row);
-                                                            }
-                                                       });
-                                                  }
+                                                  arrPendingParcels.map((row) => {
+                                                       selectedIDs.has(row.id);
+                                                       if (selectedIDs.has(row.id)) {
+                                                            selectedRowData.push(row);
+                                                       }
+                                                  });
                                                   this.setState({
-                                                       parcelListSendCol: selectedRowData,
+                                                       selectedParcels: selectedRowData,
                                                   });
                                              }}
                                              initialState={{
@@ -127,6 +108,7 @@ class CollectionStaffManageParcel extends Component {
                                                        paginationModel: { page: 0, pageSize: 5 },
                                                   },
                                              }}
+                                             {...arrPendingParcels}
                                         />
                                    </div>
                               </div>
@@ -139,9 +121,7 @@ class CollectionStaffManageParcel extends Component {
 
 const mapStateToProps = (state) => {
      return {
-          userInfo: state.user.userInfo,
           arrPendingParcels: state.staffTransaction.arrPendingParcels,
-          allParcelEachNode: state.colStaff.allParcelEachNode,
      };
 };
 
@@ -149,9 +129,7 @@ const mapDispatchToProps = (dispatch) => {
      return {
           getAllPendingParcels: () => dispatch(actions.getAllPendingParcelsAction()),
           fetchParcelsToSendCol: (arrParcels) => dispatch(actions.fetchParcelsToSendColAction(arrParcels)),
-          getALlReceivedParcels: (zip_code, accessToken) =>
-               dispatch(actions.getALlReceivedParcels(zip_code, accessToken)),
      };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CollectionStaffManageParcel);
+export default connect(mapStateToProps, mapDispatchToProps)(TranStaffSendOrderToClient);

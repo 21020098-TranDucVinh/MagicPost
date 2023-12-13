@@ -16,7 +16,8 @@ import { connect } from 'react-redux';
 import toast from 'react-hot-toast';
 import CommonUtils from '../../../utils/CommonUtils';
 import { GiConfirmed } from 'react-icons/gi';
-class ModalColStaffReviewOrder extends React.Component {
+import * as services from '../../../services/index';
+class ModalColStaffReviewReceivedOrder extends React.Component {
      constructor(props) {
           super(props);
           this.state = {
@@ -24,9 +25,34 @@ class ModalColStaffReviewOrder extends React.Component {
                totalOrderVal: 0,
           };
      }
-
-     handleConfirmOrder = () => {
-          alert('OK');
+     handleGetParcelIdList = (parcels) => {
+          let list = [];
+          if (parcels && parcels.length > 0) {
+               for (let i = 0; i < parcels.length; i++) {
+                    list.push(parcels[i].id);
+               }
+          }
+          return list;
+     };
+     handleConfirmOrder = async () => {
+          try {
+               const { parcelList, userInfo } = this.props;
+               let idList = this.handleGetParcelIdList(parcelList);
+               const accessToken = userInfo.token;
+               // console.log('check list id : ', idList);
+               let data = {
+                    last_staff_id_update: 'T00002S00011',
+                    list_tracking_id: idList,
+                    zip_code: userInfo.zip_code,
+               };
+               let res = await services.colStaffConfirmReceiveOrder(data, accessToken);
+               if (res && res.errorCode === 0) {
+                    toast.success(res.msg);
+               }
+          } catch (e) {
+               toast.error('Errors!');
+               console.log(e);
+          }
      };
      componentDidUpdate(prevProps, prevState, snapshot) {
           if (prevProps.parcelList !== this.props.parcelList) {
@@ -171,4 +197,4 @@ const mapDispatchToProps = (dispatch) => {
           // clearParcelsToSendCol: () => dispatch(actions.clearParcelsToSendColAction()),
      };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(ModalColStaffReviewOrder);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalColStaffReviewReceivedOrder);
