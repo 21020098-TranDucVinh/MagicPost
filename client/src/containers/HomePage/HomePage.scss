@@ -5,35 +5,51 @@
      }
 
      .homepage-banner-container {
-          // border: 1px solid;
-          height: 150vh;
           display: flex;
           background-image: url('../../assets/images/banner5.jfif');
           background-size: cover;
           background-repeat: no-repeat;
           background-position: center center;
+          .text-header-rps {
+               @media (min-width: 1490px) {
+                    font-size: 3.5rem;
+               }
+               @media (max-width: 1489px) {
+                    font-size: 1.5rem;
+               }
+          }
+          // .text-content-rps {
+          //      @media (min-width: 1490px) {
+          //           font-size: 37px;
+          //      }
+          //      @media (max-width: 1489px) {
+          //           font-size: 1.5rem;
+          //      }
+          // }
           .company-info {
-               width: 50%;
-               border: 1px solid;
-               .info {
+               display: flex;
+               flex-direction: column;
+               .company-info-detail {
+                    // width: 35%;
+
                     display: flex;
-                    align-items: center;
+                    flex-direction: column;
+                    gap: 100px;
+                    .info {
+                         display: flex;
+                         align-items: center;
+                    }
                }
 
                .info-top {
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
-                    height: 40%;
-                    // border: 1px solid;
-                    h1,
-                    p {
-                         font-weight: 600;
-                    }
+                    // height: 40%;
                }
                .info-middle {
-                    height: 30%;
-                    // border: 1px solid;
+                    // height: 30%;
+
                     ul {
                          font-weight: 600;
                          font-size: large;
@@ -42,23 +58,25 @@
                          color: black;
                     }
                }
-               .info-bottom {
-                    height: 29%;
+               .text-content-rps {
+                    @media (min-width: 1490px) {
+                         font-size: 37px;
+                    }
+                    @media (max-width: 1489px) {
+                         font-size: 1.5rem;
+                    }
                }
           }
           .search-parcel-container {
-               width: 50%;
-               border: 1px solid red;
+               width: 65%;
                .search-content {
-                    border: 1px solid;
-                    height: 50%;
+                    // height: 50%;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     .search-box {
                          min-height: 60%;
                          width: 95%;
-                         border: 1px solid orange;
 
                          background-color: rgba(255, 255, 255, 0.5);
                          border-radius: 10px;
@@ -66,10 +84,11 @@
                               font-size: 25px;
                               font-weight: 600;
                               height: 15%;
+                              border-bottom: 1px solid #cfc4c4;
                          }
                          .box-search-parcel-container {
                               height: 85%;
-                              border: 1px solid;
+
                               .box-search-parcel-content {
                                    height: 25%;
                               }
@@ -77,7 +96,7 @@
                                    height: 75%;
                                    .result-info {
                                         height: 65%;
-                                        border: 1px solid;
+
                                         font-size: 1.125rem;
                                         font-weight: 400;
                                         font-family: ui-sans-serif;
@@ -88,33 +107,44 @@
 
                                    .result-chart {
                                         height: 35%;
-                                        border: 1px solid;
                                    }
                               }
                          }
                     }
                }
-               .more-info {
-                    height: 50%;
-                    border: 1px solid green;
-               }
+               // .more-info {
+               //      height: 50%;
+               // }
           }
      }
      .welcome-magicpost-info-container {
-          height: 30vh;
           width: 100vw;
-          // border: 1px solid;
+
           .welcome-magicpost-info-content {
                height: 100%;
                .left-content-info {
-                    // border: 1px solid red;
+                    .text-header-rps {
+                         @media (min-width: 1490px) {
+                              font-size: 3.5rem;
+                         }
+                         @media (max-width: 1489px) {
+                              font-size: 1.5rem;
+                         }
+                    }
                     h1,
                     p {
                          font-weight: 600;
                     }
                }
                .right-content-info {
-                    // border: 1px solid green;
+                    .text-header-rps {
+                         @media (min-width: 1490px) {
+                              font-size: 3.5rem;
+                         }
+                         @media (max-width: 1489px) {
+                              font-size: 1.5rem;
+                         }
+                    }
                     ul {
                          font-weight: 600;
                          font-size: 16px;

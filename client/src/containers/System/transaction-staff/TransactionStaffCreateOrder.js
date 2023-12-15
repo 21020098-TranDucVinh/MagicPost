@@ -329,7 +329,7 @@ class TransactionStaffCreateOrder extends React.Component {
                                    </Card>
                               </Col>
                               <Col md={4} lg={3}>
-                                   <div className="sticky-top pt-md-3 pt-xl-4">
+                                   <div className="pt-md-3 pt-xl-4">
                                         <Button variant="primary" type="submit" className="d-block w-100">
                                              Review Invoice
                                         </Button>

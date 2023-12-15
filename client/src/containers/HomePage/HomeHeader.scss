@@ -1,14 +1,14 @@
 .homepage-header-container {
      height: 8vh;
      padding-right: 0;
-     // background-color: rgba(0, 0, 0, 0);
+     border-bottom: 1px solid #ddd;
      @media (min-width: 1490px) {
           font-size: 15px;
      }
      @media (max-width: 1489px) {
           font-size: 2vw;
      }
-     border: 1px solid red;
+
      display: flex;
      justify-content: space-between;
      .header-content-left {
@@ -18,7 +18,7 @@
                background-image: url('../../assets/images/logo2.jpg');
                background-size: contain;
                background-repeat: no-repeat;
-               background-position: center;
+               background-position: left;
           }
      }
      .header-content-right {
@@ -36,6 +36,9 @@
                justify-content: center;
                align-items: center;
                // border: 1px solid green;
+               .menu-list-item {
+                    font-size: 25px;
+               }
                .btn-login {
                     font-weight: 600;
                }

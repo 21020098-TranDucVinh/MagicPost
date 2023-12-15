@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import * as services from '../../../services/index';
 import toast from 'react-hot-toast';
 import CommonUtils from '../../../utils/CommonUtils';
-
+import './ModalOrder.scss';
 class ModalTransactionStaffPrintOrder extends React.Component {
      constructor(props) {
           super(props);
@@ -73,8 +73,8 @@ class ModalTransactionStaffPrintOrder extends React.Component {
                     <Modal show={this.props.showModal} onHide={this.props.closeModal} size="xl" centered>
                          <div id="invoiceCapture">
                               <div className="d-flex flex-row justify-content-between align-items-start bg-light w-100 p-4">
-                                   <div className="w-100">
-                                        <h4 className="fw-bold my-2">MagicPost</h4>
+                                   <div className="text-end ms-4">
+                                        <div className="order-logo"></div>
                                         <h6 className="fw-bold text-secondary mb-1">
                                              Order #: {this.props.info.invoiceNumber || ''}
                                         </h6>
@@ -84,23 +84,55 @@ class ModalTransactionStaffPrintOrder extends React.Component {
                                         <h5 className="fw-bold text-secondary">{new Date().toLocaleDateString()}</h5>
                                    </div>
                               </div>
+                              {/* <div className="d-flex flex-row justify-content-between align-items-start bg-light w-100 p-4">
+                                   <div className="w-100">
+                                        <h4 className="fw-bold my-2">MagicPost</h4>
+                                   </div>
+                              </div> */}
                               <div className="p-4">
                                    <Row className="mb-4">
-                                        <Col md={4}>
-                                             <div className="fw-bold">Billed to:</div>
-                                             <div>{this.props.info.belongToCollection.name || ''}</div>
-                                             <div>{this.props.info.belongToCollection.address || ''}</div>
-                                             <div>{this.props.info.belongToCollection.admin?.phone || ''}</div>
+                                        <Col md={6}>
+                                             <div className="fw-bold">Billed to Collection:</div>
+                                             <div>
+                                                  Name:
+                                                  <span className="font-weight-bold px-2">
+                                                       {this.props.info.belongToCollection.name || ''}
+                                                  </span>
+                                             </div>
+                                             <div>
+                                                  Address:
+                                                  <span className="font-weight-bold px-2">
+                                                       {this.props.info.belongToCollection.address || ''}
+                                                  </span>
+                                             </div>
+                                             <div>
+                                                  Phone:
+                                                  <span className="font-weight-bold px-2">
+                                                       {this.props.info.belongToCollection.admin?.phone || ''}
+                                                  </span>
+                                             </div>
                                         </Col>
-                                        <Col md={4}>
+                                        <Col md={6}>
                                              <div className="fw-bold">Billed From:</div>
-                                             <div>{this.props.info.billFrom || ''}</div>
-                                             <div>{this.props.info.billFromAddress || ''}</div>
-                                             <div>{this.props.info.billFromPhone || ''}</div>
-                                        </Col>
-                                        <Col md={4}>
-                                             <div className="fw-bold mt-2">Date:</div>
-                                             <div>{new Date().toLocaleDateString()}</div>
+                                             <div>
+                                                  Name:
+                                                  <span className="font-weight-bold px-2">
+                                                       {this.props.info.billFrom || ''}
+                                                  </span>
+                                             </div>
+                                             <div>
+                                                  {' '}
+                                                  Address:
+                                                  <span className="font-weight-bold px-2">
+                                                       {this.props.info.billFromAddress || ''}
+                                                  </span>
+                                             </div>
+                                             <div>
+                                                  Phone:
+                                                  <span className="font-weight-bold px-2">
+                                                       {this.props.info.billFromPhone || ''}
+                                                  </span>
+                                             </div>
                                         </Col>
                                    </Row>
 
@@ -121,7 +153,8 @@ class ModalTransactionStaffPrintOrder extends React.Component {
                                                   </TableRow>
                                              </TableHead>
                                              <TableBody>
-                                                  {arrParcelsToSendCol && arrParcelsToSendCol.length > 0 ? (
+                                                  {arrParcelsToSendCol &&
+                                                       arrParcelsToSendCol.length > 0 &&
                                                        arrParcelsToSendCol.map((row, index) => (
                                                             <TableRow
                                                                  key={index}
@@ -142,10 +175,7 @@ class ModalTransactionStaffPrintOrder extends React.Component {
                                                                  <TableCell align="right">{row.r_zip_code}</TableCell>
                                                                  <TableCell align="right">{row.cost}</TableCell>
                                                             </TableRow>
-                                                       ))
-                                                  ) : (
-                                                       <span>Empty!</span>
-                                                  )}
+                                                       ))}
                                              </TableBody>
                                         </Table>
                                    </TableContainer>
