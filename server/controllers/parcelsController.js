@@ -263,6 +263,27 @@ class parcelsController {
       });
     }
   }
+
+  async getAllParcelsPendingByTransaction(req, res) {
+    try {
+      const {s_zip_code} = req.params
+      const parcels = await Parcels.findAndCountAll({
+        where: { status: 'PENDING', s_zip_code },
+        attribute: { exclude: ['id'] },
+      });
+      res.status(200).json({
+        errorCode: 0,
+        count: parcels.count,
+        parcels: parcels.rows,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        errorCode: 1,
+        msg: 'Server' + error.message,
+      });
+    }
+  }
 }
 
 module.exports = new parcelsController();

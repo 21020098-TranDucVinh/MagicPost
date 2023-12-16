@@ -13,6 +13,7 @@ router.get('/parcelsReturned', parcelsController.getAllParcelsReturned);
 router.get('/parcels/:id', parcelsController.getParcelById);
 
 router.post('/parcels', parcelsController.createParcel);
+router.get('/parcelsPendingByTransaction/:s_zip_code', parcelsController.getAllParcelsPendingByTransaction)
 router.put('/parcels/:parcel_id', parcelsController.updateParcel);
 
 module.exports = router;
