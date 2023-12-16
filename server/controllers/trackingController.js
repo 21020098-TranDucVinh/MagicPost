@@ -212,6 +212,7 @@ class trackingController {
       const trackingEntries = await Tracking.findAll({
         where: {
           s_zip_code: zip_code,
+          status: "PENDING"
           
         }
       });
@@ -223,7 +224,7 @@ class trackingController {
       const parcels = await Parcels.findAll({
         where: {
           parcel_id: parcelIds,
-          status: "PENDING"
+          
         }
       });
   
