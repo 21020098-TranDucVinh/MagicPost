@@ -251,8 +251,13 @@ export const options = {
 };
 export const roles = {
      ADMIN: 'ADMIN',
+     STAFF: '',
      TRANSACTION_ADMIN: 'TRANSACTION_ADMIN',
      COLLECTION_ADMIN: 'COLLECTION_ADMIN',
      COLLECTION_STAFF: 'COLLECTION_STAFF',
      TRANSACTION_STAFF: 'TRANSACTION_STAFF',
 };
+export const loginRoles = [
+     { value: 1, label: 'Admin' },
+     { value: 2, label: 'Staff' },
+];
