@@ -1,6 +1,6 @@
 const { where } = require('sequelize');
 const {
-  models: { Tracking },
+  models: { Tracking, Parcels },
 } = require('../models/');
 
 class trackingController {
@@ -205,6 +205,44 @@ class trackingController {
       });
     }
   }
+
+  async getParcelPendingByZip_code(req, res) {
+    try {
+      const { zip_code } = req.params;
+      const trackingEntries = await Tracking.findAll({
+        where: {
+          s_zip_code: zip_code,
+          status: "PENDING"
+          
+        }
+      });
+  
+      // Extract parcel IDs from tracking entries
+      const parcelIds = trackingEntries.map(entry => entry.parcel_id);
+  
+      // Query the Parcels table with an array of parcel IDs
+      const parcels = await Parcels.findAll({
+        where: {
+          parcel_id: parcelIds,
+          
+        }
+      });
+  
+      res.status(200).json({
+        errorCode: 0,
+        msg: 'Get Pending Parcel successfully!',
+        data: parcels,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        errorCode: 1,
+        msg: 'Server' + error.message,
+      });
+    }
+  }
+  
+
 }
 
 module.exports = new trackingController();
