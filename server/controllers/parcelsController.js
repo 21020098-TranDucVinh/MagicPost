@@ -1,5 +1,6 @@
+const { where } = require('sequelize');
 const {
-  models: { Parcels, Transaction, Collection },
+  models: { Parcels, Tracking },
 } = require('../models');
 
 class parcelsController {
@@ -229,7 +230,14 @@ class parcelsController {
   async updateParcel(req, res) {
     try {
       const { list_parcel_id, last_shipper_name, last_shipper_phone } = req.body;
-
+      await Tracking.update({
+        status: 'DONE'
+      }, {
+        where: { 
+          parcel_id: list_parcel_id,
+          status: 'DELIVERED'
+        }
+      });
       await Parcels.update(
         {
           status: 'DELIVERING',
@@ -246,7 +254,7 @@ class parcelsController {
           console.log(parcel);
           return res.status(201).json({
             errorCode: 0,
-            parcel,
+            msg: 'Parcel updated successfully',
           });
         })
         .catch((error) => {
