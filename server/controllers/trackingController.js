@@ -1,4 +1,3 @@
-const { where } = require('sequelize');
 const {
   models: { Tracking, Parcels },
 } = require('../models/');
@@ -11,6 +10,13 @@ class trackingController {
       // bulk create
       const { staff_id, s_zip_code, r_zip_code,
         list_parcel_id, shipper_name, shipper_phone } = req.body;
+      if (s_zip_code.startsWith('T')) {
+        await Parcels.update({ 
+          status: 'SHIPPING'
+        }, 
+        { where: { parcel_id: list_parcel_id }
+      });
+      }
       const list = list_parcel_id.map((parcel_id) => ({
         s_staff_id: staff_id,
         s_zip_code,
@@ -20,8 +26,13 @@ class trackingController {
         shipper_phone,
         last_staff_id_update: staff_id,
       }));
-      await Tracking.bulkCreate(list);
+      await Tracking.update({ status: 'DONE' }, { where: { 
+        parcel_id: list_parcel_id,
+        status: 'DELIVERED'
+      } });
 
+      await Tracking.bulkCreate(list);
+      
       res.status(200).json({
         errorCode: 0,
         msg: 'Tracking sent successfully !',
@@ -63,12 +74,21 @@ class trackingController {
   async getDeliveredTrackingFromReceiver(req, res) {
     try {
       const { r_zip_code } = req.params;
+      // join table Tracking and Parcels
       const list = await Tracking.findAll({
         where: {
           r_zip_code,
           status: 'DELIVERING',
         },
+        attributes: { exclude: ['parcel_id'] },
+        include: {
+          model: Parcels,
+          attributes: {
+            exclude: ['id', 'status', 'last_shipper_name', 'last_shipper_phone', 'r_time']
+          }
+        },
       });
+
       res.status(200).json({
         errorCode: 0,
         msg: 'Get delivering tracking successfully !',
@@ -91,6 +111,13 @@ class trackingController {
         where: {
           r_zip_code: zip_code,
           status: 'DELIVERED',
+        },
+        attributes: { exclude: ['parcel_id'] },
+        include: {
+          model: Parcels,
+          attributes: {
+            exclude: ['id', 'status', 'last_shipper_name', 'last_shipper_phone', 'r_time']
+          }
         },
       });
       res.status(200).json({
@@ -178,21 +205,13 @@ class trackingController {
     }
   }
 
-  // [POST] /tracking/receive
+  // [PUT] /tracking/receive
   async receiveTracking(req, res) {
     try {
-      const { last_staff_id_update, list_tracking_id, zip_code } = req.body;
-      const list = list_tracking_id.map((id) => ({
-        id,
-        s_staff_id: last_staff_id_update,
-        s_zip_code: 'T00001',
-        r_zip_code: zip_code,
-        status: 'DELIVERED',
-        last_staff_id_update,
-      }));
-      await Tracking.bulkCreate(list, {
-        updateOnDuplicate: ['status', 'last_staff_id_update'],
-      });
+      const { last_staff_id_update, list_tracking_id } = req.body;
+
+      await Tracking.update({ status: 'DELIVERED', last_staff_id_update }, { where: { id: list_tracking_id } });
+
       res.status(200).json({
         errorCode: 0,
         msg: 'Tracking received successfully !',
@@ -213,7 +232,6 @@ class trackingController {
         where: {
           s_zip_code: zip_code,
           status: "PENDING"
-          
         }
       });
   
@@ -224,7 +242,6 @@ class trackingController {
       const parcels = await Parcels.findAll({
         where: {
           parcel_id: parcelIds,
-          
         }
       });
   

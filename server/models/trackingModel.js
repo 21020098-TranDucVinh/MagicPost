@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Tracking.belongsTo(models.Parcels, {
         foreignKey: 'parcel_id',
+        targetKey: 'parcel_id',
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE',
       });
@@ -46,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       status: {
-        type: DataTypes.ENUM('DELIVERING', 'DELIVERED', 'RETURNED'),
+        type: DataTypes.ENUM('DELIVERING', 'DELIVERED', 'RETURNED', 'DONE'),
         allowNull: false,
         defaultValue: 'DELIVERING',
       },
@@ -74,7 +75,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize, // We need to pass the connection instance
-      modelName: 'track_history', // We need to choose the model name
+      modelName: 'tracking', // We need to choose the model name
       timestamps: false, // Don't add the timestamp attributes (updatedAt, createdAt)
     },
   );

@@ -80,6 +80,7 @@ class loginController {
               role: user.role,
               zip_code: user.zip_code,
               token: token,
+              staff_id: user.staff_id,
             });
           } else {
             res.status(400).json({

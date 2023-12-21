@@ -4,7 +4,12 @@ module.exports = (sequelize, DataTypes) => {
   class Parcels extends Model {
     static associate(models) {
       // define association here
-      Parcels.hasMany(models.Tracking, { foreignKey: 'parcel_id' });
+      Parcels.hasMany(models.Tracking, {
+        foreignKey: 'parcel_id',
+        sourceKey: 'parcel_id',
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
+      });
     }
   }
 
