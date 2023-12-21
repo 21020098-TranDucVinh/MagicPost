@@ -12,7 +12,7 @@ router.get('/tracking/listSended/:zip_code', trackingController.sendedTracking);
 
 router.get('/tracking/:parcel_id', trackingController.getTrackingByParcelId);
 
-router.post('/tracking/receive', trackingController.receiveTracking);
+router.put('/tracking/receive', trackingController.receiveTracking);
 router.get('/tracking/parcelPending/:zip_code', trackingController.getParcelPendingByZip_code);
 
 module.exports = router;

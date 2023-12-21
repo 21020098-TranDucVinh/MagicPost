@@ -23,4 +23,3 @@ npm install
 cd server
 npm start
 ```
-1

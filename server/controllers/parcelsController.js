@@ -225,17 +225,19 @@ class parcelsController {
     }
   }
 
+  // [PUT] /parcels/
   async updateParcel(req, res) {
     try {
-      const parcel_id = req.params.parcel_id;
-      const { status } = req.body;
+      const { list_parcel_id, last_shipper_name, last_shipper_phone } = req.body;
 
       await Parcels.update(
         {
-          status,
+          status: 'DELIVERING',
+          last_shipper_name,
+          last_shipper_phone,
         },
         {
-          where: { parcel_id },
+          where: { parcel_id: list_parcel_id },
           returning: true, // to return the object
           plain: true, // return the object itself and not the other messy meta data that might not be useful.
         },
