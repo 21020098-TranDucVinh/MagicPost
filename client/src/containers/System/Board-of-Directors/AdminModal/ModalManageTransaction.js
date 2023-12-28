@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './commonSsssModal.scss';
 import { Modal } from 'reactstrap';
-import 'flatpickr/dist/themes/material_green.css';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import * as actions from '../../../../store/actions/index';
 import Select from 'react-select';
 import { handleCreateNewTransaction, editTransaction } from '../../../../services/adminService';
-
+import { GiCancel } from 'react-icons/gi';
+import CommonUtils from '../../../../utils/CommonUtils';
 class ModalManageTransaction extends Component {
      constructor(props) {
           super(props);
@@ -25,10 +25,11 @@ class ModalManageTransaction extends Component {
           };
      }
      async componentDidMount() {
-          await this.props.getAllUserPending();
+          const { userInfo } = this.props;
+          await this.props.getAllUserPending(userInfo.token);
           await this.props.getAllCollections();
           await this.props.getAllAdminTransactions();
-          await this.props.getAllAdminCollections();
+          // await this.props.getAllAdminCollections();
      }
      componentDidUpdate(prevProps, prevState, snapshot) {
           if (prevProps.arrAdminsPending !== this.props.arrAdminsPending) {
@@ -40,39 +41,34 @@ class ModalManageTransaction extends Component {
           if (prevProps.arrCollections !== this.props.arrCollections) {
                this.setState({
                     arrCollections: this.props.arrCollections,
-                    optionSelectionCollections: this.buildOptionSelectCollections(this.props.arrCollections),
+                    optionSelectionCollections: CommonUtils.buildSelectionOptions(this.props.arrCollections),
                });
           }
           if (prevProps.dataEditTransaction !== this.props.dataEditTransaction) {
+               let data = this.props.dataEditTransaction;
                this.setState({
                     // isEditTransaction: true,
-                    transaction_zip_code: this.props.dataEditTransaction.zip_code,
-                    selectedAdmin: this.buildSelectionAdmin(
-                         this.props.dataEditTransaction.admin_id,
-                         this.props.arrAllAdminTransaction,
-                    ),
+                    transaction_zip_code: data.zip_code,
+                    selectedAdmin: this.buildValueSelectedAdmin(data),
                     selectedCollection: this.buildSelectionCollection(
-                         this.props.dataEditTransaction.collection_zip_code,
+                         data.collection_zip_code,
                          this.props.arrCollections,
                     ),
-                    address: this.props.dataEditTransaction.address,
-                    name: this.props.dataEditTransaction.name,
+                    address: data?.address,
+                    name: data?.name,
                });
           }
      }
-     // build to setState for selectedAdmin
-     buildSelectionAdmin = (admin_id, arrAllAdminTransaction) => {
-          let selectAdmin = {};
-          for (let i = 0; i < arrAllAdminTransaction.length; i++) {
-               if (admin_id === arrAllAdminTransaction[i].id) {
-                    selectAdmin.value = admin_id;
-                    selectAdmin.label = arrAllAdminTransaction[i].username;
-                    return selectAdmin;
-               }
+     // build value for select admin
+     buildValueSelectedAdmin = (data) => {
+          let res = '';
+          if (data && data.admin && data.admin.id && data.admin.username) {
+               res = { value: data.admin.id, label: data?.admin.username };
+               return res;
           }
-          return {};
+          return res;
      };
-     // build to setState for selectedCollection
+     //build to setState for selectedCollection
      buildSelectionCollection = (collection_zip_code, arrCollections) => {
           let selectAdmin = {};
           for (let i = 0; i < arrCollections.length; i++) {
@@ -82,7 +78,7 @@ class ModalManageTransaction extends Component {
                     return selectAdmin;
                }
           }
-          return {};
+          return '';
      };
      // build options select admin
      buildOptionSelectAdmin = (admins) => {
@@ -99,18 +95,18 @@ class ModalManageTransaction extends Component {
           return optionAdmins;
      };
      //build option select collection
-     buildOptionSelectCollections = (collections) => {
-          let optionCollections = '';
-          if (collections && collections.length > 0) {
-               optionCollections = collections.map((item, index) => {
-                    let obj = {};
-                    obj.value = item.zip_code;
-                    obj.label = item.name;
-                    return obj;
-               });
-          }
-          return optionCollections;
-     };
+     // buildOptionSelectCollections = (collections) => {
+     //      let optionCollections = '';
+     //      if (collections && collections.length > 0) {
+     //           optionCollections = collections.map((item, index) => {
+     //                let obj = {};
+     //                obj.value = item.zip_code;
+     //                obj.label = item.name;
+     //                return obj;
+     //           });
+     //      }
+     //      return optionCollections;
+     // };
      // On change select admin
      handleChangeSelectAmin = (selectedAdmin) => {
           this.setState({ selectedAdmin });
@@ -139,71 +135,83 @@ class ModalManageTransaction extends Component {
      };
      // create new transaction
      createNewTransaction = async () => {
-          let { selectedAdmin, name, address, selectedCollection } = this.state;
-          let checkInputValid = this.checkInputValid();
-          let data = {
-               admin_id: selectedAdmin.value,
-               name: name,
-               collection_zip_code: selectedCollection.value,
-               address: address,
-          };
-          if (checkInputValid) {
-               let res = await handleCreateNewTransaction(data);
-               if (res && res.errorCode === 0) {
-                    toast.success(res.msg);
-                    this.props.getAllTransactions();
-                    this.props.isCloseModal();
-                    this.setState({
-                         name: '',
-                         address: '',
-                         selectedAdmin: '',
-                         selectedCollection: '',
-                    });
+          try {
+               let { selectedAdmin, name, address, selectedCollection } = this.state;
+               let checkInputValid = this.checkInputValid();
+               let data = {
+                    admin_id: selectedAdmin.value,
+                    name: name,
+                    collection_zip_code: selectedCollection.value,
+                    address: address,
+               };
+               if (checkInputValid) {
+                    let token = this.props.userInfo.token;
+                    let res = await handleCreateNewTransaction(data, { headers: { Authorization: `Bearer ${token}` } });
+                    if (res && res.errorCode === 0) {
+                         toast.success(res.msg);
+                         this.props.getAllTransactions();
+                         this.props.isCloseModal();
+                         this.props.getAllUserPending(this.props.userInfo.token);
+                         this.setState({
+                              name: '',
+                              address: '',
+                              selectedAdmin: '',
+                              selectedCollection: '',
+                         });
+                    } else {
+                         toast.error(res.msg);
+                    }
                } else {
-                    toast.error(res.msg);
+                    toast.error('Please full fill information!');
                }
-          } else {
-               toast.error('Please full fill information!');
+          } catch (e) {
+               console.log(e);
           }
      };
      // Edit transaction
      handleEditTransaction = async () => {
-          let { selectedAdmin, name, address, selectedCollection, transaction_zip_code } = this.state;
-          let checkInputValid = this.checkInputValid();
-          let data = {
-               zip_code: transaction_zip_code,
-               admin_id: selectedAdmin.value,
-               name: name,
-               collection_zip_code: selectedCollection.value,
-               address: address,
-          };
-          if (checkInputValid) {
-               let res = await editTransaction(data);
+          try {
+               let { selectedAdmin, name, address, selectedCollection, transaction_zip_code } = this.state;
+               let checkInputValid = this.checkInputValid();
+               let data = {
+                    zip_code: transaction_zip_code,
+                    admin_id: selectedAdmin.value,
+                    name: name,
+                    collection_zip_code: selectedCollection.value,
+                    address: address,
+               };
+               if (checkInputValid) {
+                    const { token } = this.props;
+                    let res = await editTransaction(data, { headers: { Authorization: `Bearer ${token}` } });
 
-               if (res && res.errorCode === 0) {
-                    toast.success('Update transaction success!');
-                    this.props.getAllTransactions();
-                    this.props.isCloseModal();
-                    this.props.getAllUserPending();
-                    this.props.getAllAdminCollections();
-                    this.props.getAllAdminTransactions();
-                    this.props.getAllCollections();
-                    this.setState({
-                         name: '',
-                         address: '',
-                         selectedAdmin: '',
-                         selectedCollection: '',
-                    });
+                    if (res && res.errorCode === 0) {
+                         toast.success('Update transaction success!');
+                         this.props.getAllTransactions();
+                         this.props.isCloseModal();
+                         this.props.getAllUserPending(this.props.userInfo.token);
+                         // this.props.getAllAdminCollections();
+                         this.props.getAllAdminTransactions();
+                         this.props.getAllCollections();
+                         this.props.clearDataEditTransaction();
+                         this.setState({
+                              name: '',
+                              address: '',
+                              selectedAdmin: '',
+                              selectedCollection: '',
+                         });
+                    } else {
+                         toast.error('Update transaction failed!');
+                    }
                } else {
-                    toast.error('Update transaction failed!');
+                    toast.error('Please full fill information');
                }
-          } else {
-               toast.error('Please full fill information');
+          } catch (e) {
+               console.log(e);
           }
      };
      handleCloseModal = () => {
           this.props.isCloseModal();
-          // this.props.clearDataEditTransaction();
+          this.props.clearDataEditTransaction();
           this.props.isNotTransaction();
      };
      handleOnClickChoseBetCreateOrUpdate = () => {
@@ -217,8 +225,7 @@ class ModalManageTransaction extends Component {
           let { isOpen, isEditTransaction } = this.props;
 
           let { selectedAdmin, optionSelectionAdmins, selectedCollection, optionSelectionCollections } = this.state;
-          console.log('check selectAdmin', selectedAdmin);
-          console.log('check selectCollection : ', selectedCollection);
+
           return (
                <>
                     <Modal className="modal-admin-container" isOpen={isOpen} size="lg" centered>
@@ -226,7 +233,7 @@ class ModalManageTransaction extends Component {
                               <div className="modal-admin-header">
                                    <span className="left">Add new transaction</span>
                                    <span className="right" onClick={() => this.handleCloseModal()}>
-                                        <i className="fa fa-times"></i>
+                                        <GiCancel onClick={this.props.isCloseModal} />
                                    </span>
                               </div>
                               <div className="modal-admin-body">
@@ -293,10 +300,10 @@ class ModalManageTransaction extends Component {
 
 const mapStateToProps = (state) => {
      return {
+          userInfo: state.user.userInfo,
           arrAdminsPending: state.admin.arrAdminsPending,
           arrCollections: state.admin.arrCollections,
           arrAllAdminTransaction: state.admin.arrAllAdminTransaction,
-          arrAllAdminCollections: state.admin.arrAllAdminCollections,
           dataEditTransaction: state.admin.dataEditTransaction,
           isEditTransaction: state.admin.isEditTransaction,
      };
@@ -304,11 +311,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
      return {
-          getAllUserPending: () => dispatch(actions.getAllUserPendingAction()),
+          getAllUserPending: (token) => dispatch(actions.getAllUserPendingAction(token)),
           getAllTransactions: () => dispatch(actions.getAllTransactionsAction()),
           getAllCollections: () => dispatch(actions.getAllCollectionsAction()),
           getAllAdminTransactions: () => dispatch(actions.getAllAdminTransactionsAction()),
-          getAllAdminCollections: () => dispatch(actions.getAllAdminCollectionsAction()),
+          // getAllAdminCollections: () => dispatch(actions.getAllAdminCollectionsAction()),
           clearDataEditTransaction: () => dispatch(actions.clearDataEditTransactionAction()),
           isNotTransaction: () => dispatch(actions.isNotTransactionAction()),
      };

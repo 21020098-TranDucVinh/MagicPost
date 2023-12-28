@@ -9,11 +9,6 @@ const appReducer = (state = initialState, action) => {
                     ...state,
                     started: true,
                };
-          case actionTypes.CHANGE_LANGUAGE:
-               return {
-                    ...state,
-                    language: action.language,
-               };
           default:
                return state;
      }

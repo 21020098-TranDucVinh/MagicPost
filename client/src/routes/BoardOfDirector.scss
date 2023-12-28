@@ -3,8 +3,12 @@
      flex-direction: column;
      min-height: 100%;
      width: 100vw;
-     background-color: #f7f4f4;
+     background-color: #fbf9f9;
      .system-container {
           // height: 1000px;
+          background-image: url('../assets/images/banner.png');
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
      }
 }

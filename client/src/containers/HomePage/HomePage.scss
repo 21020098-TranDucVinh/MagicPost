@@ -3,6 +3,155 @@
           height: inherit;
           width: inherit;
      }
+
+     .homepage-banner-container {
+          display: flex;
+          background-image: url('../../assets/images/banner5.jfif');
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center center;
+          .text-header-rps {
+               @media (min-width: 1490px) {
+                    font-size: 3.5rem;
+               }
+               @media (max-width: 1489px) {
+                    font-size: 1.5rem;
+               }
+          }
+          // .text-content-rps {
+          //      @media (min-width: 1490px) {
+          //           font-size: 37px;
+          //      }
+          //      @media (max-width: 1489px) {
+          //           font-size: 1.5rem;
+          //      }
+          // }
+          .company-info {
+               display: flex;
+               flex-direction: column;
+               .company-info-detail {
+                    // width: 35%;
+
+                    display: flex;
+                    flex-direction: column;
+                    gap: 100px;
+                    .info {
+                         display: flex;
+                         align-items: center;
+                    }
+               }
+
+               .info-top {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    // height: 40%;
+               }
+               .info-middle {
+                    // height: 30%;
+
+                    ul {
+                         font-weight: 600;
+                         font-size: large;
+                         margin-top: 0;
+                         margin-bottom: 1rem;
+                         color: black;
+                    }
+               }
+               .text-content-rps {
+                    @media (min-width: 1490px) {
+                         font-size: 37px;
+                    }
+                    @media (max-width: 1489px) {
+                         font-size: 1.5rem;
+                    }
+               }
+          }
+          .search-parcel-container {
+               width: 65%;
+               .search-content {
+                    // height: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    .search-box {
+                         min-height: 60%;
+                         width: 95%;
+
+                         background-color: rgba(255, 255, 255, 0.5);
+                         border-radius: 10px;
+                         .title-search-parcel {
+                              font-size: 25px;
+                              font-weight: 600;
+                              height: 15%;
+                              border-bottom: 1px solid #cfc4c4;
+                         }
+                         .box-search-parcel-container {
+                              height: 85%;
+
+                              .box-search-parcel-content {
+                                   height: 25%;
+                              }
+                              .box-search-parcel-result {
+                                   height: 75%;
+                                   .result-info {
+                                        height: 65%;
+
+                                        font-size: 1.125rem;
+                                        font-weight: 400;
+                                        font-family: ui-sans-serif;
+                                        span {
+                                             font-weight: 600;
+                                        }
+                                   }
+
+                                   .result-chart {
+                                        height: 35%;
+                                   }
+                              }
+                         }
+                    }
+               }
+               // .more-info {
+               //      height: 50%;
+               // }
+          }
+     }
+     .welcome-magicpost-info-container {
+          width: 100vw;
+
+          .welcome-magicpost-info-content {
+               height: 100%;
+               .left-content-info {
+                    .text-header-rps {
+                         @media (min-width: 1490px) {
+                              font-size: 3.5rem;
+                         }
+                         @media (max-width: 1489px) {
+                              font-size: 1.5rem;
+                         }
+                    }
+                    h1,
+                    p {
+                         font-weight: 600;
+                    }
+               }
+               .right-content-info {
+                    .text-header-rps {
+                         @media (min-width: 1490px) {
+                              font-size: 3.5rem;
+                         }
+                         @media (max-width: 1489px) {
+                              font-size: 1.5rem;
+                         }
+                    }
+                    ul {
+                         font-weight: 600;
+                         font-size: 16px;
+                    }
+               }
+          }
+     }
 }
 .modal-header {
      span {

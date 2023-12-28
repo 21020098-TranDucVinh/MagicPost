@@ -1,7 +1,7 @@
 @import '../../styles/common.scss';
 
 .header-container {
-     // z-index: 0;
+     z-index: 100;
      display: flex;
      justify-content: space-between;
      background-color: white;
@@ -12,23 +12,8 @@
      // line-height: 55px;
      border-bottom: 1px solid #ddd;
      width: 100vw;
-     // position: fixed;
-     .btn-logout {
-          // color: $common-text-color;
-          color: black;
-          height: 100%;
-          padding: 20px;
-          // margin-right: 30px;
-          &:hover {
-               background-color: darken($colormain, 5);
-               color: white;
-          }
-          i {
-               font-size: $base-size + 1px;
-          }
-     }
+
      .header-logo {
-          // background-image: url('https://giaohangtietkiem.vn/wp-content/themes/giaohangtk/images/logo-header.png');
           background: url('../../assets/images/logo2.jpg');
           height: 60px;
           width: 100px;
@@ -38,8 +23,34 @@
           margin-left: 25px;
      }
      .languages {
-          .welcome {
-               margin-right: 10px;
+          display: flex;
+          justify-content: center;
+          align-self: center;
+          .hi-user {
+               display: flex;
+               justify-content: center;
+               align-self: center;
+               color: goldenrod;
+               @media (min-width: 1490px) {
+                    font-size: 25px;
+               }
+               @media (max-width: 1489px) {
+                    font-size: 20px;
+               }
+          }
+          .btn-logout-container {
+               cursor: pointer;
+               .btn-lg-content {
+                    background-color: #0062a1;
+                    .button {
+                         @media (min-width: 1490px) {
+                              font-size: 13px;
+                         }
+                         @media (max-width: 1489px) {
+                              font-size: 10px;
+                         }
+                    }
+               }
           }
      }
 }
