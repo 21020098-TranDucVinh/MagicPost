@@ -18,4 +18,7 @@ router.get(
   adminController.getAdminByTransactionId,
 );
 
+router.put('/admin/:id', adminAuth, adminController.updateAdmin);
+router.delete('/admin/:id', adminAuth, adminController.deleteAdmin);
+
 module.exports = router;

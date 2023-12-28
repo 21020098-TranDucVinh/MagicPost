@@ -140,6 +140,78 @@ class adminController {
       });
     }
   }
+
+  // [PUT] /admin/:id
+  async updateAdmin(req, res) {
+    try {
+      const id = req.params.id;
+      const { username, password, phone } = req.body;
+      if (!username || !password || !phone) {
+        res.status(400).json({
+          errorCode: 1,
+          msg: 'Missing required field(s)',
+        });
+      }
+      bcrypt.hash(password, 10).then(async (hash) => {
+        await Admin.update(
+          {
+            username,
+            password: hash,
+            phone
+          },
+          {
+            where: {
+              id,
+            },
+          },
+        ).then(() => {
+          res.status(200).json({
+            errorCode: 0,
+            msg: 'Update admin successful',
+          });
+        }).catch((err) => {
+          res.status(400).json({
+            errorCode: 1,
+            msg: err.errors[0].message,
+          });
+        });
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        errorCode: 1,
+        msg: 'Server:' + error.message,
+      });
+    }
+  }
+
+  // [DELETE] /admin/:id
+  async deleteAdmin(req, res) {
+    try {
+      const id = req.params.id;
+      await Admin.destroy({
+        where: {
+          id,
+        },
+      }).then(() => {
+        res.status(200).json({
+          errorCode: 0,
+          msg: 'Delete admin successful',
+        });
+      }).catch((err) => {
+        res.status(400).json({
+          errorCode: 1,
+          msg: err.errors[0].message,
+        });
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        errorCode: 1,
+        msg: 'Server:' + error.message,
+      });
+    }
+  }
 }
 
 module.exports = new adminController();
