@@ -29,7 +29,7 @@ class ModalColStaffReviewReceivedOrder extends React.Component {
           let list = [];
           if (parcels && parcels.length > 0) {
                for (let i = 0; i < parcels.length; i++) {
-                    list.push(parcels[i].id);
+                    list.push(parcels[i].trackID);
                }
           }
           return list;
@@ -41,13 +41,14 @@ class ModalColStaffReviewReceivedOrder extends React.Component {
                const accessToken = userInfo.token;
                // console.log('check list id : ', idList);
                let data = {
-                    last_staff_id_update: 'T00002S00011',
+                    last_staff_id_update: userInfo.staff_id,
                     list_tracking_id: idList,
                     zip_code: userInfo.zip_code,
                };
                let res = await services.colStaffConfirmReceiveOrder(data, accessToken);
                if (res && res.errorCode === 0) {
                     toast.success(res.msg);
+                    this.props.closeModal();
                }
           } catch (e) {
                toast.error('Errors!');
@@ -64,7 +65,7 @@ class ModalColStaffReviewReceivedOrder extends React.Component {
           let { parcelList } = this.props;
           if (parcelList && parcelList.length > 0) {
                for (let i = 0; i < parcelList.length; i++) {
-                    total += parcelList[i].cost;
+                    total += parcelList[i].parcel.cost;
                }
           }
           this.setState({
@@ -101,7 +102,8 @@ class ModalColStaffReviewReceivedOrder extends React.Component {
                                                   </TableRow>
                                              </TableHead>
                                              <TableBody>
-                                                  {parcelList && parcelList.length > 0 ? (
+                                                  {parcelList &&
+                                                       parcelList.length > 0 &&
                                                        parcelList.map((row, index) => (
                                                             <TableRow
                                                                  key={index}
@@ -112,19 +114,30 @@ class ModalColStaffReviewReceivedOrder extends React.Component {
                                                                  }}
                                                             >
                                                                  <TableCell align="right">{index + 1}</TableCell>
-                                                                 <TableCell align="right">{row.s_name}</TableCell>
-                                                                 <TableCell align="right">{row.s_phone}</TableCell>
-                                                                 <TableCell align="right">{row.s_address}</TableCell>
-                                                                 <TableCell align="right">{row.r_name}</TableCell>
-                                                                 <TableCell align="right">{row.r_phone}</TableCell>
-                                                                 <TableCell align="right">{row.r_address}</TableCell>
-                                                                 <TableCell align="right">{row.s_zip_code}</TableCell>
-                                                                 <TableCell align="right">{row.cost}</TableCell>
+                                                                 <TableCell align="right">
+                                                                      {row.parcel.s_name}
+                                                                 </TableCell>
+                                                                 <TableCell align="right">
+                                                                      {row.parcel.s_phone}
+                                                                 </TableCell>
+                                                                 <TableCell align="right">
+                                                                      {row.parcel.s_address}
+                                                                 </TableCell>
+                                                                 <TableCell align="right">
+                                                                      {row.parcel.r_name}
+                                                                 </TableCell>
+                                                                 <TableCell align="right">
+                                                                      {row.parcel.r_phone}
+                                                                 </TableCell>
+                                                                 <TableCell align="right">
+                                                                      {row.parcel.r_address}
+                                                                 </TableCell>
+                                                                 <TableCell align="right">
+                                                                      {row.parcel.s_zip_code}
+                                                                 </TableCell>
+                                                                 <TableCell align="right">{row.parcel.cost}</TableCell>
                                                             </TableRow>
-                                                       ))
-                                                  ) : (
-                                                       <span>Empty!</span>
-                                                  )}
+                                                       ))}
                                              </TableBody>
                                         </Table>
                                    </TableContainer>

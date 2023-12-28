@@ -92,7 +92,7 @@ class AdminModalAddNewUser extends Component {
                          });
                          toast.success(res.msg);
                          this.props.isCloseModal();
-                         this.props.getAllUserPending();
+                         this.props.getAllUserPending(this.props.userInfo.token);
                     }
                } else {
                     toast.error('Your input invalid');
@@ -134,7 +134,7 @@ class AdminModalAddNewUser extends Component {
                     isEditUser: false,
                });
                this.props.isCloseModal();
-               this.props.getAllUserPending();
+               this.props.getAllUserPending(this.props.userInfo.token);
           }
      };
      // Onclick chose between create or update
@@ -272,7 +272,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
      return {
-          getAllUserPending: () => dispatch(actions.getAllUserPendingAction()),
+          getAllUserPending: (token) => dispatch(actions.getAllUserPendingAction(token)),
           updateUser: (data) => dispatch(actions.updateUserAction(data)),
           isNotEditAdminPending: () => dispatch(actions.isNotEditAdminPendingAction()),
           clearDataEditPendingAdmin: () => dispatch(actions.clearDataEditPendingAdminAction()),

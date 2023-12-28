@@ -43,9 +43,8 @@ export const getAllParcelsAction = (accessToken) => {
 export const getALlReceivedParcels = (zip_code, accessToken) => {
      return async (dispatch, getState) => {
           try {
-               console.log('check  zipcode & token : ', zip_code, accessToken);
+               // console.log('check  zipcode & token : ', zip_code, accessToken);
                let res = await services.getAllReceivedParcels(zip_code, accessToken);
-               console.log('check res :', res);
                if (res && res.errorCode === 0) {
                     dispatch({
                          type: actionTypes.NODE_GET_ALL_PARCEL_SUCCESS,

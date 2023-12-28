@@ -20,12 +20,13 @@ class RecordParcel extends Component {
           };
      }
      async componentDidMount() {
-          this.props.getAllPendingParcels();
+          const { userInfo } = this.props;
+          this.props.getAllPendingParcelsEachTransaction(userInfo.zip_code, userInfo.token);
      }
      componentDidUpdate(prevProps, prevState, snapshot) {
-          if (prevProps.arrPendingParcels !== this.props.arrPendingParcels) {
+          if (prevProps.ParcelPendingEachTransaction !== this.props.ParcelPendingEachTransaction) {
                this.setState({
-                    arrPendingParcels: this.props.arrPendingParcels,
+                    arrPendingParcels: this.props.ParcelPendingEachTransaction,
                });
           }
      }
@@ -185,14 +186,17 @@ class RecordParcel extends Component {
 
 const mapStateToProps = (state) => {
      return {
-          arrPendingParcels: state.staffTransaction.arrPendingParcels,
+          userInfo: state.user.userInfo,
+          ParcelPendingEachTransaction: state.staffTransaction.ParcelPendingEachTransaction,
      };
 };
 
 const mapDispatchToProps = (dispatch) => {
      return {
-          getAllPendingParcels: () => dispatch(actions.getAllPendingParcelsAction()),
+          // getAllPendingParcels: () => dispatch(actions.getAllPendingParcelsAction()),
           fetchParcelsToSendCol: (arrParcels) => dispatch(actions.fetchParcelsToSendColAction(arrParcels)),
+          getAllPendingParcelsEachTransaction: (transactionID, accessToken) =>
+               dispatch(actions.getAllPendingParcelsBYTransactionIDAction(transactionID, accessToken)),
      };
 };
 

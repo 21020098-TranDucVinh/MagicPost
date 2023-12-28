@@ -19,8 +19,8 @@ class ModalManageCollection extends Component {
           };
      }
      async componentDidMount() {
-          this.props.getAllUserPending();
-          this.props.getAllAdminCollections();
+          this.props.getAllUserPending(this.props.userInfo.token);
+          // this.props.getAllAdminCollections();
      }
      componentDidUpdate(prevProps, prevState, snapshot) {
           if (prevProps.arrAdminsPending !== this.props.arrAdminsPending) {
@@ -97,8 +97,8 @@ class ModalManageCollection extends Component {
                     let res = await handleCreateNewCollection(data, { headers: { Authorization: `Bearer ${token}` } });
                     if (res && res.errorCode === 0) {
                          toast.success('Create Collection success!');
-                         this.props.getAllCollections();
-                         this.props.getAllUserPending();
+                         this.props.getAllCollections(token);
+                         this.props.getAllUserPending(token);
                          this.setState({
                               name: '',
                               address: '',
@@ -130,8 +130,8 @@ class ModalManageCollection extends Component {
                     if (res && res.errorCode === 0) {
                          toast.success('Update Collection success!');
                          this.props.getAllCollections();
-                         this.props.getAllAdminCollections();
-                         this.props.getAllUserPending();
+                         // this.props.getAllAdminCollections();
+                         this.props.getAllUserPending(token);
                          this.props.clearDataEditCollection();
                          this.setState({
                               name: '',
@@ -234,7 +234,7 @@ class ModalManageCollection extends Component {
 
 const mapStateToProps = (state) => {
      return {
-          arrAllAdminCollections: state.admin.arrAllAdminCollections,
+          // arrAllAdminCollections: state.admin.arrAllAdminCollections,
           arrAdminsPending: state.admin.arrAdminsPending,
           isEditCollection: state.admin.isEditCollection,
           dataEditCollection: state.admin.dataEditCollection,
@@ -244,9 +244,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
      return {
-          getAllUserPending: () => dispatch(actions.getAllUserPendingAction()),
+          getAllUserPending: (token) => dispatch(actions.getAllUserPendingAction(token)),
           getAllCollections: () => dispatch(actions.getAllCollectionsAction()),
-          getAllAdminCollections: () => dispatch(actions.getAllAdminCollectionsAction()),
+          // getAllAdminCollections: () => dispatch(actions.getAllAdminCollectionsAction()),
           doEditCollection: () => dispatch(actions.isEditCollectionAction()),
           clearDataEditCollection: () => dispatch(actions.clearDataEditCollectionAction()),
      };

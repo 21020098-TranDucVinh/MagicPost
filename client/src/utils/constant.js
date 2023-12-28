@@ -110,15 +110,15 @@ export const options = {
                field: 'username',
                headerName: 'User Name',
                sortable: true,
-               width: 250,
+               width: 300,
           },
           {
                field: 'phone',
                headerName: 'Phone',
                sortable: true,
-               width: 250,
+               width: 300,
           },
-          { field: 'role', headerName: 'Role', width: 200 },
+          { field: 'role', headerName: 'Role', width: 300 },
      ],
      columnsTransaction: [
           { field: 'id', headerName: 'ID', width: 50 },
@@ -138,7 +138,7 @@ export const options = {
           {
                field: 'address',
                headerName: 'Address',
-               width: 150,
+               width: 200,
                editable: false,
           },
           {
@@ -179,21 +179,21 @@ export const options = {
           {
                field: 'address',
                headerName: 'Address',
-               width: 150,
+               width: 250,
                editable: false,
           },
           {
                field: 'admins',
                headerName: `Manager Name`,
                valueGetter: (params) => params.row.admin.username,
-               width: 150,
+               width: 200,
                editable: false,
           },
           {
                field: 'admin',
                headerName: `Manager's Phone`,
                valueGetter: (params) => params.row.admin.phone,
-               width: 150,
+               width: 200,
                editable: false,
           },
      ],

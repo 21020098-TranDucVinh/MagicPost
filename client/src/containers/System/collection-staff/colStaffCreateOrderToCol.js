@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
-import ModalColStaffReviewSendOrder from './ModalColStaffReviewSendOrder';
+import ModalColStaffReviewSendOrderToCol from './ModalColStaffReviewSendOrderToCol';
 import * as actions from '../../../store/actions/index';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -17,7 +17,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Table from 'react-bootstrap/Table';
 import Select from 'react-select';
-class colStaffCreateOrder extends React.Component {
+class colStaffCreateOrderToCol extends React.Component {
      constructor(props) {
           super(props);
           this.state = {
@@ -54,18 +54,23 @@ class colStaffCreateOrder extends React.Component {
      componentWillUnmount() {
           this.props.clearParcelsToSendCol();
      }
+
      //build option select collection
      buildOptionSelectCollections = () => {
-          const { arrCollections } = this.props;
+          const { arrCollections, userInfo } = this.props;
           let optionCollections = [];
-          if (arrCollections && arrCollections.length > 0) {
-               optionCollections = arrCollections.map((item, index) => {
+          let collections = arrCollections.filter((item) => item.zip_code !== userInfo.zip_code);
+          if (collections && collections.length > 0) {
+               optionCollections = collections.map((item, index) => {
                     let obj = {};
-                    obj.value = item.zip_code;
-                    obj.label = item.name;
+                    if (item.zip_code !== userInfo.zip_code) {
+                         obj.value = item.zip_code;
+                         obj.label = item.name;
+                    }
                     return obj;
                });
           }
+
           this.setState({
                optionSelectionCollections: optionCollections,
           });
@@ -93,9 +98,6 @@ class colStaffCreateOrder extends React.Component {
           }
      };
 
-     onCurrencyChange = (selectedOption) => {
-          this.setState(selectedOption);
-     };
      editField = (event) => {
           this.setState({
                [event.target.name]: event.target.value,
@@ -105,6 +107,7 @@ class colStaffCreateOrder extends React.Component {
      buildFromColInfo = () => {
           let { userInfo, arrCollections } = this.props;
           let colZipCode = userInfo.zip_code;
+
           // let colZip_Code;
           if (arrCollections && arrCollections.length > 0) {
                for (let i = 0; i < arrCollections.length; i++) {
@@ -112,6 +115,7 @@ class colStaffCreateOrder extends React.Component {
                          this.setState({
                               s_colInfo: arrCollections[i],
                          });
+
                          break;
                     }
                }
@@ -136,7 +140,7 @@ class colStaffCreateOrder extends React.Component {
      render() {
           let { arrParcelsToSendCol } = this.props;
           let { s_colInfo, r_colInfo, optionSelectionCollections, selectedCollection } = this.state;
-
+          // console.log('s_colInfo : ', this.state.s_colInfo);
           return (
                <div className="tran-staff-invoice-container">
                     <Form onSubmit={this.openModal}>
@@ -174,7 +178,7 @@ class colStaffCreateOrder extends React.Component {
                                              <Col>
                                                   <Form.Label className="font-weight-bold">Bill from:</Form.Label>
                                                   <Form.Control
-                                                       placeholder={'Which transaction is this invoice from?'}
+                                                       placeholder={'Which collection is this invoice from?'}
                                                        rows={3}
                                                        value={s_colInfo.name}
                                                        type="text"
@@ -185,7 +189,7 @@ class colStaffCreateOrder extends React.Component {
                                                        required="required"
                                                   />
                                                   <Form.Control
-                                                       placeholder={'Transaction phone'}
+                                                       placeholder={'collection phone'}
                                                        value={s_colInfo?.admin?.phone}
                                                        type="text"
                                                        name="billFromPhone"
@@ -276,7 +280,8 @@ class colStaffCreateOrder extends React.Component {
                                                        </TableRow>
                                                   </TableHead>
                                                   <TableBody>
-                                                       {arrParcelsToSendCol && arrParcelsToSendCol.length > 0 ? (
+                                                       {arrParcelsToSendCol &&
+                                                            arrParcelsToSendCol.length > 0 &&
                                                             arrParcelsToSendCol.map((row, index) => (
                                                                  <TableRow
                                                                       key={index}
@@ -305,10 +310,7 @@ class colStaffCreateOrder extends React.Component {
                                                                       </TableCell>
                                                                       <TableCell align="right">{row.cost}</TableCell>
                                                                  </TableRow>
-                                                            ))
-                                                       ) : (
-                                                            <span>Empty!</span>
-                                                       )}
+                                                            ))}
                                                   </TableBody>
                                              </Table>
                                         </TableContainer>
@@ -341,16 +343,16 @@ class colStaffCreateOrder extends React.Component {
                                    </Card>
                               </Col>
                               <Col md={4} lg={3}>
-                                   <div className="sticky-top pt-md-3 pt-xl-4">
+                                   <div className="pt-md-3 pt-xl-4">
                                         <Button variant="primary" type="submit" className="d-block w-100">
                                              Review Invoice
                                         </Button>
-                                        <ModalColStaffReviewSendOrder
+                                        <ModalColStaffReviewSendOrderToCol
                                              showModal={this.state.isOpen}
                                              closeModal={this.closeModal}
                                              info={this.state}
-                                             items={this.state.items}
-                                             currency={this.state.currency}
+                                             r_colInfo={r_colInfo}
+                                             s_colInfo={s_colInfo}
                                              total={this.state.total}
                                         />
                                    </div>
@@ -378,4 +380,4 @@ const mapDispatchToProps = (dispatch) => {
           clearParcelsToSendCol: () => dispatch(actions.clearParcelsToSendColAction()),
      };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(colStaffCreateOrder);
+export default connect(mapStateToProps, mapDispatchToProps)(colStaffCreateOrderToCol);

@@ -39,7 +39,7 @@ class ModalTransactionStaffPrintOrder extends React.Component {
           try {
                let listIdParcels = this.buildListParcelIds(arrParcelsToSendCol);
                let body = {
-                    staff_id: 'T00001S00001',
+                    staff_id: userInfo.staff_id,
                     s_zip_code: userInfo.zip_code,
                     r_zip_code: info.belongToCollection.zip_code,
                     list_parcel_id: listIdParcels,
@@ -50,15 +50,10 @@ class ModalTransactionStaffPrintOrder extends React.Component {
                let res = await services.handleSendParcelsToCol(body, accessToken);
 
                if (res && res.errorCode === 0) {
-                    for (let i = 0; i < listIdParcels.length; i++) {
-                         let data = {
-                              parcel_id: listIdParcels[i],
-                              status: 'SHIPPING',
-                         };
-                         await services.handleUpdateStatusParcel(data, accessToken);
-                    }
-                    toast.success(res.msg);
-                    CommonUtils.GenerateInvoice();
+                    toast.success('Confirm send parcel success!');
+                    // this.props.history.push('/transaction-staff/manage/create-parcel');
+                    // CommonUtils.GenerateInvoice();
+                    this.props.closeModal();
                } else {
                     toast.error(res.msg);
                }
@@ -92,27 +87,6 @@ class ModalTransactionStaffPrintOrder extends React.Component {
                               <div className="p-4">
                                    <Row className="mb-4">
                                         <Col md={6}>
-                                             <div className="fw-bold">Billed to Collection:</div>
-                                             <div>
-                                                  Name:
-                                                  <span className="font-weight-bold px-2">
-                                                       {this.props.info.belongToCollection.name || ''}
-                                                  </span>
-                                             </div>
-                                             <div>
-                                                  Address:
-                                                  <span className="font-weight-bold px-2">
-                                                       {this.props.info.belongToCollection.address || ''}
-                                                  </span>
-                                             </div>
-                                             <div>
-                                                  Phone:
-                                                  <span className="font-weight-bold px-2">
-                                                       {this.props.info.belongToCollection.admin?.phone || ''}
-                                                  </span>
-                                             </div>
-                                        </Col>
-                                        <Col md={6}>
                                              <div className="fw-bold">Billed From:</div>
                                              <div>
                                                   Name:
@@ -131,6 +105,27 @@ class ModalTransactionStaffPrintOrder extends React.Component {
                                                   Phone:
                                                   <span className="font-weight-bold px-2">
                                                        {this.props.info.billFromPhone || ''}
+                                                  </span>
+                                             </div>
+                                        </Col>
+                                        <Col md={6}>
+                                             <div className="fw-bold">Billed to Collection:</div>
+                                             <div>
+                                                  Name:
+                                                  <span className="font-weight-bold px-2">
+                                                       {this.props.info.belongToCollection.name || ''}
+                                                  </span>
+                                             </div>
+                                             <div>
+                                                  Address:
+                                                  <span className="font-weight-bold px-2">
+                                                       {this.props.info.belongToCollection.address || ''}
+                                                  </span>
+                                             </div>
+                                             <div>
+                                                  Phone:
+                                                  <span className="font-weight-bold px-2">
+                                                       {this.props.info.belongToCollection.admin?.phone || ''}
                                                   </span>
                                              </div>
                                         </Col>
@@ -251,8 +246,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
      return {
           // getAllTransactions: () => dispatch(actions.getAllTransactionsAction()),
-          // getAllCollections: () => dispatch(actions.getAllCollectionsAction()),
-          // clearParcelsToSendCol: () => dispatch(actions.clearParcelsToSendColAction()),
      };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ModalTransactionStaffPrintOrder);

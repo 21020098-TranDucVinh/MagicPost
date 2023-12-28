@@ -5,7 +5,8 @@ import Header from '../containers/Header/Header';
 import HomeFooter from '../containers/HomePage/HomeFooter';
 import CollectionStaffManageParcel from '../containers/System/collection-staff/CollectionStaffManageParcel';
 import ColStaffManageArrivedOrder from '../containers/System/collection-staff/ColStaffManageArrivedOrder';
-import colStaffCreateOrder from '../containers/System/collection-staff/colStaffCreateOrder';
+import colStaffCreateOrderToCol from '../containers/System/collection-staff/colStaffCreateOrderToCol';
+import colStaffCreateOrderToTran from '../containers/System/collection-staff/colStaffCreateOrderToTran';
 class RouteCollectionStaff extends Component {
      render() {
           const { isLoggedIn } = this.props;
@@ -23,7 +24,11 @@ class RouteCollectionStaff extends Component {
                                         />
                                         <Route
                                              path="/collection-staff/manage/create-order/send/collection"
-                                             component={colStaffCreateOrder}
+                                             component={colStaffCreateOrderToCol}
+                                        />
+                                        <Route
+                                             path="/collection-staff/manage/create-order/send/transaction"
+                                             component={colStaffCreateOrderToTran}
                                         />
                                         <Route
                                              path="/collection-staff/manage/arrived-invoice"

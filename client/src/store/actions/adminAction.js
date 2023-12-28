@@ -5,13 +5,13 @@ import {
      getAllCollections,
      editUserPending,
      getAllAdminTransactions,
-     getAllAdminCollections,
+     // getAllAdminCollections,
 } from '../../services/adminService';
 // get all user pending
 export const getAllUserPendingAction = (token) => {
      return async (dispatch, getState) => {
           try {
-               let res = await getAllUserPending({ headers: { Authorization: `Bearer ${token}` } });
+               let res = await getAllUserPending(token);
                if (res && res.errorCode === 0) {
                     dispatch(getAllUserPendingActionSuccess(res.admin));
                }
@@ -113,24 +113,24 @@ export const getAllAdminTransactionsAction = () => {
 };
 
 // get all admin collection
-export const getAllAdminCollectionsAction = () => {
-     return async (dispatch, getState) => {
-          try {
-               let res = await getAllAdminCollections();
-               if (res && res.errorCode === 0) {
-                    dispatch({
-                         type: actionTypes.GET_ALL_ADMIN_COLLECTIONS_SUCCESS,
-                         data: res.data,
-                    });
-               }
-          } catch (e) {
-               console.log('get all admin collections success', e);
-               dispatch({
-                    type: actionTypes.GET_ALL_ADMIN_COLLECTIONS_FAILED,
-               });
-          }
-     };
-};
+// export const getAllAdminCollectionsAction = () => {
+//      return async (dispatch, getState) => {
+//           try {
+//                let res = await getAllAdminCollections();
+//                if (res && res.errorCode === 0) {
+//                     dispatch({
+//                          type: actionTypes.GET_ALL_ADMIN_COLLECTIONS_SUCCESS,
+//                          data: res.data,
+//                     });
+//                }
+//           } catch (e) {
+//                console.log('get all admin collections success', e);
+//                dispatch({
+//                     type: actionTypes.GET_ALL_ADMIN_COLLECTIONS_FAILED,
+//                });
+//           }
+//      };
+// };
 // is edit collection
 export const isEditCollectionAction = () => {
      return async (dispatch, getState) => {

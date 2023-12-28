@@ -11,20 +11,38 @@ class TranStaffSendOrderToClient extends Component {
           super(props);
           this.state = {
                isOpenModal: false,
-               arrPendingParcels: [],
+               arrParcelsAfterConfirm: [],
                selectedParcels: '',
           };
      }
      async componentDidMount() {
-          this.props.getAllPendingParcels();
+          const { userInfo } = this.props;
+          this.props.getALlReceivedParcels(userInfo.zip_code, userInfo.token);
      }
      componentDidUpdate(prevProps, prevState, snapshot) {
-          if (prevProps.arrPendingParcels !== this.props.arrPendingParcels) {
-               this.setState({
-                    arrPendingParcels: this.props.arrPendingParcels,
-               });
+          if (prevProps.allParcelEachNodeAfterConfirm !== this.props.allParcelEachNodeAfterConfirm) {
+               this.setState(
+                    {
+                         arrParcelsAfterConfirm: this.filerParcelList(this.props.allParcelEachNodeAfterConfirm),
+                    },
+                    () => {
+                         console.log('check arrParcelsAfterConfirm: ', this.state.arrParcelsAfterConfirm);
+                    },
+               );
           }
      }
+     //filter parcel
+     filerParcelList = (data) => {
+          let result = [];
+          for (let i = 0; i < data.length; i++) {
+               let obj = {
+                    id: i + 1,
+                    ...data[i].parcel,
+               };
+               result.push(obj);
+          }
+          return result;
+     };
      // Close modal
      isCloseModal = () => {
           this.setState({
@@ -45,8 +63,8 @@ class TranStaffSendOrderToClient extends Component {
           }
      };
      render() {
-          let { arrPendingParcels } = this.state;
-
+          const { allParcelEachNodeAfterConfirm } = this.props;
+          let { arrParcelsAfterConfirm } = this.state;
           return (
                <>
                     <div className="admin-container my-3">
@@ -84,7 +102,7 @@ class TranStaffSendOrderToClient extends Component {
                                                        showQuickFilter: true,
                                                   },
                                              }}
-                                             rows={arrPendingParcels}
+                                             rows={arrParcelsAfterConfirm}
                                              columns={options.columnsParcels}
                                              pageSizeOptions={[5, 7]}
                                              autoHeight={true}
@@ -93,7 +111,7 @@ class TranStaffSendOrderToClient extends Component {
                                                   const selectedIDs = new Set(ids);
 
                                                   let selectedRowData = [];
-                                                  arrPendingParcels.map((row) => {
+                                                  arrParcelsAfterConfirm.map((row) => {
                                                        selectedIDs.has(row.id);
                                                        if (selectedIDs.has(row.id)) {
                                                             selectedRowData.push(row);
@@ -108,7 +126,6 @@ class TranStaffSendOrderToClient extends Component {
                                                        paginationModel: { page: 0, pageSize: 5 },
                                                   },
                                              }}
-                                             {...arrPendingParcels}
                                         />
                                    </div>
                               </div>
@@ -121,7 +138,9 @@ class TranStaffSendOrderToClient extends Component {
 
 const mapStateToProps = (state) => {
      return {
+          userInfo: state.user.userInfo,
           arrPendingParcels: state.staffTransaction.arrPendingParcels,
+          allParcelEachNodeAfterConfirm: state.colStaff.allParcelEachNodeAfterConfirm,
      };
 };
 
@@ -129,6 +148,8 @@ const mapDispatchToProps = (dispatch) => {
      return {
           getAllPendingParcels: () => dispatch(actions.getAllPendingParcelsAction()),
           fetchParcelsToSendCol: (arrParcels) => dispatch(actions.fetchParcelsToSendColAction(arrParcels)),
+          getALlReceivedParcels: (zip_code, accessToken) =>
+               dispatch(actions.getALlReceivedParcels(zip_code, accessToken)),
      };
 };
 

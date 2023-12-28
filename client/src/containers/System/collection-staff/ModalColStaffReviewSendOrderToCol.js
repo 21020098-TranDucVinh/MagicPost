@@ -17,7 +17,7 @@ import * as services from '../../../services/index';
 import toast from 'react-hot-toast';
 import CommonUtils from '../../../utils/CommonUtils';
 
-class ModalColStaffReviewSendOrder extends React.Component {
+class ModalColStaffReviewSendOrderToCol extends React.Component {
      constructor(props) {
           super(props);
           this.state = {};
@@ -39,26 +39,19 @@ class ModalColStaffReviewSendOrder extends React.Component {
           try {
                let listIdParcels = this.buildListParcelIds(arrParcelsToSendCol);
                let body = {
-                    staff_id: 'T00001S00001',
+                    staff_id: userInfo.staff_id,
                     s_zip_code: userInfo.zip_code,
-                    r_zip_code: info.belongToCollection.zip_code,
+                    r_zip_code: info.r_colInfo.zip_code,
                     list_parcel_id: listIdParcels,
                     shipper_name: info.shipperName,
                     shipper_phone: info.shipperPhone,
                };
-               // console.log('check body : ', body);
+               console.log('check body : ', body);
                let res = await services.handleSendParcelsToCol(body, accessToken);
-
                if (res && res.errorCode === 0) {
-                    for (let i = 0; i < listIdParcels.length; i++) {
-                         let data = {
-                              parcel_id: listIdParcels[i],
-                              status: 'SHIPPING',
-                         };
-                         await services.handleUpdateStatusParcel(data, accessToken);
-                    }
+                    this.props.closeModal();
                     toast.success(res.msg);
-                    CommonUtils.GenerateInvoice();
+                    // CommonUtils.GenerateInvoice();
                } else {
                     toast.error(res.msg);
                }
@@ -67,14 +60,16 @@ class ModalColStaffReviewSendOrder extends React.Component {
           }
      };
      render() {
-          let { arrParcelsToSendCol } = this.props;
+          let { arrParcelsToSendCol, r_colInfo, s_colInfo } = this.props;
+          console.log('s_colInfo: ', s_colInfo);
+          console.log('r_colInfo: ', r_colInfo);
           return (
                <div className="modal-order-container">
                     <Modal show={this.props.showModal} onHide={this.props.closeModal} size="xl" centered>
                          <div id="invoiceCapture">
                               <div className="d-flex flex-row justify-content-between align-items-start bg-light w-100 p-4">
-                                   <div className="w-100">
-                                        <h4 className="fw-bold my-2">MagicPost</h4>
+                                   <div className="text-end ms-4">
+                                        <div className="order-logo"></div>
                                         <h6 className="fw-bold text-secondary mb-1">
                                              Order #: {this.props.info.invoiceNumber || ''}
                                         </h6>
@@ -86,20 +81,43 @@ class ModalColStaffReviewSendOrder extends React.Component {
                               </div>
                               <div className="p-4">
                                    <Row className="mb-4">
-                                        <Col md={4}>
-                                             <div className="fw-bold">Billed to:</div>
-                                             <div>{this.props.info.r_colInfo.name || ''}</div>
-                                             <div>{this.props.info.r_colInfo.address || ''}</div>
-                                        </Col>
-                                        <Col md={4}>
+                                        <Col md={6}>
                                              <div className="fw-bold">Billed From:</div>
-                                             <div>{this.props.info.s_colInfo.name || ''}</div>
-                                             <div>{this.props.info.s_colInfo.name || ''}</div>
-                                             <div>{this.props.info.s_colInfo.name || ''}</div>
+                                             <div>
+                                                  Name:
+                                                  <span className="font-weight-bold px-2">{s_colInfo.name || ''}</span>
+                                             </div>
+                                             <div>
+                                                  Address:
+                                                  <span className="font-weight-bold px-2">
+                                                       {s_colInfo.address || ''}
+                                                  </span>
+                                             </div>
+                                             <div>
+                                                  Phone:
+                                                  <span className="font-weight-bold px-2">
+                                                       {s_colInfo?.admin?.phone || ''}
+                                                  </span>
+                                             </div>
                                         </Col>
-                                        <Col md={4}>
-                                             <div className="fw-bold mt-2">Date:</div>
-                                             <div>{new Date().toLocaleDateString()}</div>
+                                        <Col md={6}>
+                                             <div className="fw-bold">Billed to Collection:</div>
+                                             <div>
+                                                  Name:
+                                                  <span className="font-weight-bold px-2">{r_colInfo.name || ''}</span>
+                                             </div>
+                                             <div>
+                                                  Address:
+                                                  <span className="font-weight-bold px-2">
+                                                       {r_colInfo.address || ''}
+                                                  </span>
+                                             </div>
+                                             <div>
+                                                  Phone:
+                                                  <span className="font-weight-bold px-2">
+                                                       {r_colInfo?.admin?.phone || ''}
+                                                  </span>
+                                             </div>
                                         </Col>
                                    </Row>
 
@@ -120,7 +138,8 @@ class ModalColStaffReviewSendOrder extends React.Component {
                                                   </TableRow>
                                              </TableHead>
                                              <TableBody>
-                                                  {arrParcelsToSendCol && arrParcelsToSendCol.length > 0 ? (
+                                                  {arrParcelsToSendCol &&
+                                                       arrParcelsToSendCol.length > 0 &&
                                                        arrParcelsToSendCol.map((row, index) => (
                                                             <TableRow
                                                                  key={index}
@@ -141,10 +160,7 @@ class ModalColStaffReviewSendOrder extends React.Component {
                                                                  <TableCell align="right">{row.r_zip_code}</TableCell>
                                                                  <TableCell align="right">{row.cost}</TableCell>
                                                             </TableRow>
-                                                       ))
-                                                  ) : (
-                                                       <span>Empty!</span>
-                                                  )}
+                                                       ))}
                                              </TableBody>
                                         </Table>
                                    </TableContainer>
@@ -224,4 +240,4 @@ const mapDispatchToProps = (dispatch) => {
           // clearParcelsToSendCol: () => dispatch(actions.clearParcelsToSendColAction()),
      };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(ModalColStaffReviewSendOrder);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalColStaffReviewSendOrderToCol);

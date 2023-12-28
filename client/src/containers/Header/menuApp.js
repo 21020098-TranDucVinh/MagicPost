@@ -91,10 +91,10 @@ export const transactionStaffMenu = [
                     name: 'Record Parcel',
                     link: '/transaction-staff/manage/create-parcel',
                },
-               {
-                    name: 'Orders',
-                    link: '/transaction-staff/manage/create-order/send/collection',
-               },
+               // {
+               //      name: 'Orders',
+               //      link: '/transaction-staff/manage/create-order/send/collection',
+               // },
           ],
      },
      {
@@ -129,10 +129,14 @@ export const collectionStaffMenu = [
                     name: 'Record Parcel',
                     link: '/collection-staff/manage/parcel',
                },
-               {
-                    name: 'Orders',
-                    link: '/collection-staff/manage/create-order/send/collection',
-               },
+               // {
+               //      name: 'Orders',
+               //      link: '/collection-staff/manage/create-order/send/collection',
+               // },
+               // {
+               //      name: 'Orders To transaction',
+               //      link: '/collection-staff/manage/create-order/send/transaction',
+               // },
           ],
      },
      {

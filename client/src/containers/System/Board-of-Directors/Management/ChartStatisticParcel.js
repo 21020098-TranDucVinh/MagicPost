@@ -15,13 +15,13 @@ class ChartStatisticParcel extends Component {
      }
 
      render() {
-          // let { optionsSelectStatistic } = this.state;
           let { optionsSelectOne, optionsSelectTwo, data, options } = this.props;
           return (
                <>
                     <div className="admin-container my-3">
-                         <div className="title-admin text-center my-4">Statistic parcel</div>
                          <div className="admin-content container">
+                              <div className="title-admin text-center my-4">Statistic parcel</div>
+                              <hr />
                               <div className="row select-statistic-parcel">
                                    <div className="col-3 mb-1 ">
                                         <Select

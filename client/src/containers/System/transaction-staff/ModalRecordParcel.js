@@ -6,6 +6,7 @@ import Select from 'react-select';
 import { GiCancel } from 'react-icons/gi';
 import toast from 'react-hot-toast';
 import * as services from '../../../services/index';
+import * as actions from '../../../store/actions/index';
 class ModalTransactionAddNewStaff extends Component {
      constructor(props) {
           super(props);
@@ -107,7 +108,8 @@ class ModalTransactionAddNewStaff extends Component {
                     let res = await services.handleCreateNewParcel(data);
                     if (res && res.errorCode === 0) {
                          toast.success('Record parcel success!');
-                         // this.props.getTransactionStaffById();
+                         const { userInfo } = this.props;
+                         this.props.getAllPendingParcelsEachTransaction(userInfo.zip_code, userInfo.token);
                          this.props.isCloseModal();
                          this.setState({
                               s_name: '',
@@ -310,7 +312,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
      return {
-          // getAllTransactions: () => dispatch(actions.getAllTransactionsAction()),
+          getAllPendingParcelsEachTransaction: (transactionID, accessToken) =>
+               dispatch(actions.getAllPendingParcelsBYTransactionIDAction(transactionID, accessToken)),
      };
 };
 

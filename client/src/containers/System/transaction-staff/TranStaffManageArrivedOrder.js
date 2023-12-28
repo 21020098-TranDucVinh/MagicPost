@@ -10,7 +10,8 @@ import TableRow from '@mui/material/TableRow';
 import Button from 'react-bootstrap/Button';
 import Paper from '@mui/material/Paper';
 import * as actions from '../../../store/actions/index';
-// import ModalColStaffReviewReceivedOrder from './ModalColStaffReviewReceivedOrder';
+import ModalColStaffReviewReceivedOrder from '../collection-staff/ModalColStaffReviewReceivedOrder';
+import './StaffManageArrivedOrder.scss';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
      [`&.${tableCellClasses.head}`]: {
           backgroundColor: theme.palette.common.black,
@@ -43,16 +44,29 @@ class TranStaffManageArrivedOrder extends Component {
 
      async componentDidMount() {
           const { userInfo } = this.props;
-          let zip_code = userInfo.zip_code;
+          let col_zip_code = userInfo.zip_code;
           let accessToken = userInfo.token;
+          this.props.getAllTransactions(accessToken);
           this.props.getAllCollections(accessToken);
-          this.props.getParcelsFromTranAnotherNode(zip_code, accessToken);
-          this.buildInvoiceFromAnotherNode();
+          this.props.getParcelsFromTran(col_zip_code, accessToken);
+          this.buildInvoiceFromTran();
           this.props.getAllParcels(accessToken);
      }
-     //
-     getInfoCollection = (zip_code) => {
+     // get transaction with zip_code
+     getInfoTransactionWithZipCode = (zip_code) => {
+          let { arrTransactions } = this.props;
+
+          for (let i = 0; i < arrTransactions.length; i++) {
+               if (zip_code === arrTransactions[i].zip_code) {
+                    return arrTransactions[i];
+               }
+          }
+          return '';
+     };
+     // get collection with zip_code
+     getInfoCollectionWithZipCode = (zip_code) => {
           let { arrCollections } = this.props;
+
           for (let i = 0; i < arrCollections.length; i++) {
                if (zip_code === arrCollections[i].zip_code) {
                     return arrCollections[i];
@@ -72,12 +86,11 @@ class TranStaffManageArrivedOrder extends Component {
      };
 
      // build invoice list
-     buildInvoiceFromAnotherNode = () => {
+     buildInvoiceFromTran = () => {
           let { arrParcelFromAnotherNode } = this.props;
-          // console.log('arrParcelFromTran : ', arrParcelFromAnotherNode);
+          console.log('arrParcelFromAnotherNode : ', arrParcelFromAnotherNode);
           let invoiceList = [];
           const uniqueZipCodes = new Map();
-
           if (arrParcelFromAnotherNode && arrParcelFromAnotherNode.length > 0) {
                // Lọc các đối tượng với s_zip_code khác nhau
                const filteredData = arrParcelFromAnotherNode.filter((obj) => {
@@ -89,12 +102,17 @@ class TranStaffManageArrivedOrder extends Component {
                });
 
                for (let i = 0; i < filteredData.length; i++) {
-                    let collection = this.getInfoCollection(filteredData[i]?.s_zip_code);
+                    let senderInfo = '';
+                    if (filteredData[i]?.s_zip_code[0] === 'T') {
+                         senderInfo = this.getInfoTransactionWithZipCode(filteredData[i]?.s_zip_code);
+                    } else {
+                         senderInfo = this.getInfoCollectionWithZipCode(filteredData[i]?.s_zip_code);
+                    }
                     let obj = {};
-                    obj.from = collection?.name;
-                    obj.zip_code = collection?.zip_code;
-                    obj.phone = collection.admin.phone;
-                    obj.address = collection.address;
+                    obj.from = senderInfo?.name;
+                    obj.zip_code = senderInfo?.zip_code;
+                    obj.phone = senderInfo.admin?.phone;
+                    obj.address = senderInfo.address;
                     obj.time = filteredData[i]?.s_time;
                     obj.numberItem = this.calNumberOfParcel(filteredData[i]);
                     invoiceList.push(obj);
@@ -107,37 +125,24 @@ class TranStaffManageArrivedOrder extends Component {
 
      componentDidUpdate(prevProps, prevState, snapshot) {
           if (prevProps.arrParcelFromAnotherNode !== this.props.arrParcelFromAnotherNode) {
-               this.buildInvoiceFromAnotherNode();
+               this.buildInvoiceFromTran();
           }
      }
      openModalPrintInvoice = (zip_code) => {
-          let { arrParcelFromAnotherNode, allParcels } = this.props;
-          console.log('allParcels here : ', allParcels);
+          let { arrParcelFromAnotherNode } = this.props;
+
           let listParcels = [];
-          const parcelListSameZipCode = arrParcelFromAnotherNode.filter((obj) => obj.s_zip_code === zip_code);
-          for (let i = 0; i < allParcels.length; i++) {
-               for (let j = 0; j < parcelListSameZipCode.length; j++) {
-                    if (parcelListSameZipCode[j].parcel_id === allParcels[i].parcel_id) {
-                         listParcels.push(allParcels[i]);
-                    }
+          let parcelListSameZipCode = arrParcelFromAnotherNode.filter((obj) => obj.s_zip_code === zip_code);
+          console.log('check parcelListSameZipCode : ', parcelListSameZipCode);
+          if (parcelListSameZipCode && parcelListSameZipCode.length > 0) {
+               for (let i = 0; i < parcelListSameZipCode.length; i++) {
+                    let obj = { trackID: parcelListSameZipCode[i].id, parcel: parcelListSameZipCode[i].parcel };
+                    listParcels.push(obj);
                }
           }
-          const uniqueZipCodes = new Map();
-          // Lọc các đối tượng với parcel_id khác nhau
-          if (listParcels && listParcels.length > 0) {
-               listParcels = listParcels.filter((obj) => {
-                    if (!uniqueZipCodes.has(obj.parcel_id)) {
-                         uniqueZipCodes.set(obj.parcel_id, true);
-                         return true;
-                    }
-                    return false;
-               });
-          }
-
           this.setState({
                listParcels: listParcels,
           });
-          console.log('list parcel here : ', listParcels);
 
           this.isOpenModal();
      };
@@ -148,9 +153,8 @@ class TranStaffManageArrivedOrder extends Component {
      };
      closeModal = (event) => this.setState({ isOpen: false });
      render() {
-          let { allParcels } = this.props;
           let { invoiceList, listParcels } = this.state;
-          console.log('allParcels  : ', allParcels);
+          console.log('invoiceList  : ', invoiceList);
           return (
                <>
                     <div className="admin-container my-3">
@@ -160,65 +164,71 @@ class TranStaffManageArrivedOrder extends Component {
                               </div>
                               <div className="btn-director-add-new-user-container"></div>
                               <div className="table-user-content mt-2 mb-3 ">
-                                   {/* <ModalColStaffReviewReceivedOrder
+                                   <ModalColStaffReviewReceivedOrder
                                         showModal={this.state.isOpen}
                                         closeModal={this.closeModal}
                                         parcelList={listParcels}
-                                   /> */}
-                                   <TableContainer component={Paper}>
-                                        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                                             <TableHead>
-                                                  <TableRow>
-                                                       <StyledTableCell>#</StyledTableCell>
-                                                       <StyledTableCell>From</StyledTableCell>
-                                                       <StyledTableCell>Phone</StyledTableCell>
-                                                       <StyledTableCell>Zip code</StyledTableCell>
-                                                       <StyledTableCell>Address</StyledTableCell>
-                                                       <StyledTableCell>Time</StyledTableCell>
-                                                       <StyledTableCell>No items ($) </StyledTableCell>
-                                                       {/* <StyledTableCell>Value</StyledTableCell> */}
+                                   />
+                                   {invoiceList && invoiceList.length > 0 ? (
+                                        <TableContainer component={Paper}>
+                                             <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                                                  <TableHead>
+                                                       <TableRow>
+                                                            <StyledTableCell>#</StyledTableCell>
+                                                            <StyledTableCell>From</StyledTableCell>
+                                                            <StyledTableCell>Phone</StyledTableCell>
+                                                            <StyledTableCell>Zip code</StyledTableCell>
+                                                            <StyledTableCell>Address</StyledTableCell>
+                                                            <StyledTableCell>Time</StyledTableCell>
+                                                            <StyledTableCell>No items ($) </StyledTableCell>
+                                                            {/* <StyledTableCell>Value</StyledTableCell> */}
 
-                                                       <StyledTableCell>Actions</StyledTableCell>
-                                                  </TableRow>
-                                             </TableHead>
-                                             <TableBody>
-                                                  {invoiceList.map((row, index) => (
-                                                       <StyledTableRow key={index}>
-                                                            <StyledTableCell component="th" scope="row">
-                                                                 {index + 1}
-                                                            </StyledTableCell>
-                                                            <StyledTableCell component="th" scope="row">
-                                                                 {row.from}
-                                                            </StyledTableCell>
-                                                            <StyledTableCell component="th" scope="row">
-                                                                 {row.phone}
-                                                            </StyledTableCell>
-                                                            <StyledTableCell component="th" scope="row">
-                                                                 {row.zip_code}
-                                                            </StyledTableCell>
-                                                            <StyledTableCell component="th" scope="row">
-                                                                 {row.address}
-                                                            </StyledTableCell>
-                                                            <StyledTableCell align="left">{row.time}</StyledTableCell>
-                                                            <StyledTableCell align="left">
-                                                                 {row.numberItem}
-                                                            </StyledTableCell>
-                                                            {/* <StyledTableCell align="left">1000</StyledTableCell> */}
-                                                            <StyledTableCell align="left">
-                                                                 <Button
-                                                                      className="btn btn-primary"
-                                                                      onClick={() =>
-                                                                           this.openModalPrintInvoice(row.zip_code)
-                                                                      }
-                                                                 >
-                                                                      Detail
-                                                                 </Button>
-                                                            </StyledTableCell>
-                                                       </StyledTableRow>
-                                                  ))}
-                                             </TableBody>
-                                        </Table>
-                                   </TableContainer>
+                                                            <StyledTableCell>Actions</StyledTableCell>
+                                                       </TableRow>
+                                                  </TableHead>
+                                                  <TableBody>
+                                                       {invoiceList.map((row, index) => (
+                                                            <StyledTableRow key={index}>
+                                                                 <StyledTableCell component="th" scope="row">
+                                                                      {index + 1}
+                                                                 </StyledTableCell>
+                                                                 <StyledTableCell component="th" scope="row">
+                                                                      {row.from}
+                                                                 </StyledTableCell>
+                                                                 <StyledTableCell component="th" scope="row">
+                                                                      {row.phone}
+                                                                 </StyledTableCell>
+                                                                 <StyledTableCell component="th" scope="row">
+                                                                      {row.zip_code}
+                                                                 </StyledTableCell>
+                                                                 <StyledTableCell component="th" scope="row">
+                                                                      {row.address}
+                                                                 </StyledTableCell>
+                                                                 <StyledTableCell align="left">
+                                                                      {row.time}
+                                                                 </StyledTableCell>
+                                                                 <StyledTableCell align="left">
+                                                                      {row.numberItem}
+                                                                 </StyledTableCell>
+                                                                 {/* <StyledTableCell align="left">1000</StyledTableCell> */}
+                                                                 <StyledTableCell align="left">
+                                                                      <Button
+                                                                           className="btn btn-primary"
+                                                                           onClick={() =>
+                                                                                this.openModalPrintInvoice(row.zip_code)
+                                                                           }
+                                                                      >
+                                                                           Detail
+                                                                      </Button>
+                                                                 </StyledTableCell>
+                                                            </StyledTableRow>
+                                                       ))}
+                                                  </TableBody>
+                                             </Table>
+                                        </TableContainer>
+                                   ) : (
+                                        <div className="text-center display-4 no-order-list">Empty!</div>
+                                   )}
                               </div>
                          </div>
                     </div>
@@ -231,16 +241,17 @@ const mapStateToProps = (state) => {
      return {
           userInfo: state.user.userInfo,
           arrParcelFromAnotherNode: state.colStaff.arrParcelFromAnotherNode,
+          arrTransactions: state.admin.arrTransactions,
           arrCollections: state.admin.arrCollections,
-          allParcels: state.colStaff.allParcels,
      };
 };
 
 const mapDispatchToProps = (dispatch) => {
      return {
-          getParcelsFromTranAnotherNode: (col_zip_code, accessToken) =>
+          getAllCollections: (accessToken) => dispatch(actions.getAllCollectionsAction(accessToken)),
+          getParcelsFromTran: (col_zip_code, accessToken) =>
                dispatch(actions.getParcelsFromTranAnotherNodeAction(col_zip_code, accessToken)),
-          getAllCollections: (token) => dispatch(actions.getAllCollectionsAction(token)),
+          getAllTransactions: (token) => dispatch(actions.getAllTransactionsAction(token)),
           getAllParcels: (token) => dispatch(actions.getAllParcelsAction(token)),
      };
 };

@@ -2,7 +2,7 @@ import axios from '../axios';
 
 // Create new transaction staff
 const colStaffConfirmReceiveOrder = (body, accessToken) => {
-     return axios.post('/tracking/receive', body, {
+     return axios.put('/tracking/receive', body, {
           headers: { Authorization: `Bearer ${accessToken}` },
      });
 };

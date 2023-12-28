@@ -3,7 +3,7 @@ import actionTypes from '../actions/actionTypes';
 const initialState = {
      arrParcelFromAnotherNode: [],
      allParcels: [],
-     allParcelEachNode: [],
+     allParcelEachNodeAfterConfirm: [],
 };
 
 const colStaffReducer = (state = initialState, action) => {
@@ -28,8 +28,8 @@ const colStaffReducer = (state = initialState, action) => {
                     started: true,
                };
           case actionTypes.NODE_GET_ALL_PARCEL_SUCCESS:
-               state.allParcelEachNode = action.payload;
-               console.log('redux  : ', state.allParcelEachNode);
+               state.allParcelEachNodeAfterConfirm = action.payload;
+
                return {
                     ...state,
                     started: true,

@@ -77,10 +77,10 @@ class ManagementCollection extends Component {
      render() {
           let { arrCollections } = this.state;
           return (
-               <div className="admin-container container my-3">
+               <div className="admin-container my-3">
                     <ModalManageCollection isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
-                    <div className="title-admin text-center my-4">Management Collection</div>
-                    <div className="admin-content">
+                    <div className="admin-content container">
+                         <div className="title-admin text-center my-4">Management Collection</div>
                          <div className="btn-director-add-new-user-container">
                               <div className="btn-create-new-user-container">
                                    <button

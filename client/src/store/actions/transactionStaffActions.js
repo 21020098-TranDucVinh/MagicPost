@@ -19,7 +19,25 @@ export const getAllPendingParcelsAction = () => {
           }
      };
 };
-
+//get All pending Parcel
+export const getAllPendingParcelsBYTransactionIDAction = (transactionID, accessToken) => {
+     return async (dispatch, getState) => {
+          try {
+               let res = await services.getAllPendingParcelByTransactionId(transactionID, accessToken);
+               if (res && res.errorCode === 0) {
+                    dispatch({
+                         type: actionTypes.GET_ALL_PENDING_PARCEL_BY_TRANSACTION_ID_SUCCESS,
+                         data: res.parcels,
+                    });
+               }
+          } catch (e) {
+               console.log(e);
+               dispatch({
+                    type: actionTypes.GET_ALL_PENDING_PARCEL_BY_TRANSACTION_ID_FAILED,
+               });
+          }
+     };
+};
 export const fetchParcelsToSendColAction = (ArrParcels) => {
      return async (dispatch, getState) => {
           try {

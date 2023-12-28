@@ -3,6 +3,7 @@ import actionTypes from '../actions/actionTypes';
 const initialState = {
      arrPendingParcels: [],
      arrParcelsToSendCol: [],
+     ParcelPendingEachTransaction: [],
 };
 
 const transactionStaffReducer = (state = initialState, action) => {
@@ -38,7 +39,12 @@ const transactionStaffReducer = (state = initialState, action) => {
                     ...state,
                     started: true,
                };
-
+          case actionTypes.GET_ALL_PENDING_PARCEL_BY_TRANSACTION_ID_SUCCESS:
+               state.ParcelPendingEachTransaction = action.data;
+               return {
+                    ...state,
+                    started: true,
+               };
           default:
                return state;
      }

@@ -4,14 +4,14 @@ import toast from 'react-hot-toast';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import * as actions from '../../../store/actions/index';
 import { options } from '../../../utils';
-import { FaPlus } from 'react-icons/fa6';
+import { BiPaperPlane } from 'react-icons/bi';
 class CollectionStaffManageParcel extends Component {
      constructor(props) {
           super(props);
           this.state = {
                isOpenModal: false,
                parcelListSendCol: [],
-               arrPendingParcels: [],
+               parcelsAfterConfirm: [],
           };
      }
      async componentDidMount() {
@@ -20,12 +20,24 @@ class CollectionStaffManageParcel extends Component {
           this.props.getALlReceivedParcels(userInfo.zip_code, userInfo.token);
      }
      componentDidUpdate(prevProps, prevState, snapshot) {
-          if (prevProps.arrPendingParcels !== this.props.arrPendingParcels) {
+          if (prevProps.allParcelEachNodeAfterConfirm !== this.props.allParcelEachNodeAfterConfirm) {
                this.setState({
-                    arrPendingParcels: this.props.arrPendingParcels,
+                    parcelsAfterConfirm: this.filerParcelList(this.props.allParcelEachNodeAfterConfirm),
                });
           }
      }
+     //filter parcel
+     filerParcelList = (data) => {
+          let result = [];
+          for (let i = 0; i < data.length; i++) {
+               let obj = {
+                    id: i + 1,
+                    ...data[i].parcel,
+               };
+               result.push(obj);
+          }
+          return result;
+     };
      // Close modal
      isCloseModal = () => {
           this.setState({
@@ -41,11 +53,18 @@ class CollectionStaffManageParcel extends Component {
                toast.error('Please select at least 1 item!');
           }
      };
-
+     handleCreateOrderToSendTran = () => {
+          let { parcelListSendCol } = this.state;
+          if (parcelListSendCol && parcelListSendCol.length > 0) {
+               this.props.fetchParcelsToSendCol(parcelListSendCol);
+               this.props.history.push('/collection-staff/manage/create-order/send/transaction');
+          } else {
+               toast.error('Please select at least 1 item!');
+          }
+     };
      render() {
-          let { arrPendingParcels } = this.state;
-          const { allParcelEachNode } = this.props;
-          console.log('arrPendingParcels', allParcelEachNode);
+          let { parcelsAfterConfirm } = this.state;
+          // console.log('parcelsAfterConfirm', parcelsAfterConfirm);
           return (
                <>
                     <div className="admin-container my-3">
@@ -54,38 +73,33 @@ class CollectionStaffManageParcel extends Component {
                                    <div className="title-admin text-center my-4 col-12">
                                         <span>Manage Parcel</span>
                                    </div>
-                                   <div className="btn-create-new-user-container">
+
+                                   <div className="gap-1">
                                         <button
                                              className="btn btn-primary"
                                              onClick={() => this.handleCreateOrderToSendCol()}
                                         >
                                              <span className="text-white">
-                                                  <FaPlus />
+                                                  <BiPaperPlane
+                                                       style={{ width: '15px', height: '15px', marginTop: '-3px' }}
+                                                       className="me-2"
+                                                  />
                                              </span>
-
-                                             <span>Create order</span>
+                                             <span>Send Collection</span>
+                                        </button>
+                                        <button
+                                             className="btn btn-primary"
+                                             onClick={() => this.handleCreateOrderToSendTran()}
+                                        >
+                                             <span className="text-white">
+                                                  <BiPaperPlane
+                                                       style={{ width: '15px', height: '15px', marginTop: '-3px' }}
+                                                       className="me-2"
+                                                  />
+                                             </span>
+                                             <span>Send Transaction</span>
                                         </button>
                                    </div>
-                                   {/* <div className="btn-option-container">
-                                        {arrPendingParcels.length > 0 && (
-                                             <>
-                                                  <Button
-                                                       className="btn btn-warning px-4"
-                                                       onClick={() => this.OpenModalEditStaff()}
-                                                  >
-                                                       <EditTwoToneIcon />
-                                                       <span>Edit</span>
-                                                  </Button>
-                                                  <Button
-                                                       className="btn btn-danger"
-                                                       onClick={() => this.handleDeleteStaffTransaction()}
-                                                  >
-                                                       <DeleteForeverTwoToneIcon />
-                                                       <span>Delete</span>
-                                                  </Button>
-                                             </>
-                                        )}
-                                   </div> */}
                               </div>
                               <div className="table-user-content mt-2 mb-3 ">
                                    <div style={{ height: 400, width: '100%' }}>
@@ -101,7 +115,7 @@ class CollectionStaffManageParcel extends Component {
                                                        showQuickFilter: true,
                                                   },
                                              }}
-                                             rows={allParcelEachNode}
+                                             rows={parcelsAfterConfirm}
                                              columns={options.columnsParcels}
                                              pageSizeOptions={[5, 7]}
                                              autoHeight={true}
@@ -110,8 +124,8 @@ class CollectionStaffManageParcel extends Component {
                                                   const selectedIDs = new Set(ids);
 
                                                   let selectedRowData = [];
-                                                  if (allParcelEachNode && allParcelEachNode.length > 0) {
-                                                       allParcelEachNode.map((row) => {
+                                                  if (parcelsAfterConfirm && parcelsAfterConfirm.length > 0) {
+                                                       parcelsAfterConfirm.map((row) => {
                                                             selectedIDs.has(row.id);
                                                             if (selectedIDs.has(row.id)) {
                                                                  selectedRowData.push(row);
@@ -141,7 +155,7 @@ const mapStateToProps = (state) => {
      return {
           userInfo: state.user.userInfo,
           arrPendingParcels: state.staffTransaction.arrPendingParcels,
-          allParcelEachNode: state.colStaff.allParcelEachNode,
+          allParcelEachNodeAfterConfirm: state.colStaff.allParcelEachNodeAfterConfirm,
      };
 };
 
