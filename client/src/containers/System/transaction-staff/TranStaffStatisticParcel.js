@@ -1,17 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import ChartStatisticParcel from './ChartStatisticParcel';
-import * as actions from '../../../../store/actions/index';
-class AdminStatisticParcel extends Component {
+import ChartStatisticParcel from '../Board-of-Directors/Management/ChartStatisticParcel';
+class TranStaffStatisticParcel extends Component {
      constructor(props) {
           super(props);
-
           this.state = {
-               optionsSelectStatistic: [
-                    { value: 'NW', label: 'Nationwide' },
-                    { value: 'TRAN', label: 'Transaction' },
-                    { value: 'COLL', label: 'Collection' },
-               ],
                data: {
                     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
                     datasets: [
@@ -45,40 +38,23 @@ class AdminStatisticParcel extends Component {
                },
           };
      }
-     componentDidMount() {
-          const { userInfo } = this.props;
-          this.props.getAllTransactions(userInfo.token);
-          this.props.getAllCollections(userInfo.token);
-     }
 
      render() {
           let { optionsSelectStatistic, data, options } = this.state;
-          return (
-               <ChartStatisticParcel
-                    arrTransactions={this.props.arrTransactions}
-                    arrCollections={this.props.arrCollections}
-                    optionsSelectOne={optionsSelectStatistic}
-                    optionsSelectTwo={optionsSelectStatistic}
-                    data={data}
-                    options={options}
-               />
-          );
+          return <ChartStatisticParcel data={data} options={options} />;
      }
 }
 
 const mapStateToProps = (state) => {
      return {
-          arrTransactions: state.admin.arrTransactions,
-          arrCollections: state.admin.arrCollections,
-          userInfo: state.user.userInfo,
+          language: state.app.language,
      };
 };
 
 const mapDispatchToProps = (dispatch) => {
      return {
-          getAllTransactions: () => dispatch(actions.getAllTransactionsAction()),
-          getAllCollections: () => dispatch(actions.getAllCollectionsAction()),
+          // userDefaultClassSuccess: (userInfo) => dispatch(actions.userDefaultClassSuccess(userInfo)),
      };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminStatisticParcel);
+export default connect(mapStateToProps, mapDispatchToProps)(TranStaffStatisticParcel);

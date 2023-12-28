@@ -103,27 +103,22 @@ class AdminModalAddNewUser extends Component {
      };
      // Update potential admin
      handleUpdatePotentialAdmin = async () => {
-          let checkInputValid = this.checkInputValid();
-          let checkInputPasswordValid = this.checkInputPasswordValid(this.state.password, this.state.rePassword);
+          // let checkInputValid = this.checkInputValid();
+          // let checkInputPasswordValid = this.checkInputPasswordValid(this.state.password, this.state.rePassword);
           let data = {
                id: this.state.userId,
                username: this.state.userName,
                password: this.state.password,
                phone: this.state.phone,
           };
-          console.log('check data : ', data);
-          console.log('check valid input ', checkInputValid, checkInputPasswordValid);
-          let res = '';
-          if (checkInputValid && checkInputPasswordValid) {
-               res = await editUserPending(data);
-               if (res && res.errorCode === 0) {
-                    await this.props.updateUser(data);
-                    toast.success('Update user success!');
-               } else {
-                    toast.error(res.message);
-               }
+          // console.log('check data : ', data);
+          // console.log('check valid input ', checkInputValid, checkInputPasswordValid);
+          let res = await editUserPending(data);
+          if (res && res.errorCode === 0) {
+               await this.props.updateUser(data);
+               toast.success('Update user success!');
           } else {
-               toast.error('Your input invalid');
+               toast.error(res.msg);
           }
           if (this.props.isEditUserSuccess === true) {
                this.setState({

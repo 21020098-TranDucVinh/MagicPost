@@ -4,7 +4,6 @@ import { Route, Switch } from 'react-router-dom';
 import Header from '../containers/Header/Header';
 import AdminManagement from '../containers/System/Board-of-Directors/AdminManagement';
 import HomepageDirector from '../containers/System/Board-of-Directors/HomepageDirector';
-import ChartStatisticParcel from '../containers/System/Board-of-Directors/Management/ChartStatisticParcel';
 import './BoardOfDirector.scss';
 import ManageTransaction from '../containers/System/Board-of-Directors/Management/ManageTransaction';
 import ManagementCollection from '../containers/System/Board-of-Directors/Management/ManagementCollection';

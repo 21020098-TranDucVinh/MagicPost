@@ -51,10 +51,10 @@ class AdminManagement extends Component {
                     });
                     console.log(res);
                     if (res && res.errorCode === 0) {
-                         toast.success(res.message);
+                         toast.success(res.msg);
                          await this.props.getAllUserPending();
                     } else {
-                         toast.error(res.message);
+                         toast.error(res.msg);
                     }
                }
           } catch (e) {

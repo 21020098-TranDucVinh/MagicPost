@@ -303,7 +303,7 @@ const mapStateToProps = (state) => {
           userInfo: state.user.userInfo,
           arrAdminsPending: state.admin.arrAdminsPending,
           arrCollections: state.admin.arrCollections,
-          arrAllAdminTransaction: state.admin.arrAllAdminTransaction,
+          // arrAllAdminTransaction: state.admin.arrAllAdminTransaction,
           dataEditTransaction: state.admin.dataEditTransaction,
           isEditTransaction: state.admin.isEditTransaction,
      };

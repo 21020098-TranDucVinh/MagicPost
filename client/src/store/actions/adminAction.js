@@ -93,10 +93,10 @@ export const updateUserFailed = () => ({
 });
 
 // get all admin transaction
-export const getAllAdminTransactionsAction = () => {
+export const getAllAdminTransactionsAction = (token) => {
      return async (dispatch, getState) => {
           try {
-               let res = await getAllAdminTransactions();
+               let res = await getAllAdminTransactions(token);
                if (res && res.errorCode === 0) {
                     dispatch({
                          type: actionTypes.GET_ALL_ADMIN_TRANSACTIONS_SUCCESS,

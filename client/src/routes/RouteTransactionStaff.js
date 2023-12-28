@@ -7,11 +7,12 @@ import TransactionManageParcel from '../containers/System/Transaction/ManageTran
 import RecordParcel from '../containers/System/transaction-staff/RecordParcel';
 import TransactionStaffCreateOrder from '../containers/System/transaction-staff/TransactionStaffCreateOrder';
 import TranStaffManageArrivedOrder from '../containers/System/transaction-staff/TranStaffManageArrivedOrder';
+import TranStaffStatisticParcel from '../containers/System/transaction-staff/TranStaffStatisticParcel';
 import TranStaffSendOrderToClient from '../containers/System/transaction-staff/TranStaffSendOrderToClient';
+import TranStaffManageDeliveringParcel from '../containers/System/transaction-staff/TranStaffManageDeliveringParcel';
+import tranStaffMangeUnsuccessfulDelivery from '../containers/System/transaction-staff/TranStaffMangeUnsuccessfulDelivery';
 class RouteTransactionStaff extends Component {
      render() {
-          const { isLoggedIn } = this.props;
-
           return (
                <>
                     <div className="board-of-director-container">
@@ -33,12 +34,24 @@ class RouteTransactionStaff extends Component {
                                              component={TranStaffManageArrivedOrder}
                                         />
                                         <Route
+                                             path="/transaction-staff/create/send/parcel-to-client"
+                                             component={TranStaffSendOrderToClient}
+                                        />
+                                        <Route
                                              path="/transaction-staff/create/receipt"
                                              component={TransactionManageParcel}
                                         />
                                         <Route
-                                             path="/transaction-staff/create/send/parcel-to-client"
-                                             component={TranStaffSendOrderToClient}
+                                             path="/transaction-staff/statistic-parcel"
+                                             component={TranStaffStatisticParcel}
+                                        />
+                                        <Route
+                                             path="/transaction-staff/manage/parcel-delivering"
+                                             component={TranStaffManageDeliveringParcel}
+                                        />
+                                        <Route
+                                             path="/transaction-staff/manage/parcel/parcel-unsuccessful"
+                                             component={tranStaffMangeUnsuccessfulDelivery}
                                         />
                                    </Switch>
                               </div>

@@ -67,3 +67,49 @@ export const clearParcelsToSendColAction = () => {
           }
      };
 };
+export const fetchDataToModalToPrintOrder = (data) => {
+     return async (dispatch, getState) => {
+          try {
+               dispatch({
+                    type: actionTypes.FETCH_DATA_T0_MODAL_PRINT_ORDER_SUCCESS,
+                    data: data,
+               });
+          } catch (e) {
+               console.log(e);
+               dispatch({
+                    type: actionTypes.FETCH_DATA_T0_MODAL_PRINT_ORDER_FAILED,
+               });
+          }
+     };
+};
+export const clearDataToModalToPrintOrder = (data) => {
+     return async (dispatch, getState) => {
+          try {
+               dispatch({
+                    type: actionTypes.FETCH_DATA_T0_MODAL_PRINT_ORDER_FAILED,
+               });
+          } catch (e) {
+               console.log(e);
+          }
+     };
+};
+//get All delivering Parcel
+export const getAllDeliveringParcelsBYTransactionIDAction = (transactionID, accessToken) => {
+     return async (dispatch, getState) => {
+          try {
+               let res = await services.getAllDeliveringParcelByTransactionId(transactionID, accessToken);
+
+               if (res && res.errorCode === 0) {
+                    dispatch({
+                         type: actionTypes.GET_ALL_PARCEL_IN_DELIVERING_BY_TRAN_ZIP_CODE_SUCCESS,
+                         data: res.parcels,
+                    });
+               }
+          } catch (e) {
+               console.log(e);
+               dispatch({
+                    type: actionTypes.GET_ALL_PARCEL_IN_DELIVERING_BY_TRAN_ZIP_CODE_FAILED,
+               });
+          }
+     };
+};
