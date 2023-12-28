@@ -2,7 +2,7 @@
 
 ## I. Thành viên nhóm:
 ```
-1. Trần Đức Vinh - 
+1. Trần Đức Vinh - 21020098
 2. Đinh Văn Thạch
 3. Phan Xuân Bảo - 21020053
 ```
