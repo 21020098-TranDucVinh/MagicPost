@@ -27,4 +27,5 @@ Thống kê hàng gửi, hàng nhận tại điểm giao dịch.
 - Xác nhận hàng đã chuyển đến tay người nhận theo .
 - Xác nhận hàng không chuyển được đến người nhận và trả lại điểm giao dịch.
 - Thống kê các hàng đã chuyển thành công, các hàng chuyển không thành công và trả lại điểm giao dịch.
+
 ```
