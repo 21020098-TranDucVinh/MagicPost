@@ -259,7 +259,27 @@ class trackingController {
     }
   }
   
+  // [PUT] /tracking/return
+  async returnTracking(req, res) {
+    try {
+      const { last_staff_id_update, list_parcel_id, description } = req.body;
+      
+      await Tracking.update({ status: 'RETURNED', last_staff_id_update, description }, { where: { parcel_id: list_parcel_id } });
+      await Parcels.update({ status: 'RETURNED' }, { where: { parcel_id: list_parcel_id } });
 
+      res.status(200).json({
+        errorCode: 0,
+        msg: 'Tracking returned successfully !',
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        errorCode: 1,
+        msg: 'Server' + error.message,
+      });
+    }
+
+  }
 }
 
 module.exports = new trackingController();

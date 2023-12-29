@@ -15,4 +15,6 @@ router.get('/tracking/:parcel_id', trackingController.getTrackingByParcelId);
 router.put('/tracking/receive', trackingController.receiveTracking);
 router.get('/tracking/parcelPending/:zip_code', trackingController.getParcelPendingByZip_code);
 
+router.put('/tracking/return', trackingController.returnTracking);
+
 module.exports = router;
