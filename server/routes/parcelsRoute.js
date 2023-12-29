@@ -11,6 +11,12 @@ router.get('/allParcelsDelivered', parcelsController.getAllParcelsDelivered);
 router.get('/allParcelsReturned', parcelsController.getAllParcelsReturned);
 
 router.get('/allParcelByTransaction/:s_zip_code', parcelsController.getAllParcelByTransaction)
+router.get('/allParcelsDeliveringByTransaction/:s_zip_code', parcelsController.getAllParcelsDeliveringByTransaction)
+
+// statistic
+router.get('/statisticParcels', parcelsController.statisticParcels);
+router.get('/statisticParcelsByTransaction/:s_zip_code', parcelsController.statisticParcelsByTransaction);
+router.get('/statisticParcelsByCollection/:s_zip_code', parcelsController.statisticParcelsByCollection);
 
 router.get('/parcels/:id', parcelsController.getParcelById);
 
