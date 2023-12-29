@@ -274,7 +274,7 @@ class parcelsController {
     }
   }
 
-  async getAllParcelsPendingByTransaction(req, res) {
+  async getParcelsPendingByTransaction(req, res) {
     try {
       const {s_zip_code} = req.params
       const parcels = await Parcels.findAndCountAll({
@@ -404,7 +404,7 @@ class parcelsController {
   }
 
   // [GET] /allParcelsDeliveringByTransaction/:s_zip_code
-  async getAllParcelsDeliveringByTransaction(req, res) {
+  async getParcelsDeliveringByTransaction(req, res) {
     try {
       const {s_zip_code} = req.params
       const parcels = await Parcels.findAndCountAll({
@@ -424,6 +424,73 @@ class parcelsController {
       });
     }
   }
+
+  // [GET] /parcelsShippingByTransaction/:s_zip_code
+  async getParcelsShippingByTransaction(req, res) {
+    try {
+      const {s_zip_code} = req.params
+      const parcels = await Parcels.findAndCountAll({
+        where: { status: 'SHIPPING', s_zip_code },
+        attribute: { exclude: ['id'] },
+      });
+      res.status(200).json({
+        errorCode: 0,
+        count: parcels.count,
+        parcels: parcels.rows,
+      });
+  } catch (error) {
+      console.log(error)
+      res.status(500).json({
+        errorCode: 1,
+        msg: 'Server' + error.message
+      });
+    }
+  }
+
+  // [GET] /parcelsDeliveredByTransaction/:s_zip_code
+  async getParcelsDeliveredByTransaction(req, res) {
+    try {
+      const {s_zip_code} = req.params
+      const parcels = await Parcels.findAndCountAll({
+        where: { status: 'DELIVERED', s_zip_code },
+        attribute: { exclude: ['id'] },
+      });
+      res.status(200).json({
+        errorCode: 0,
+        count: parcels.count,
+        parcels: parcels.rows,
+      });
+  } catch (error) {
+      console.log(error)
+      res.status(500).json({
+        errorCode: 1,
+        msg: 'Server' + error.message
+      });
+    }
+  }
+
+  // [GET] /parcelsReturnedByTransaction/:s_zip_code
+  async getParcelsReturnedByTransaction(req, res) {
+    try {
+      const {s_zip_code} = req.params
+      const parcels = await Parcels.findAndCountAll({
+        where: { status: 'RETURNED', s_zip_code },
+        attribute: { exclude: ['id'] },
+      });
+      res.status(200).json({
+        errorCode: 0,
+        count: parcels.count,
+        parcels: parcels.rows,
+      });
+  } catch (error) {
+      console.log(error)
+      res.status(500).json({
+        errorCode: 1,
+        msg: 'Server' + error.message
+      });
+    }
+  }
+
 
 }
 

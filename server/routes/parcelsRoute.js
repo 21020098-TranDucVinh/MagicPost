@@ -11,7 +11,11 @@ router.get('/allParcelsDelivered', parcelsController.getAllParcelsDelivered);
 router.get('/allParcelsReturned', parcelsController.getAllParcelsReturned);
 
 router.get('/allParcelByTransaction/:s_zip_code', parcelsController.getAllParcelByTransaction)
-router.get('/allParcelsDeliveringByTransaction/:s_zip_code', parcelsController.getAllParcelsDeliveringByTransaction)
+router.get('/parcelsDeliveringByTransaction/:s_zip_code', parcelsController.getParcelsDeliveringByTransaction)
+router.get('/parcelsPendingByTransaction/:s_zip_code', parcelsController.getParcelsPendingByTransaction)
+router.get('/parcelsShippingByTransaction/:s_zip_code', parcelsController.getParcelsShippingByTransaction)
+router.get('/parcelsDeliveredByTransaction/:s_zip_code', parcelsController.getParcelsDeliveredByTransaction)
+router.get('/parcelsReturnedByTransaction/:s_zip_code', parcelsController.getParcelsReturnedByTransaction)
 
 // statistic
 router.get('/statisticParcels', parcelsController.statisticParcels);
@@ -21,7 +25,7 @@ router.get('/statisticParcelsByCollection/:s_zip_code', parcelsController.statis
 router.get('/parcels/:id', parcelsController.getParcelById);
 
 router.post('/parcels', parcelsController.createParcel);
-router.get('/parcelsPendingByTransaction/:s_zip_code', parcelsController.getAllParcelsPendingByTransaction)
+
 router.put('/parcels/', parcelsController.updateParcel);
 
 module.exports = router;
