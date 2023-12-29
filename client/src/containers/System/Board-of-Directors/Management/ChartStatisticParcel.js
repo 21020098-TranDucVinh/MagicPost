@@ -7,15 +7,49 @@ import { Pie } from 'react-chartjs-2';
 import Avatar from '@mui/material/Avatar';
 import OutboxTwoToneIcon from '@mui/icons-material/OutboxTwoTone';
 import MoveToInboxTwoToneIcon from '@mui/icons-material/MoveToInboxTwoTone';
+import { CommonUtils } from '../../../../utils';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 ChartJS.register(ArcElement, Tooltip, Legend);
+const today = dayjs();
 class ChartStatisticParcel extends Component {
      constructor(props) {
           super(props);
-          this.state = {};
+          this.state = {
+               selectedRange: '',
+               selectedNode: '',
+               optionsSelectTwo: '',
+          };
      }
-
+     handleChangeSelectRange = (selectedRange) => {
+          this.setState({ selectedRange: selectedRange }, () => {
+               if (selectedRange.value === 'TRAN') {
+                    this.setState({
+                         optionsSelectTwo: CommonUtils.buildSelectionOptions(this.props.arrTransactions),
+                    });
+               }
+               if (selectedRange.value === 'COLL') {
+                    this.setState({
+                         optionsSelectTwo: CommonUtils.buildSelectionOptions(this.props.arrCollections),
+                    });
+               }
+               if (selectedRange.value === 'NW') {
+                    this.setState({
+                         optionsSelectTwo: [],
+                    });
+               }
+          });
+     };
+     handleChangeSelectNode = (selectedNode) => {
+          this.setState({
+               selectedNode: selectedNode,
+          });
+     };
      render() {
-          let { optionsSelectOne, optionsSelectTwo, data, options } = this.props;
+          let { optionsSelectOne, data, options } = this.props;
+          let { optionsSelectTwo, selectedNode, selectedRange } = this.state;
           return (
                <>
                     <div className="admin-container my-3">
@@ -23,21 +57,36 @@ class ChartStatisticParcel extends Component {
                               <div className="title-admin text-center my-4">Statistic parcel</div>
                               <hr />
                               <div className="row select-statistic-parcel">
-                                   <div className="col-3 mb-1 ">
-                                        <Select
-                                             // value={selectedAdmin}
-                                             placeholder={<div>Your Manager</div>}
-                                             onChange={this.handleChangeSelectAmin}
-                                             options={optionsSelectOne}
-                                        />
+                                   <div className="col-9 d-flex">
+                                        {optionsSelectOne && optionsSelectOne.length > 0 && (
+                                             <div className="col-4 mb-1 ">
+                                                  <Select
+                                                       value={selectedRange}
+                                                       placeholder={<div>Your Manager</div>}
+                                                       onChange={this.handleChangeSelectRange}
+                                                       options={optionsSelectOne}
+                                                  />
+                                             </div>
+                                        )}
+                                        {optionsSelectTwo && optionsSelectTwo.length > 0 && (
+                                             <div className="col-4 mb-1">
+                                                  <Select
+                                                       value={selectedNode}
+                                                       placeholder={<div>Your Manager</div>}
+                                                       onChange={this.handleChangeSelectNode}
+                                                       options={optionsSelectTwo}
+                                                  />
+                                             </div>
+                                        )}
                                    </div>
                                    <div className="col-3 mb-1">
-                                        <Select
-                                             // value={selectedAdmin}
-                                             placeholder={<div>Your Manager</div>}
-                                             onChange={this.handleChangeSelectAmin}
-                                             options={optionsSelectTwo}
-                                        />
+                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                             <DatePicker
+                                                  slotProps={{ textField: { size: 'small' } }}
+                                                  defaultValue={today}
+                                                  maxDate={today}
+                                             />
+                                        </LocalizationProvider>
                                    </div>
                               </div>
                               <div className="statistic-container container py-2">

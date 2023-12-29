@@ -52,7 +52,7 @@ class ModalTransactionStaffPrintOrder extends React.Component {
                if (res && res.errorCode === 0) {
                     toast.success('Confirm send parcel success!');
                     // this.props.history.push('/transaction-staff/manage/create-parcel');
-                    // CommonUtils.GenerateInvoice();
+                    CommonUtils.GenerateInvoice();
                     this.props.closeModal();
                } else {
                     toast.error(res.msg);

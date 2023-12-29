@@ -5,7 +5,7 @@ const initialState = {
      arrTransactions: [],
      arrCollections: [],
      resCreateUser: '',
-     arrAllAdminTransaction: [],
+     // arrAllAdminTransaction: [],
      isEditUserSuccess: false,
      isEditCollection: false,
      isEditTransaction: false,

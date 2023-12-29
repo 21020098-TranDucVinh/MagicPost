@@ -7,11 +7,10 @@ import { GiCancel } from 'react-icons/gi';
 import toast from 'react-hot-toast';
 import * as services from '../../../services/index';
 import * as actions from '../../../store/actions/index';
-class ModalTransactionAddNewStaff extends Component {
+class ModalPrintOrderAfterRecordParcel extends Component {
      constructor(props) {
           super(props);
           this.state = {
-               isOpen: false,
                s_name: '',
                r_name: '',
                s_phone: '',
@@ -32,112 +31,6 @@ class ModalTransactionAddNewStaff extends Component {
           //      });
           // }
      }
-     // onchange select type
-     handleChangeSelectType = (selectedType) => {
-          this.setState({ selectedType });
-     };
-     // onchange select Payment
-     handleChangeSelectPayment = (selectedPayment) => {
-          this.setState({
-               selectedPayment,
-          });
-     };
-     // Handle on change input
-     handleOnchangeInput = (event, id) => {
-          let copyState = this.state;
-          copyState[id] = event.target.value;
-          this.setState({
-               ...copyState,
-          });
-     };
-     // Check full fill input
-     checkInputValid = () => {
-          let data = [
-               's_name',
-               'r_name',
-               's_phone',
-               'cost',
-               'weight',
-               'r_address',
-               's_address',
-               'r_phone',
-               'selectedPayment',
-               'selectedType',
-          ];
-          for (let i = 0; i < data.length; i++) {
-               if (!this.state[data[i]]) {
-                    return false;
-               }
-          }
-          return true;
-     };
-     // close modal
-     handleCloseModal = (event) => {
-          this.props.isCloseModal();
-     };
-     // Record parcel
-     tranStaffCreateParcel = async () => {
-          try {
-               let checkInputValid = this.checkInputValid();
-               let {
-                    s_name,
-                    r_name,
-                    s_phone,
-                    cost,
-                    weight,
-                    r_address,
-                    s_address,
-                    r_phone,
-                    selectedPayment,
-                    selectedType,
-               } = this.state;
-               let data = {
-                    s_name: s_name,
-                    r_name: r_name,
-                    s_phone: s_phone,
-                    payment_status: selectedPayment.value,
-                    cost: cost,
-                    weight: weight,
-                    type: selectedType.value,
-                    r_address: r_address,
-                    s_address: s_address,
-                    r_phone: r_phone,
-                    s_zip_code: this.props.userInfo.zip_code,
-               };
-
-               // console.log(data);
-               if (checkInputValid) {
-                    let res = await services.handleCreateNewParcel(data);
-                    if (res && res.errorCode === 0) {
-                         this.props.fetchDataToModalToPrintOrder(data);
-                         toast.success('Record parcel success!');
-                         const { userInfo } = this.props;
-                         this.props.getAllPendingParcelsEachTransaction(userInfo.zip_code, userInfo.token);
-                         this.props.isCloseModal();
-                         this.props.isOpenAnotherModalPrintOrder();
-                         this.setState({
-                              s_name: '',
-                              r_name: '',
-                              s_phone: '',
-                              payment_status: '',
-                              cost: '',
-                              weight: '',
-                              type: '',
-                              r_address: '',
-                              s_address: '',
-                              r_phone: '',
-                         });
-                         this.openModal();
-                    } else {
-                         toast.error('Record Parcel Failed!');
-                    }
-               } else {
-                    toast.error('Please full fill your form!');
-               }
-          } catch (e) {
-               console.log(e);
-          }
-     };
 
      render() {
           let { isOpen, isEditStaff } = this.props;
@@ -279,20 +172,15 @@ class ModalTransactionAddNewStaff extends Component {
 
 const mapStateToProps = (state) => {
      return {
-          arrTransactions: state.admin.arrTransactions,
-          dataEditStaff: state.adminTransaction.dataEditStaff,
-          isEditStaff: state.adminTransaction.isEditStaff,
           userInfo: state.user.userInfo,
      };
 };
 
 const mapDispatchToProps = (dispatch) => {
      return {
-          getAllPendingParcelsEachTransaction: (transactionID, accessToken) =>
-               dispatch(actions.getAllPendingParcelsBYTransactionIDAction(transactionID, accessToken)),
-          fetchDataToModalToPrintOrder: (data) => dispatch(actions.fetchDataToModalToPrintOrder(data)),
-          // clearDataToModalToPrintOrder: () => dispatch(actions.clearDataToModalToPrintOrder()),
+          // getAllPendingParcelsEachTransaction: (transactionID, accessToken) =>
+          //      dispatch(actions.getAllPendingParcelsBYTransactionIDAction(transactionID, accessToken)),
      };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalTransactionAddNewStaff);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalPrintOrderAfterRecordParcel);

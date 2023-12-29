@@ -28,12 +28,6 @@ export const adminMenu = [
                {
                     name: 'Statistic',
                     link: '/system/director/statistics/parcels',
-                    // subMenus: [
-                    //      {
-                    //           name: 'Thach nhe',
-                    //           link: '/system/user-crud',
-                    //      },
-                    // ],
                },
           ],
      },
@@ -91,10 +85,6 @@ export const transactionStaffMenu = [
                     name: 'Record Parcel',
                     link: '/transaction-staff/manage/create-parcel',
                },
-               // {
-               //      name: 'Orders',
-               //      link: '/transaction-staff/manage/create-order/send/collection',
-               // },
           ],
      },
      {
@@ -105,8 +95,16 @@ export const transactionStaffMenu = [
                     link: '/transaction-staff/manage/arrived-invoice',
                },
                {
-                    name: 'Send to client',
+                    name: 'Send to receiver',
                     link: '/transaction-staff/create/send/parcel-to-client',
+               },
+               {
+                    name: 'Parcel in delivering',
+                    link: '/transaction-staff/manage/parcel-delivering',
+               },
+               {
+                    name: 'Parcel unsuccessful',
+                    link: '/transaction-staff/manage/parcel/parcel-unsuccessful',
                },
           ],
      },
@@ -115,7 +113,7 @@ export const transactionStaffMenu = [
           menus: [
                {
                     name: 'Statistic',
-                    link: '/transaction-staff/manage/create-order/send/collection',
+                    link: '/transaction-staff/statistic-parcel',
                },
           ],
      },

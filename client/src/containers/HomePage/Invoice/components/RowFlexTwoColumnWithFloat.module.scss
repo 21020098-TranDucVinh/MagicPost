@@ -1,0 +1,11 @@
+.rowFlexTwoColumnWithFloat{
+  display: flex;
+  .left{
+    flex:2;
+    text-align: left;
+  }
+  .right{
+    flex:1;
+    text-align: right;
+  }
+}

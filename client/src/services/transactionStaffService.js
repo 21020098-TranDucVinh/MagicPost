@@ -25,10 +25,23 @@ const getAllPendingParcelByTransactionId = (transactionId, accessToken) => {
           headers: { Authorization: `Bearer ${accessToken}` },
      });
 };
+const handleSendParcelsToReceiver = (body, accessToken) => {
+     return axios.put(`/parcels/`, body, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+     });
+};
+// get all delivering parcel by transaction Id
+const getAllDeliveringParcelByTransactionId = (transactionId, accessToken) => {
+     return axios.get(`/allParcelsDelivering`, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+     });
+};
 export {
      handleCreateNewParcel,
      getAllPendingParcel,
      handleSendParcelsToCol,
      handleUpdateStatusParcel,
      getAllPendingParcelByTransactionId,
+     handleSendParcelsToReceiver,
+     getAllDeliveringParcelByTransactionId,
 };

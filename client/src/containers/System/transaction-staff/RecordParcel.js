@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import toast from 'react-hot-toast';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { Alert, Button } from 'reactstrap';
+import { Button } from 'reactstrap';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import { FaPlus } from 'react-icons/fa6';
 import ModalRecordParcel from './ModalRecordParcel';
 import * as actions from '../../../store/actions/index';
 import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
 import { options } from '../../../utils';
-import { Redirect } from 'react-router-dom';
+import ModalClientInvoice from '../../HomePage/ModalClientInvoice';
+
 class RecordParcel extends Component {
      constructor(props) {
           super(props);
@@ -45,34 +46,16 @@ class RecordParcel extends Component {
                isOpenModal: true,
           });
      };
-     // Delete transaction staff
-     // handleDeleteStaffTransaction = async () => {
-     //      let { selectedTransaction } = this.state;
-     //      let staff_id = selectedTransaction[0].staff_id;
-     //      // console.log('check staff Id : ', staff_id);
-     //      if (staff_id) {
-     //           let res = await deleteStaffByStaffId(staff_id);
-     //           if (res && res.errorCode === 0) {
-     //                this.props.getTransactionStaffById();
-     //                toast.success('Delete staff success!');
-     //           } else {
-     //                toast.failed('Delete staff failed!');
-     //           }
-     //      }
-     // };
-     //Open Modal Edit transaction staff
-     // OpenModalEditStaff = () => {
-     //      let { selectedTransaction } = this.state;
-     //      if (selectedTransaction.length === 1) {
-     //           this.props.fetchDataEditStaffAction(selectedTransaction[0]);
-     //           this.props.doEditStaff();
-     //           this.setState({
-     //                isOpenModal: true,
-     //           });
-     //      } else {
-     //           toast.error('You can only chose one entry!');
-     //      }
-     // };
+
+     // open mal
+     openModal = (event) => {
+          this.setState({ isOpen: true });
+     };
+     // close modal
+     closeModal = (event) => {
+          this.setState({ isOpen: false });
+          document.location.reload();
+     };
      handleUICreateInvoice = () => {
           let { selectedParcels } = this.state;
           if (selectedParcels && selectedParcels.length > 0) {
@@ -88,11 +71,17 @@ class RecordParcel extends Component {
           return (
                <>
                     <div className="admin-container my-3">
-                         <ModalRecordParcel isOpen={this.state.isOpenModal} isCloseModal={this.isCloseModal} />
+                         <ModalRecordParcel
+                              isOpen={this.state.isOpenModal}
+                              isCloseModal={this.isCloseModal}
+                              isOpenAnotherModalPrintOrder={this.openModal}
+                              isCloseAnotherModalPrintOrder={this.closeModal}
+                         />
 
                          <div className="admin-content container">
                               <div className="title-admin text-center my-4">
                                    <span>Manage Parcel</span>
+                                   <ModalClientInvoice showModal={this.state.isOpen} closeModal={this.closeModal} />
                               </div>
                               <div className="btn-director-add-new-user-container">
                                    <div className="btn-create-new-user-container">

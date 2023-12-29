@@ -20,6 +20,7 @@ class CommonUtils {
                     orientation: 'portrait',
                     unit: 'pt',
                     format: [612, 792],
+                    // format: [1000, 1000],
                });
                pdf.internal.scaleFactor = 1;
                const imgProps = pdf.getImageProperties(imgData);

@@ -1,0 +1,119 @@
+/* .invoice-header{
+    display: flex;
+}
+.invoice-header .logo{
+    flex: 1;
+}
+.invoice-header .qr-code{
+    display: grid;
+    flex: 1;
+}
+.invoice{
+    margin: 20px;
+    padding: 20px;
+} */
+// body {
+//   width: 327mm;
+//   height: 100%;
+//   margin: 0 auto;
+//   padding: 0;
+//   font-size: 12pt;
+//   background: rgb(204, 204, 204);
+// }
+// * {
+//   box-sizing: border-box;
+//   -moz-box-sizing: border-box;
+// }
+.mainPage {
+     width: 297mm;
+     min-height: 210mm;
+     margin: 5mm auto;
+     box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);
+     & p {
+          margin-bottom: 0 !important;
+     }
+}
+.subPage {
+     padding: 1cm;
+     height: 210mm;
+     .invoiceHeader {
+          display: flex;
+          .logo {
+               flex: 1;
+               height: 75px;
+               width: 75px;
+               display: flex;
+               justify-content: center;
+          }
+          .QRCode {
+               flex: 1;
+               display: flex;
+               justify-content: center;
+               .box {
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
+               }
+          }
+     }
+     .invoiceBody {
+          height: calc(210mm - 2cm - 65px - 1cm);
+          width: 277mm;
+          //border: 1px solid black;
+          .table {
+               width: 100%;
+               height: 100%;
+          }
+          .table,
+          .td,
+          .th {
+               border: 1px solid #595959;
+               border-collapse: collapse;
+          }
+          .td {
+               height: 100%;
+               vertical-align: top;
+               padding: 5px;
+          }
+          .title {
+               font-weight: bold;
+          }
+          .textCenter {
+               text-align: center;
+          }
+          .flexTwoColumn {
+               display: flex;
+               flex-direction: row;
+               .left {
+                    flex: 1;
+               }
+               .right {
+                    flex: 1;
+               }
+          }
+          .bold {
+               font-weight: bold;
+          }
+     }
+}
+@page {
+     size: A4;
+     margin: 0;
+}
+@media print {
+     html,
+     body {
+          width: 297mm;
+          height: 210mm;
+     }
+     .mainPage {
+          margin: 0;
+          border: initial;
+          border-radius: initial;
+          width: initial;
+          min-height: initial;
+          box-shadow: initial;
+          background: initial;
+          page-break-after: always;
+     }
+}
