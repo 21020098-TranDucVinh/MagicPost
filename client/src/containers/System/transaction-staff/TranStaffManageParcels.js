@@ -5,8 +5,9 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { FaPlus } from 'react-icons/fa6';
 import * as actions from '../../../store/actions/index';
 import { options } from '../../../utils';
-import * as services from '../../../services/index';
-class TranStaffManageDeliveringParcel extends Component {
+import { Button } from 'reactstrap';
+import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
+class TranStaffManageParcels extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,58 +18,33 @@ class TranStaffManageDeliveringParcel extends Component {
   }
   async componentDidMount() {
     const { userInfo } = this.props;
-    this.props.getAllDeliveringParcelsBYTransaction(userInfo.zip_code, userInfo.token);
+    this.props.getAllParcelsBYTransactionID(userInfo.zip_code);
   }
   componentDidUpdate(prevProps, prevState, snapshot) {}
-  getListParcelId = (parcels) => {
-    let res = [];
-    for (let i = 0; i < parcels.length; i++) {
-      res.push(parcels[i].parcel_id);
-    }
-    return res;
-  };
-  confirmParcelDeliveryUnsuccess = async () => {
-    let { selectedParcels } = this.state;
 
-    let listId = this.getListParcelId(selectedParcels);
-    //      "last_staff_id_update": "T00001S00001",
-    //     "list_parcel_id": "P00001",
-    //     "description": "Lỗi"
-    let data = {
-      list_parcel_id: listId,
-      last_staff_id_update: this.props.userInfo.staff_id,
-      description: 'Lỗi',
-    };
-    console.log('data : ', data);
-    let res = await services.handleConfirmParcelDeliveryUnsuccess(data);
-    console.log('check res : ', res);
-    if (res && res.errorCode === 0) {
-      const { userInfo } = this.props;
-      this.props.getAllDeliveringParcelsBYTransaction(userInfo.zip_code, userInfo.token);
-      toast.success(res.msg);
-    } else {
-      toast.error('Error!');
-    }
-  };
   render() {
     let { selectedParcels } = this.state;
-    let { arrDeliveringParcels } = this.props;
-    console.log('arrDeliveringParcelsOKOKO : ', arrDeliveringParcels);
+    let { arrParcelsByTransaction } = this.props;
+    console.log('arrDeliveringParcelsOKOKO : ', arrParcelsByTransaction);
     return (
       <>
         <div className="admin-container my-3">
+          {/* <ModalSendParcelToReceiver
+                              isOpen={this.state.isOpenModal}
+                              isCloseModal={this.isCloseModal}
+                              parcelListToReceiver={selectedParcels}
+                         /> */}
+
           <div className="admin-content container">
             <div className="title-admin text-center my-4">
               <span>Parcel to receiver</span>
             </div>
             <div className="btn-director-add-new-user-container">
               <div className="ml-auto">
-                <button className="btn btn-warning  " onClick={() => this.confirmParcelDeliveryUnsuccess()}>
-                  <span className="text-white">
-                    <FaPlus />
-                  </span>
-                  <span>unsuccess parcel </span>
-                </button>
+                <Button className="btn btn-danger" onClick={() => this.handleDeleteStaffTransaction()}>
+                  <DeleteForeverTwoToneIcon />
+                  <span>Delete</span>
+                </Button>
               </div>
             </div>
             <div className="table-user-content mt-2 mb-3 ">
@@ -85,7 +61,7 @@ class TranStaffManageDeliveringParcel extends Component {
                       showQuickFilter: true,
                     },
                   }}
-                  rows={arrDeliveringParcels}
+                  rows={arrParcelsByTransaction}
                   columns={options.columnsParcels}
                   pageSizeOptions={[5, 7]}
                   autoHeight={true}
@@ -94,7 +70,7 @@ class TranStaffManageDeliveringParcel extends Component {
                     const selectedIDs = new Set(ids);
 
                     let selectedRowData = [];
-                    arrDeliveringParcels.map((row) => {
+                    arrParcelsByTransaction.map((row) => {
                       selectedIDs.has(row.id);
                       if (selectedIDs.has(row.id)) {
                         selectedRowData.push(row);
@@ -122,15 +98,14 @@ class TranStaffManageDeliveringParcel extends Component {
 const mapStateToProps = (state) => {
   return {
     userInfo: state.user.userInfo,
-    arrDeliveringParcels: state.staffTransaction.arrDeliveringParcels,
+    arrParcelsByTransaction: state.staffTransaction.arrParcelsByTransaction,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAllDeliveringParcelsBYTransaction: (zip_code, accessToken) =>
-      dispatch(actions.getAllDeliveringParcelsBYTransactionIDAction(zip_code, accessToken)),
+    getAllParcelsBYTransactionID: (zip_code) => dispatch(actions.getAllParcelsBYTransactionIDAction(zip_code)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TranStaffManageDeliveringParcel);
+export default connect(mapStateToProps, mapDispatchToProps)(TranStaffManageParcels);

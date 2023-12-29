@@ -6,6 +6,7 @@ const initialState = {
      ParcelPendingEachTransaction: [],
      dataToModalToPrintOrder: '',
      arrDeliveringParcels: [],
+     arrParcelsByTransaction: [],
 };
 
 const transactionStaffReducer = (state = initialState, action) => {
@@ -67,6 +68,18 @@ const transactionStaffReducer = (state = initialState, action) => {
                };
           case actionTypes.GET_ALL_PARCEL_IN_DELIVERING_BY_TRAN_ZIP_CODE_FAILED:
                state.arrDeliveringParcels = [];
+               return {
+                    ...state,
+                    started: true,
+               };
+          case actionTypes.GET_ALL_PARCEL_BY_TRAN_ZIP_CODE_SUCCESS:
+               state.arrParcelsByTransaction = action.data;
+               return {
+                    ...state,
+                    started: true,
+               };
+          case actionTypes.GET_ALL_PARCEL_BY_TRAN_ZIP_CODE_FAILED:
+               state.arrParcelsByTransaction = [];
                return {
                     ...state,
                     started: true,

@@ -6,26 +6,26 @@ import './DefaultClass.scss';
 // import { handleDefaultClassAPI } from '../../services/adminService';
 
 class DefaultClass extends Component {
-     constructor(props) {
-          super(props);
-          this.state = {};
-     }
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-     render() {
-          return <></>;
-     }
+  render() {
+    return <></>;
+  }
 }
 
 const mapStateToProps = (state) => {
-     return {
-          language: state.app.language,
-     };
+  return {
+    language: state.app.language,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
-     return {
-          // userDefaultClassSuccess: (userInfo) => dispatch(actions.userDefaultClassSuccess(userInfo)),
-     };
+  return {
+    // userDefaultClassSuccess: (userInfo) => dispatch(actions.userDefaultClassSuccess(userInfo)),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DefaultClass);
