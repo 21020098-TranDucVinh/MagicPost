@@ -1,4 +1,4 @@
-const { where } = require('sequelize');
+const { Op } = require("sequelize");
 const {
   models: { Parcels, Tracking },
 } = require('../models');
@@ -316,6 +316,115 @@ class parcelsController {
       });
     }
   }
+
+  // [GET] /statisticParcels
+  async statisticParcels(req, res) {
+    try {
+      const parcels = await Parcels.findAndCountAll({
+        attribute: { exclude: ['id'] },
+      });
+      res.status(200).json({
+        errorCode: 0,
+        count: parcels.count,
+        pendingCount: parcels.rows.filter(parcel => parcel.status === 'PENDING').length,
+        shippingCount: parcels.rows.filter(parcel => parcel.status === 'SHIPPING').length,
+        deliveringCount: parcels.rows.filter(parcel => parcel.status === 'DELIVERING').length,
+        deliveredCount: parcels.rows.filter(parcel => parcel.status === 'DELIVERED').length,
+        returnedCount: parcels.rows.filter(parcel => parcel.status === 'RETURNED').length,
+      });
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({
+        errorCode: 1,
+        msg: 'Server' + error.message
+      });
+    }
+  }
+
+  // [GET] /statisticParcelsByTransaction/:s_zip_code
+  async statisticParcelsByTransaction(req, res) {
+    try {
+      const {s_zip_code} = req.params
+      const parcels = await Parcels.findAndCountAll({
+        where: {
+          [Op.or]: [
+            { s_zip_code: s_zip_code },
+            { r_zip_code: s_zip_code },
+          ],
+        },
+        attribute: { exclude: ['id'] },
+      });
+      res.status(200).json({
+        errorCode: 0,
+        count: parcels.count,
+        pendingCount: parcels.rows.filter(parcel => parcel.status === 'PENDING').length,
+        shippingSentCount: parcels.rows.filter(parcel => parcel.status === 'SHIPPING' && parcel.s_zip_code === s_zip_code).length,
+        shippingReceivedCount: parcels.rows.filter(parcel => parcel.status === 'SHIPPING' && parcel.r_zip_code === s_zip_code).length,
+        deliveringSentCount: parcels.rows.filter(parcel => parcel.status === 'DELIVERING' && parcel.s_zip_code === s_zip_code).length,
+        deliveringReceivedCount: parcels.rows.filter(parcel => parcel.status === 'DELIVERING' && parcel.r_zip_code === s_zip_code).length,
+        deliveredSentCount: parcels.rows.filter(parcel => parcel.status === 'DELIVERED' && parcel.s_zip_code === s_zip_code).length,
+        deliveredReceivedCount: parcels.rows.filter(parcel => parcel.status === 'DELIVERED' && parcel.r_zip_code === s_zip_code).length,
+        returnedSentCount: parcels.rows.filter(parcel => parcel.status === 'RETURNED' && parcel.s_zip_code === s_zip_code).length,
+        returnedReceivedCount: parcels.rows.filter(parcel => parcel.status === 'RETURNED' && parcel.r_zip_code === s_zip_code).length,
+      });
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({
+        errorCode: 1,
+        msg: 'Server' + error.message
+      });
+    }
+  }
+
+  // [GET] /statisticParcelsByCollection/:s_zip_code
+  async statisticParcelsByCollection(req, res) {
+    try {
+      const {s_zip_code} = req.params
+      const tracking = await Tracking.findAndCountAll({
+        where: { s_zip_code },
+        attribute: { exclude: ['id'] },
+      });
+      res.status(200).json({
+        errorCode: 0,
+        count: tracking.count,
+        deliveringSentCount: tracking.rows.filter(track => track.status === 'DELIVERING' && track.s_zip_code === s_zip_code).length,
+        deliveringReceivedCount: tracking.rows.filter(track => track.status === 'DELIVERING' && track.r_zip_code === s_zip_code).length,
+        deliveredSentCount: tracking.rows.filter(track => track.status === 'DELIVERED' && track.s_zip_code === s_zip_code).length,
+        deliveredReceivedCount: tracking.rows.filter(track => track.status === 'DELIVERED' && track.r_zip_code === s_zip_code).length,
+        returnedSentCount: tracking.rows.filter(track => track.status === 'RETURNED' && track.s_zip_code === s_zip_code).length,
+        returnedReceivedCount: tracking.rows.filter(track => track.status === 'RETURNED' && track.r_zip_code === s_zip_code).length,
+      });
+  } catch (error) {
+      console.log(error)
+      res.status(500).json({
+        errorCode: 1,
+        msg: 'Server' + error.message
+      });
+    }
+  }
+
+  // [GET] /allParcelsDeliveringByTransaction/:s_zip_code
+  async getAllParcelsDeliveringByTransaction(req, res) {
+    try {
+      const {s_zip_code} = req.params
+      const parcels = await Parcels.findAndCountAll({
+        where: { status: 'DELIVERING', s_zip_code },
+        attribute: { exclude: ['id'] },
+      });
+      res.status(200).json({
+        errorCode: 0,
+        count: parcels.count,
+        parcels: parcels.rows,
+      });
+  } catch (error) {
+      console.log(error)
+      res.status(500).json({
+        errorCode: 1,
+        msg: 'Server' + error.message
+      });
+    }
+  }
+
 }
 
 module.exports = new parcelsController();
