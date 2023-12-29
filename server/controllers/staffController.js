@@ -8,6 +8,7 @@ class staffController {
   async createStaff(req, res) {
     try {
       const { username, password, phone, zip_code } = req.body;
+      console.log("check body : ", req.body);
       if (!username || !password || !phone || !zip_code) {
         return res.status(400).json({
           errorCode: 1,
@@ -189,6 +190,7 @@ class staffController {
   async deleteStaff(req, res) {
     try {
       const staff_id = req.params.staff_id;
+      console.log("staff_id: ", staff_id);
       const staff = await Staff.destroy({
         where: { staff_id },
       });
@@ -214,3 +216,4 @@ class staffController {
 }
 
 module.exports = new staffController();
+

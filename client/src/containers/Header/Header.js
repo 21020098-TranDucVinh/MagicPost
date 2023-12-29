@@ -2,58 +2,86 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import Navigator from '../../components/Navigator';
-import { adminMenu } from './menuApp';
+import { BiSolidBellRing } from 'react-icons/bi';
+import {
+     adminMenu,
+     transactionManageMenu,
+     collectionManageMenu,
+     transactionStaffMenu,
+     collectionStaffMenu,
+} from './menuApp';
 import './Header.scss';
-
-import ModalPersonal from '../System/Admin/ModalPersonal';
+import { Button } from 'reactstrap';
+import { CiLogout } from 'react-icons/ci';
+import { roles } from '../../utils';
 class Header extends Component {
      constructor(props) {
           super(props);
           this.state = {
                menuApp: [],
-               isOpenModalPersonal: false,
+               isOpenModal: false,
           };
      }
 
      componentDidMount() {
           let { userInfo } = this.props;
+          switch (userInfo.role) {
+               case roles.ADMIN:
+                    this.setState({
+                         menuApp: adminMenu,
+                    });
+                    break;
+               case roles.TRANSACTION_ADMIN:
+                    this.setState({
+                         menuApp: transactionManageMenu,
+                    });
+                    break;
+               case roles.COLLECTION_ADMIN:
+                    this.setState({
+                         menuApp: collectionManageMenu,
+                    });
+                    break;
+               case roles.TRANSACTION_STAFF:
+                    this.setState({
+                         menuApp: transactionStaffMenu,
+                    });
+                    break;
+               case roles.COLLECTION_STAFF:
+                    this.setState({
+                         menuApp: collectionStaffMenu,
+                    });
+                    break;
+               default:
+                    return this.setState({
+                         menuApp: [],
+                    });
+          }
      }
-     handleOpenModalPersonal = () => {
-          this.setState({
-               isOpenModalPersonal: true,
-          });
-     };
-     closeModalPersonal = () => {
-          this.setState({
-               isOpenModalPersonal: false,
-          });
+     handleLogout = () => {
+          this.props.processLogout();
      };
      render() {
-          const { processLogout, userInfo } = this.props;
+          const { userInfo } = this.props;
           return (
                <>
-                    <ModalPersonal
-                         isOpenModalPersonal={this.state.isOpenModalPersonal}
-                         isCloseModalPersonal={this.closeModalPersonal}
-                    />
                     <div className="header-container">
                          <div className="header-logo"></div>
                          <div className="header-tabs-container">
-                              <Navigator menus={adminMenu} />
+                              <Navigator menus={this.state.menuApp} />
                          </div>
 
                          <div className="languages">
-                              {/* <span className="welcome">
-                                   {userInfo && userInfo.firstName ? userInfo.firstName : ' '}!
-                              </span> */}
-
-                              <div
-                                   className="btn btn-logout"
-                                   onClick={() => this.handleOpenModalPersonal()}
-                                   title="Log out"
-                              >
-                                   {/* <i className="fas fa-sign-out-alt"></i> */}
-                                   <i className="	fas fa-bars"></i>
+                              <span className="hi-user">
+                                   <BiSolidBellRing />
+                              </span>
+                              <div className="btn-logout-container p-4" title="Log out">
+                                   <Button
+                                        className="btn btn-primary btn-lg-content "
+                                        onClick={() => this.handleLogout()}
+                                   >
+                                        <CiLogout className="button" />
+                                        <span className="button">Logout</span>
+                                   </Button>
                               </div>
                          </div>
                     </div>

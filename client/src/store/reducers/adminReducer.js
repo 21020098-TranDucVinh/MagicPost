@@ -72,25 +72,7 @@ const adminReducer = (state = initialState, action) => {
                     ...state,
                     started: true,
                };
-          case actionTypes.GET_ALL_ADMIN_TRANSACTIONS_FAILED:
-               state.arrAllAdminTransaction = [];
-               return {
-                    ...state,
-                    started: true,
-               };
-          case actionTypes.GET_ALL_ADMIN_COLLECTIONS_SUCCESS:
-               state.arrAllAdminCollections = action.data;
 
-               return {
-                    ...state,
-                    started: true,
-               };
-          case actionTypes.GET_ALL_ADMIN_COLLECTIONS_FAILED:
-               state.arrAllAdminCollections = [];
-               return {
-                    ...state,
-                    started: true,
-               };
           case actionTypes.IS_EDIT_COLLECTION:
                state.isEditCollection = true;
                return {
@@ -136,7 +118,6 @@ const adminReducer = (state = initialState, action) => {
                };
           case actionTypes.CLEAR_DATA_EDIT_TRANSACTION:
                state.dataEditTransaction = '';
-
                return {
                     ...state,
                     started: true,

@@ -228,12 +228,12 @@ INSERT INTO `transaction` (`name`, `admin_id`, `address`, `collection_zip_code`)
 INSERT INTO `transaction` (`name`, `admin_id`, `address`, `collection_zip_code`) VALUE ('transaction2', 4, 'transaction2', 'C00002');
 INSERT INTO `transaction` (`name`, `admin_id`, `address`, `collection_zip_code`) VALUE ('transaction3', 6, 'transaction3', 'C00003');
 
-INSERT INTO `staff` (`username`, `password`, `phone`, `transaction_zip_code`) VALUE ('staff', 'staff', 123456789, 'T00001');
-INSERT INTO `staff` (`username`, `password`, `phone`, `transaction_zip_code`) VALUE ('staff2', 'staff2', 123456789, 'T00002');
-INSERT INTO `staff` (`username`, `password`, `phone`, `transaction_zip_code`) VALUE ('staff3', 'staff3', 123456789, 'T00003');
-INSERT INTO `staff` (`username`, `password`, `phone`, `collection_zip_code`) VALUE ('staff4', 'staff4', 123456789, 'C00001');
-INSERT INTO `staff` (`username`, `password`, `phone`, `collection_zip_code`) VALUE ('staff5', 'staff5', 123456789, 'C00002');
-INSERT INTO `staff` (`username`, `password`, `phone`, `collection_zip_code`) VALUE ('staff6', 'staff6', 123456789, 'C00003');
+INSERT INTO `staff` (`username`, `password`, `phone`, `transaction_zip_code`) VALUE ('staff', '$2a$10$ZppbuFh0Z0UqPWcssr23E.J4vcHZcIncVrhRlphfYmniIzP2taRYy', 123456789, 'T00001'); -- password: 123456
+INSERT INTO `staff` (`username`, `password`, `phone`, `transaction_zip_code`) VALUE ('staff2', '$2a$10$ZppbuFh0Z0UqPWcssr23E.J4vcHZcIncVrhRlphfYmniIzP2taRYy', 123456789, 'T00002'); -- password: 123456
+INSERT INTO `staff` (`username`, `password`, `phone`, `transaction_zip_code`) VALUE ('staff3', '$2a$10$ZppbuFh0Z0UqPWcssr23E.J4vcHZcIncVrhRlphfYmniIzP2taRYy', 123456789, 'T00003'); -- password: 123456
+INSERT INTO `staff` (`username`, `password`, `phone`, `collection_zip_code`) VALUE ('staff4', '$2a$10$ZppbuFh0Z0UqPWcssr23E.J4vcHZcIncVrhRlphfYmniIzP2taRYy', 123456789, 'C00001'); -- password: 123456
+INSERT INTO `staff` (`username`, `password`, `phone`, `collection_zip_code`) VALUE ('staff5', '$2a$10$ZppbuFh0Z0UqPWcssr23E.J4vcHZcIncVrhRlphfYmniIzP2taRYy', 123456789, 'C00002'); -- password: 123456
+INSERT INTO `staff` (`username`, `password`, `phone`, `collection_zip_code`) VALUE ('staff6', '$2a$10$ZppbuFh0Z0UqPWcssr23E.J4vcHZcIncVrhRlphfYmniIzP2taRYy', 123456789, 'C00003'); -- password: 123456
 
 INSERT INTO `parcels` (`status`, `s_name`, `s_phone`, `s_address`, `r_name`, `r_phone`, `r_address`, `type`, `weight`, `s_zip_code`, `r_zip_code`, `cost`, `r_cod`) 
 VALUE ('PENDING', 's_name', 123456789, '{"address": "s_address"}', 'r_name', 123456789, '{"address": "r_address"}', 'DOCUMENT', 1, 'T00001', 'C00001', 100, '{"cod": 100}');

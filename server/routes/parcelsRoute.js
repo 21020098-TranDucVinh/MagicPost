@@ -10,6 +10,8 @@ router.get('/allParcelsDelivering', parcelsController.getAllParcelsDelivering);
 router.get('/allParcelsDelivered', parcelsController.getAllParcelsDelivered);
 router.get('/allParcelsReturned', parcelsController.getAllParcelsReturned);
 
+router.get('/allParcelByTransaction/:s_zip_code', parcelsController.getAllParcelByTransaction)
+
 router.get('/parcels/:id', parcelsController.getParcelById);
 
 router.post('/parcels', parcelsController.createParcel);

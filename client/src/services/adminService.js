@@ -1,14 +1,14 @@
 import axios from '../axios';
-const handleLoginAPI = (userEmail, userPassword) => {
-     return axios.post('/api/login', { email: userEmail, password: userPassword });
+const handleLoginAPI = (body) => {
+     return axios.post('/login', body);
 };
 // Create new potential admin
 const handleCreateNewPotentialAdmin = (body) => {
      return axios.post('/admin', body);
 };
 // get all user pending
-const getAllUserPending = () => {
-     return axios.get('/adminPending');
+const getAllUserPending = (accessToken) => {
+     return axios.get('/adminPending', { headers: { Authorization: `Bearer ${accessToken}` } });
 };
 // Delete user Pending
 const deleteUserPending = (id) => {
@@ -44,9 +44,9 @@ const getAllCollections = () => {
      return axios.get('/collections');
 };
 // get all admin collections
-const getAllAdminCollections = () => {
-     return axios.get('/api/admin_collection');
-};
+// const getAllAdminCollections = () => {
+//      return axios.get('/api/admin_collection');
+// };
 // create new Collection
 const handleCreateNewCollection = (body) => {
      return axios.post('/collections', body);
@@ -72,7 +72,7 @@ export {
      handleCreateNewCollection,
      deleteCollectionById,
      getAllAdminTransactions,
-     getAllAdminCollections,
+     // getAllAdminCollections,
      editTransaction,
      editCollection,
 };

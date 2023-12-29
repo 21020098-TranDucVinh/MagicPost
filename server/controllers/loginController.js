@@ -3,7 +3,6 @@ const {
 } = require('../models');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { col } = require('sequelize');
 
 class loginController {
   // [POST] /login
