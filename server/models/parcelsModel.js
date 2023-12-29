@@ -50,9 +50,9 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       s_time: {
-        type: 'TIMESTAMP',
-        allowNull: false,
-        defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+        type: DataTypes.DATEONLY,
+        allowNull: true,
+        defaultValue: DataTypes.NOW,
       },
       r_name: {
         type: DataTypes.STRING,
@@ -67,7 +67,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       r_time: {
-        type: 'TIMESTAMP',
+        type: DataTypes.DATEONLY,
         allowNull: true,
       },
       type: {
