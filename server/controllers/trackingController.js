@@ -1,5 +1,5 @@
 const {
-  models: { Tracking, Parcels },
+  models: { Tracking, Parcels, Transaction, Collection },
 } = require('../models/');
 
 class trackingController {
@@ -200,9 +200,12 @@ class trackingController {
         where: {
           parcel_id,
         },
-        attributes: { exclude: ['id', 'parcel_id', 's_staff_id', 'last_staff_id_update'] },
+        attributes: { 
+          exclude: ['id', 'parcel_id', 's_staff_id', 'last_staff_id_update'],
+        },
         order: [['id', 'DESC']],
       });
+
       res.status(200).json({
         errorCode: 0,
         msg: 'Get tracking successfully !',
@@ -213,7 +216,7 @@ class trackingController {
       console.log(error);
       res.status(500).json({
         errorCode: 1,
-        msg: 'Server' + error.message,
+        msg: 'Server: ' + error.message,
       });
     }
   }
@@ -233,7 +236,7 @@ class trackingController {
       console.log(error);
       res.status(500).json({
         errorCode: 1,
-        msg: 'Server' + error.message,
+        msg: 'Server: ' + error.message,
       });
     }
   }

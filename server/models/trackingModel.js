@@ -30,9 +30,9 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       s_time: {
-        type: 'TIMESTAMP',
+        type: DataTypes.DATEONLY,
         allowNull: false,
-        defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+        defaultValue: DataTypes.NOW,
       },
       r_zip_code: {
         type: DataTypes.STRING,
@@ -52,9 +52,9 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 'DELIVERING',
       },
       last_update: {
-        type: 'TIMESTAMP',
+        type: DataTypes.DATEONLY,
         allowNull: false,
-        defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+        defaultValue: DataTypes.NOW,
       },
       last_staff_id_update: {
         type: DataTypes.STRING,
