@@ -113,3 +113,23 @@ export const getAllDeliveringParcelsBYTransactionIDAction = (transactionID, acce
           }
      };
 };
+//get All delivering Parcel
+export const getAllParcelsBYTransactionIDAction = (transactionID) => {
+     return async (dispatch, getState) => {
+          try {
+               let res = await services.getAllParcelByTransactionId(transactionID);
+               console.log('check res action :', res);
+               if (res && res.errorCode === 0) {
+                    dispatch({
+                         type: actionTypes.GET_ALL_PARCEL_BY_TRAN_ZIP_CODE_SUCCESS,
+                         data: res.parcels,
+                    });
+               }
+          } catch (e) {
+               console.log(e);
+               dispatch({
+                    type: actionTypes.GET_ALL_PARCEL_BY_TRAN_ZIP_CODE_FAILED,
+               });
+          }
+     };
+};

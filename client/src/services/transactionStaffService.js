@@ -36,6 +36,14 @@ const getAllDeliveringParcelByTransactionId = (transactionId, accessToken) => {
           headers: { Authorization: `Bearer ${accessToken}` },
      });
 };
+// get all delivering parcel by transaction Id
+const getAllParcelByTransactionId = (transactionId) => {
+     return axios.get(`/allParcelByTransaction/${transactionId}`);
+};
+// get all delivering parcel by transaction Id
+const getStatisticParcelsByTransaction = (transactionId) => {
+     return axios.get(`/statisticParcelsByTransaction/${transactionId}`);
+};
 export {
      handleCreateNewParcel,
      getAllPendingParcel,
@@ -44,4 +52,6 @@ export {
      getAllPendingParcelByTransactionId,
      handleSendParcelsToReceiver,
      getAllDeliveringParcelByTransactionId,
+     getAllParcelByTransactionId,
+     getStatisticParcelsByTransaction,
 };

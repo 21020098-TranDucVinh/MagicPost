@@ -11,6 +11,7 @@ import TranStaffStatisticParcel from '../containers/System/transaction-staff/Tra
 import TranStaffSendOrderToClient from '../containers/System/transaction-staff/TranStaffSendOrderToClient';
 import TranStaffManageDeliveringParcel from '../containers/System/transaction-staff/TranStaffManageDeliveringParcel';
 import tranStaffMangeUnsuccessfulDelivery from '../containers/System/transaction-staff/TranStaffMangeUnsuccessfulDelivery';
+import TanStaffManageParcels from '../containers/System/transaction-staff/TranStaffManageParcels';
 class RouteTransactionStaff extends Component {
      render() {
           return (
@@ -52,6 +53,10 @@ class RouteTransactionStaff extends Component {
                                         <Route
                                              path="/transaction-staff/manage/parcel/parcel-unsuccessful"
                                              component={tranStaffMangeUnsuccessfulDelivery}
+                                        />
+                                        <Route
+                                             path="/transaction-staff/manage/parcel"
+                                             component={TanStaffManageParcels}
                                         />
                                    </Switch>
                               </div>

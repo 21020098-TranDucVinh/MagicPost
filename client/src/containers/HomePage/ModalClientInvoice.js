@@ -10,7 +10,7 @@ import QRCode from 'react-qr-code';
 import './ModalClientInvoice.scss';
 import RowFlexTwoColumnWithFloat from './Invoice/components/RowFlexTwoColumnWithFloat';
 const cx = classNames.bind(styles);
-class DefaultClass extends Component {
+class ModalClientInvoice extends Component {
      constructor(props) {
           super(props);
           this.state = {};
@@ -58,7 +58,7 @@ class DefaultClass extends Component {
                                                   <QRCode
                                                        size={256}
                                                        style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
-                                                       value={'P00001'}
+                                                       value={'http://192.168.1.8:3000/home'}
                                                        viewBox={`0 0 256 256`}
                                                   />
                                              </div>
@@ -425,4 +425,4 @@ const mapDispatchToProps = (dispatch) => {
      };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DefaultClass);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalClientInvoice);

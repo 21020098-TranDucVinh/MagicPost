@@ -85,6 +85,10 @@ export const transactionStaffMenu = [
                     name: 'Record Parcel',
                     link: '/transaction-staff/manage/create-parcel',
                },
+               {
+                    name: 'Parcel',
+                    link: '/transaction-staff/manage/parcel',
+               },
           ],
      },
      {
