@@ -326,11 +326,11 @@ class parcelsController {
       res.status(200).json({
         errorCode: 0,
         count: parcels.count,
-        pendingCount: parcels.rows.filter(parcel => parcel.status === 'PENDING').length,
-        shippingCount: parcels.rows.filter(parcel => parcel.status === 'SHIPPING').length,
-        deliveringCount: parcels.rows.filter(parcel => parcel.status === 'DELIVERING').length,
-        deliveredCount: parcels.rows.filter(parcel => parcel.status === 'DELIVERED').length,
-        returnedCount: parcels.rows.filter(parcel => parcel.status === 'RETURNED').length,
+        pendingSentCount: parcels.rows.filter(parcel => parcel.status === 'PENDING').length,
+        shippingSentCount: parcels.rows.filter(parcel => parcel.status === 'SHIPPING').length,
+        deliveringSentCount: parcels.rows.filter(parcel => parcel.status === 'DELIVERING').length,
+        deliveredSentCount: parcels.rows.filter(parcel => parcel.status === 'DELIVERED').length,
+        returnedSentCount: parcels.rows.filter(parcel => parcel.status === 'RETURNED').length,
       });
     } catch (error) {
       console.log(error)
@@ -357,7 +357,7 @@ class parcelsController {
       res.status(200).json({
         errorCode: 0,
         count: parcels.count,
-        pendingCount: parcels.rows.filter(parcel => parcel.status === 'PENDING').length,
+        pendingSentCount: parcels.rows.filter(parcel => parcel.status === 'PENDING').length,
         shippingSentCount: parcels.rows.filter(parcel => parcel.status === 'SHIPPING' && parcel.s_zip_code === s_zip_code).length,
         shippingReceivedCount: parcels.rows.filter(parcel => parcel.status === 'SHIPPING' && parcel.r_zip_code === s_zip_code).length,
         deliveringSentCount: parcels.rows.filter(parcel => parcel.status === 'DELIVERING' && parcel.s_zip_code === s_zip_code).length,
