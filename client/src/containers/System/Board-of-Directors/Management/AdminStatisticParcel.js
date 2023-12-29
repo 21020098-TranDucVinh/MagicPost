@@ -78,7 +78,7 @@ class AdminStatisticParcel extends Component {
   }
   buildDataStatiStic = (dataStatisticParcels) => {
     let number = [];
-    number.push(dataStatisticParcels.pendingCount);
+    number.push(dataStatisticParcels.pendingSentCount);
     number.push(dataStatisticParcels.shippingSentCount);
     number.push(dataStatisticParcels.deliveringSentCount);
     number.push(dataStatisticParcels.deliveredSentCount);
@@ -94,9 +94,8 @@ class AdminStatisticParcel extends Component {
           backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
             'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-
-            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 150, 86, 0.2)',
+            'rgba(26, 111, 235, 0.8)',
           ],
           borderColor: [
             'rgba(255, 99, 132, 1)',

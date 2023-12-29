@@ -1,0 +1,25 @@
+.progress-container {
+  background-image: url('../../../assets/images/banner.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: left;
+  box-shadow: 0 0 0.2cm rgba(0, 0, 0, 0.5);
+  .progress-header {
+    background-color: rgb(250, 245, 245);
+    display: flex;
+    justify-content: space-between;
+    .logo-img {
+      height: 80px;
+      width: 80px;
+      background-image: url('../../../assets/images/logo2.jpg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: left;
+      box-shadow: 0 0 0.2cm rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+    }
+  }
+  .progress-content {
+    background-color: rgb(245, 245, 248);
+  }
+}

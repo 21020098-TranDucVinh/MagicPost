@@ -7,6 +7,7 @@ import { GiCancel } from 'react-icons/gi';
 import toast from 'react-hot-toast';
 import * as services from '../../../services/index';
 import * as actions from '../../../store/actions/index';
+import { CommonUtils } from '../../../utils';
 class ModalTransactionAddNewStaff extends Component {
   constructor(props) {
     super(props);
@@ -22,15 +23,19 @@ class ModalTransactionAddNewStaff extends Component {
       r_phone: '',
       selectedPayment: '',
       selectedType: '',
+      selectedCollection: '',
+      optionCollections: '',
     };
   }
-  async componentDidMount() {}
+  async componentDidMount() {
+    this.props.getAllCollections(this.props.userInfo.token);
+    this.setState({
+      optionCollections: CommonUtils.buildSelectionOptions(this.props.arrCollections),
+    });
+  }
   componentDidUpdate(prevProps, prevState, snapshot) {
-    // if (prevProps.arrTransactions !== this.props.arrTransactions) {
-    //      this.setState({
-    //           optionSelectionTransactions: this.buildOptionSelectTransactions(this.props.arrTransactions),
-    //      });
-    // }
+    if (prevProps.arrCollections !== this.props.arrCollections) {
+    }
   }
   // onchange select type
   handleChangeSelectType = (selectedType) => {
@@ -42,6 +47,12 @@ class ModalTransactionAddNewStaff extends Component {
       selectedPayment,
     });
   };
+  // onchange select collection
+  handleChangeSelectCollection = (selectedCollection) => {
+    this.setState({
+      selectedCollection,
+    });
+  };
   // Handle on change input
   handleOnchangeInput = (event, id) => {
     let copyState = this.state;
@@ -50,6 +61,8 @@ class ModalTransactionAddNewStaff extends Component {
       ...copyState,
     });
   };
+  //onchange collection
+
   // Check full fill input
   checkInputValid = () => {
     let data = [
@@ -79,8 +92,19 @@ class ModalTransactionAddNewStaff extends Component {
   tranStaffCreateParcel = async () => {
     try {
       let checkInputValid = this.checkInputValid();
-      let { s_name, r_name, s_phone, cost, weight, r_address, s_address, r_phone, selectedPayment, selectedType } =
-        this.state;
+      let {
+        s_name,
+        r_name,
+        s_phone,
+        cost,
+        weight,
+        r_address,
+        s_address,
+        r_phone,
+        selectedPayment,
+        selectedType,
+        selectedCollection,
+      } = this.state;
       let data = {
         s_name: s_name,
         r_name: r_name,
@@ -93,9 +117,10 @@ class ModalTransactionAddNewStaff extends Component {
         s_address: s_address,
         r_phone: r_phone,
         s_zip_code: this.props.userInfo.zip_code,
+        r_zip_code: selectedCollection.value,
       };
 
-      // console.log(data);
+      console.log('parcel  :', data);
       if (checkInputValid) {
         let res = await services.handleCreateNewParcel(data);
         if (res && res.errorCode === 0) {
@@ -131,7 +156,8 @@ class ModalTransactionAddNewStaff extends Component {
 
   render() {
     let { isOpen, isEditStaff } = this.props;
-    let { selectedType, selectedPayment } = this.state;
+    let { selectedType, selectedPayment, optionCollections, selectedCollection } = this.state;
+    console.log('col : ', optionCollections);
     return (
       <>
         <Modal className="modal-admin-container" isOpen={isOpen} size="lg" centered>
@@ -226,7 +252,7 @@ class ModalTransactionAddNewStaff extends Component {
                   ></input>
                 </div>
 
-                <div className="col-6 form-group">
+                <div className="col-4 form-group">
                   <label>Type</label>
                   <Select
                     value={selectedType}
@@ -235,13 +261,23 @@ class ModalTransactionAddNewStaff extends Component {
                     options={options.OptionSelectionType}
                   />
                 </div>
-                <div className="col-6 form-group">
+                <div className="col-4 form-group">
                   <label>Payment Status</label>
                   <Select
                     value={selectedPayment}
                     placeholder={<div>Payment status</div>}
                     onChange={this.handleChangeSelectPayment}
                     options={options.OptionSelectionPayment}
+                  />
+                </div>
+
+                <div className="col-4 form-group">
+                  <label>Choose collection</label>
+                  <Select
+                    value={selectedCollection}
+                    placeholder={<div>collection</div>}
+                    onChange={this.handleChangeSelectCollection}
+                    options={optionCollections}
                   />
                 </div>
               </div>
@@ -273,6 +309,7 @@ const mapStateToProps = (state) => {
     dataEditStaff: state.adminTransaction.dataEditStaff,
     isEditStaff: state.adminTransaction.isEditStaff,
     userInfo: state.user.userInfo,
+    arrCollections: state.admin.arrCollections,
   };
 };
 
@@ -281,7 +318,7 @@ const mapDispatchToProps = (dispatch) => {
     getAllPendingParcelsEachTransaction: (transactionID, accessToken) =>
       dispatch(actions.getAllPendingParcelsBYTransactionIDAction(transactionID, accessToken)),
     fetchDataToModalToPrintOrder: (data) => dispatch(actions.fetchDataToModalToPrintOrder(data)),
-    // clearDataToModalToPrintOrder: () => dispatch(actions.clearDataToModalToPrintOrder()),
+    getAllCollections: (token) => dispatch(actions.getAllCollectionsAction(token)),
   };
 };
 

@@ -44,7 +44,7 @@ class TranStaffStatisticParcel extends Component {
   // build data statistic
   buildDataStatiStic = (dataStatisticParcels) => {
     let number = [];
-    number.push(dataStatisticParcels.pendingCount);
+    number.push(dataStatisticParcels.pendingSentCount);
     number.push(dataStatisticParcels.shippingSentCount);
     number.push(dataStatisticParcels.deliveringSentCount);
     number.push(dataStatisticParcels.deliveredSentCount);
