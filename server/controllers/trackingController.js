@@ -185,16 +185,29 @@ class trackingController {
   async getTrackingByParcelId(req, res) {
     try {
       const { parcel_id } = req.params;
+      const parcel = await Parcels.findOne({
+        where: { parcel_id },
+        attributes: { exclude: ['id'] },
+      });
+      if (!parcel) {
+        res.status(404).json({
+          errorCode: 1,
+          msg: 'Parcel not found !',
+        });
+        return;
+      }
       const tracking = await Tracking.findAll({
         where: {
           parcel_id,
         },
+        attributes: { exclude: ['id', 'parcel_id', 's_staff_id', 'last_staff_id_update'] },
         order: [['id', 'DESC']],
       });
       res.status(200).json({
         errorCode: 0,
         msg: 'Get tracking successfully !',
-        data: tracking,
+        parcel,
+        steps: tracking,
       });
     } catch (error) {
       console.log(error);
