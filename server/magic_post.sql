@@ -69,11 +69,11 @@ CREATE TABLE `parcels`(
     `status` ENUM ('PENDING','SHIPPING', 'DELIVERING', 'DELIVERED', 'SUCCESS', 'RETURNED') NOT NULL DEFAULT 'PENDING',
     `s_name` VARCHAR(255) NOT NULL,
     `s_phone` INT UNSIGNED NOT NULL,
-    `s_address` JSON NOT NULL,
+    `s_address` TEXT NOT NULL,
     `s_time` DATE DEFAULT (CURRENT_DATE + INTERVAL 1 YEAR),
     `r_name` VARCHAR(255) NOT NULL,
     `r_phone` INT UNSIGNED NOT NULL,
-    `r_address` JSON NOT NULL,
+    `r_address` TEXT NOT NULL,
     `r_time` DATE NULL,
     `type` ENUM('DOCUMENT', 'PACKAGE') NOT NULL DEFAULT 'PACKAGE',
     `weight` DOUBLE NOT NULL,
@@ -275,23 +275,23 @@ INSERT INTO `staff` (`username`, `password`, `phone`, `collection_zip_code`) VAL
 
 
 INSERT INTO `parcels` (`status`, `s_name`, `s_phone`, `s_address`, `r_name`, `r_phone`, `r_address`, `type`, `weight`, `s_zip_code`, `r_zip_code`, `cost`, `r_cod`) 
-VALUE ('DELIVERING', 's_name', 123456789, '{"address": "s_address"}', 'r_name', 123456789, '{"address": "r_address"}', 'DOCUMENT', 1, 'T00001', 'T00002', 100, '{"cod": 100}');
+VALUE ('DELIVERING', 's_name', 123456789, 'Phường Dịch Vọng Hậu, Quận Cầu Giấy, Hà Nội', 'r_name', 123456789, 'Phường Hà Khánh, Thành phố Hạ Long, Quảng Ninh', 'DOCUMENT', 1, 'T00001', 'T00002', 100, '{"cod": 100}');
 INSERT INTO `parcels` (`status`, `s_name`, `s_phone`, `s_address`, `r_name`, `r_phone`, `r_address`, `type`, `weight`, `s_zip_code`, `r_zip_code`, `cost`, `r_cod`)
-VALUE ('PENDING', 's_name2', 123456789, '{"address": "s_address2"}', 'r_name2', 123456789, '{"address": "r_address2"}', 'DOCUMENT', 2, 'T00001', 'T00003', 200, '{"cod": 200}');
+VALUE ('PENDING', 's_name2', 123456789, 'Phường Hà Khánh, Thành phố Hạ Long, Quảng Ninh', 'r_name2', 123456789, 'Phường Trần Đăng Ninh, Thành phố Nam Định, Nam Định', 'DOCUMENT', 2, 'T00001', 'T00003', 200, '{"cod": 200}');
 INSERT INTO `parcels` (`status`, `s_name`, `s_phone`, `s_address`, `r_name`, `r_phone`, `r_address`, `type`, `weight`, `s_zip_code`, `r_zip_code`, `cost`, `r_cod`)
-VALUE ('PENDING', 's_name3', 123456789, '{"address": "s_address3"}', 'r_name3', 123456789, '{"address": "r_address3"}', 'DOCUMENT', 3, 'T00002', 'T00003', 300, '{"cod": 300}');
+VALUE ('PENDING', 's_name3', 123456789, 'Phường Dịch Vọng Hậu, Quận Cầu Giấy, Hà Nội', 'r_name3', 123456789, 'Phường Đông Thọ, Thành phố Thanh Hóa, Thanh Hóa', 'DOCUMENT', 3, 'T00002', 'T00003', 300, '{"cod": 300}');
 INSERT INTO `parcels` (`status`, `s_name`, `s_phone`, `s_address`, `r_name`, `r_phone`, `r_address`, `type`, `weight`, `s_zip_code`, `r_zip_code`, `cost`, `r_cod`)
-VALUE ('PENDING', 's_name4', 123456789, '{"address": "s_address4"}', 'r_name4', 123456789, '{"address": "r_address4"}', 'DOCUMENT', 4, 'T00002', 'T00004', 400, '{"cod": 400}');
+VALUE ('PENDING', 's_name4', 123456789, 'Phường Hà Khánh, Thành phố Hạ Long, Quảng Ninh', 'r_name4', 123456789, 'Phường Hà Khánh, Thành phố Hạ Long, Quảng Ninh', 'DOCUMENT', 4, 'T00002', 'T00004', 400, '{"cod": 400}');
 INSERT INTO `parcels` (`status`, `s_name`, `s_phone`, `s_address`, `r_name`, `r_phone`, `r_address`, `type`, `weight`, `s_zip_code`, `r_zip_code`, `cost`, `r_cod`)
-VALUE ('PENDING', 's_name5', 123456789, '{"address": "s_address5"}', 'r_name5', 123456789, '{"address": "r_address5"}', 'DOCUMENT', 5, 'T00003', 'T00005', 500, '{"cod": 500}');
+VALUE ('PENDING', 's_name5', 123456789, 'Phường Dịch Vọng Hậu, Quận Cầu Giấy, Hà Nội', 'r_name5', 123456789, 'Phường Hà Khánh, Thành phố Hạ Long, Quảng Ninh', 'DOCUMENT', 5, 'T00003', 'T00005', 500, '{"cod": 500}');
 INSERT INTO `parcels` (`status`, `s_name`, `s_phone`, `s_address`, `r_name`, `r_phone`, `r_address`, `type`, `weight`, `s_zip_code`, `r_zip_code`, `cost`, `r_cod`)
-VALUE ('PENDING', 's_name6', 123456789, '{"address": "s_address6"}', 'r_name6', 123456789, '{"address": "r_address6"}', 'DOCUMENT', 6, 'T00003', 'T00006', 600, '{"cod": 600}');
+VALUE ('PENDING', 's_name6', 123456789, 'Phường Đông Thọ, Thành phố Thanh Hóa, Thanh Hóa', 'r_name6', 123456789, 'Phường Trần Đăng Ninh, Thành phố Nam Định, Nam Định', 'DOCUMENT', 6, 'T00003', 'T00006', 600, '{"cod": 600}');
 INSERT INTO `parcels` (`status`, `s_name`, `s_phone`, `s_address`, `r_name`, `r_phone`, `r_address`, `type`, `weight`, `s_zip_code`, `r_zip_code`, `cost`, `r_cod`)
-VALUE ('PENDING', 's_name7', 123456789, '{"address": "s_address7"}', 'r_name7', 123456789, '{"address": "r_address7"}', 'DOCUMENT', 7, 'T00004', 'T00007', 700, '{"cod": 700}');
+VALUE ('PENDING', 's_name7', 123456789, 'Phường Đông Thọ, Thành phố Thanh Hóa, Thanh Hóa', 'r_name7', 123456789, 'Phường Hà Khánh, Thành phố Hạ Long, Quảng Ninh', 'DOCUMENT', 7, 'T00004', 'T00007', 700, '{"cod": 700}');
 INSERT INTO `parcels` (`status`, `s_name`, `s_phone`, `s_address`, `r_name`, `r_phone`, `r_address`, `type`, `weight`, `s_zip_code`, `r_zip_code`, `cost`, `r_cod`)
-VALUE ('PENDING', 's_name8', 123456789, '{"address": "s_address8"}', 'r_name8', 123456789, '{"address": "r_address8"}', 'DOCUMENT', 8, 'T00004', 'T00008', 800, '{"cod": 800}');
+VALUE ('PENDING', 's_name8', 123456789, '\Phường Đông Thọ, Thành phố Thanh Hóa, Thanh Hóa', 'r_name8', 123456789, 'Phường Dịch Vọng Hậu, Quận Cầu Giấy, Hà Nội', 'DOCUMENT', 8, 'T00004', 'T00008', 800, '{"cod": 800}');
 INSERT INTO `parcels` (`status`, `s_name`, `s_phone`, `s_address`, `r_name`, `r_phone`, `r_address`, `type`, `weight`, `s_zip_code`, `r_zip_code`, `cost`, `r_cod`)
-VALUE ('PENDING', 's_name9', 123456789, '{"address": "s_address9"}', 'r_name9', 123456789, '{"address": "r_address9"}', 'DOCUMENT', 9, 'T00005', 'T00001', 900, '{"cod": 900}');
+VALUE ('PENDING', 's_name9', 123456789, 'Phường Hà Khánh, Thành phố Hạ Long, Quảng Ninh', 'r_name9', 123456789, 'Phường Trần Đăng Ninh, Thành phố Nam Định, Nam Định', 'DOCUMENT', 9, 'T00005', 'T00001', 900, '{"cod": 900}');
 
 
 INSERT INTO `tracking` (`s_staff_id`, `s_zip_code`, `r_zip_code`, `parcel_id`, `status`, `last_staff_id_update`, `description`, `shipper_name`, `shipper_phone`)
