@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       s_address: {
-        type: DataTypes.JSON,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       s_time: {
@@ -63,7 +63,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       r_address: {
-        type: DataTypes.JSON,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       r_time: {
